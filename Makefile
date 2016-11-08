@@ -16,5 +16,10 @@ all: $(SRC_DIR)/$(MAKE_TARGETS).o $(SRC_DIR)/$(OBJ)
 $(SRC_DIR)/%.o: %.c $(INC_DIR)/$(DEPS)
 	$(CC) -c $< $(CFLAGS)
 
+.PHONY: clean
+
+clean:
+	rm -rf $(BIN) $(SRC_DIR)/*.o
+
 
 
