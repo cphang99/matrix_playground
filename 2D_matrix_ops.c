@@ -46,6 +46,18 @@ void destroy_matrix(matrix * m) {
     free(m);
 }
 
+matrix * transpose_matrix(matrix * m) {
+    matrix * t_m = initialise_matrix(m->columns, m->rows);
+
+    for(int i = 0; i < m->rows; i++) {
+        for(int j = 0; j < m->columns; j++) {
+            set_matrix_member(t_m, j+1, i+1, get_matrix_member(m, i+1, j+1));
+        }
+    }
+    return t_m;
+}
+
+
 int main(void) {
     int a[2][3] = {
         {1,2,3},
@@ -65,7 +77,15 @@ int main(void) {
     printf("number of rows =%d\n number of columns=%d\n", m->rows, m->columns);
     printf("member at loc 1,2 should be 4, is %d\n", get_matrix_member(m, 1, 2));
     printf("member at loc 2,3 should be 36, is %d\n", get_matrix_member(m, 2, 3));
+
+    matrix * t_m = transpose_matrix(m);
+    print_matrix(t_m);
+    printf("number of rows =%d\n number of columns=%d\n", t_m->rows, t_m->columns);
+    printf("member at loc 1,2 should be 16, is %d\n", get_matrix_member(t_m, 1, 2));
+    printf("member at loc 2,2 should be 25, is %d\n", get_matrix_member(t_m, 2, 2));
+
     destroy_matrix(m);
+    destroy_matrix(t_m);
 
     return 0;
 }

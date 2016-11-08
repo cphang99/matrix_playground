@@ -69,3 +69,5 @@ int get_matrix_member(matrix * m, int x, int y);
  * \return      The updated matrix
  */
 matrix * set_matrix_member(matrix * m, int x, int y, int val);
+
+matrix * transpose_matrix(matrix * m);
