@@ -66,10 +66,12 @@ matrix * v_concatenate(matrix * a, matrix * b) {
         a_b =  initialise_matrix(a->rows, (a->columns + b->columns));
         for(int i = 0; i < a_b->rows; i++) {
             for(int j_a = 0; j_a < a->columns; j_a++) {
-                set_matrix_member(a_b, i+1, j_a+1, get_matrix_member(a, i+1, j_a+1));
+                set_matrix_member(a_b, i+1, j_a+1, 
+                        get_matrix_member(a, i+1, j_a+1));
             }
             for(int j_b = 0; j_b < b->columns; j_b++) {
-                set_matrix_member(a_b, i+1, a->columns+j_b+1, get_matrix_member(b, i+1, j_b+1));
+                set_matrix_member(a_b, i+1, a->columns+j_b+1, 
+                        get_matrix_member(b, i+1, j_b+1));
             }
         }
     }
@@ -120,16 +122,22 @@ int main(void) {
     elem_matrix_operation(&square, m);
     printf("After\n");
     print_matrix(m);
-    printf("number of rows =%d number of columns=%d\n", m->rows, m->columns);
-    printf("member at loc 1,2 should be 4, is %d\n", get_matrix_member(m, 1, 2));
-    printf("member at loc 2,3 should be 36, is %d\n", get_matrix_member(m, 2, 3));
+    printf("number of rows =%d number of columns=%d\n", 
+            m->rows, m->columns);
+    printf("member at loc 1,2 should be 4, is %d\n", 
+            get_matrix_member(m, 1, 2));
+    printf("member at loc 2,3 should be 36, is %d\n", 
+            get_matrix_member(m, 2, 3));
 
     printf("\nTransposing the result of this matrix\n");
     matrix * t_m = transpose_matrix(m);
     print_matrix(t_m);
-    printf("number of rows =%d number of columns=%d\n", t_m->rows, t_m->columns);
-    printf("member at loc 1,2 should be 16, is %d\n", get_matrix_member(t_m, 1, 2));
-    printf("member at loc 2,2 should be 25, is %d\n", get_matrix_member(t_m, 2, 2));
+    printf("number of rows =%d number of columns=%d\n", 
+            t_m->rows, t_m->columns);
+    printf("member at loc 1,2 should be 16, is %d\n", 
+            get_matrix_member(t_m, 1, 2));
+    printf("member at loc 2,2 should be 25, is %d\n", 
+            get_matrix_member(t_m, 2, 2));
 
     printf("\nVertically concatenating a null matrix\n");
     matrix * null_matrix = initialise_matrix(3, 2);
