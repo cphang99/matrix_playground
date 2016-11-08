@@ -87,3 +87,13 @@ matrix * transpose_matrix(matrix * m);
  * \return      A vertically concatenated matrix of a and b
  */
 matrix * v_concatenate(matrix * a, matrix * b);
+
+/*
+ * Horizontally concatenate two matrices together.
+ * Equivalent to [A B] in matlab
+ *
+ * \param a     The matrix a
+ * \param b     The matrix b
+ * \return      A horizontally concatenated matrix of a and b
+ */
+matrix * h_concatenate(matrix * a, matrix * b);

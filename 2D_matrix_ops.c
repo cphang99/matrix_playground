@@ -77,6 +77,29 @@ matrix * v_concatenate(matrix * a, matrix * b) {
 
 }
 
+matrix * h_concatenate(matrix * a, matrix * b) {
+    matrix * a_b = NULL;
+    if(a->columns != b->columns) {
+        printf("Cannot horizonatlly concatenate matrices of different widths\n");
+    } else {
+        a_b = initialise_matrix( (a->rows + b->rows), a->columns );
+        for(int i_a = 0; i_a < a->rows; i_a++) {
+            for(int j_a = 0; j_a < a_b->columns; j_a++) {
+                set_matrix_member(a_b, i_a+1, j_a+1, 
+                        get_matrix_member(a, i_a+1, j_a+1));
+            }
+        }
+
+        for(int i_b = 0; i_b < b->rows; i_b++) {
+            for(int j_b = 0; j_b < a_b->columns; j_b++) {
+                set_matrix_member(a_b, a->rows+i_b+1, j_b+1, 
+                        get_matrix_member(b, i_b+1, j_b+1));
+            }
+        }
+    }
+    return a_b;
+}
+
 
 int main(void) {
     int a[2][3] = {
@@ -118,10 +141,20 @@ int main(void) {
     v_combined = v_concatenate(null_matrix, t_m);
     print_matrix(v_combined);
 
+    printf("\nHorizontally concatenating a null matrix\n");
+    matrix * h_combined;
+    printf("Testing with two matrices of different widths\n");
+    h_combined = h_concatenate(null_matrix, m);
+
+    printf("Testing with compatible matrices\n");
+    h_combined = h_concatenate(null_matrix, t_m);
+    print_matrix(h_combined);
+
 
     destroy_matrix(m);
     destroy_matrix(t_m);
     destroy_matrix(null_matrix);
+    destroy_matrix(h_combined);
     destroy_matrix(v_combined);
 
     return 0;
