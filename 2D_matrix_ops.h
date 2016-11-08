@@ -15,7 +15,7 @@ typedef struct {
 int square(int x);
 
 /**
- * Initialises a matrix
+ * Initialises an empty matrix
  *
  * \param rows      The number of rows in the array
  * \param columns   The number of columns in the array
