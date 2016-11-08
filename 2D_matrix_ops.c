@@ -4,15 +4,10 @@ int square(int x) {
     return x * x;
 }
 
-matrix * initialise_matrix(int rows, int columns, int arr[][columns]) {
-    matrix * a = malloc(sizeof(matrix) + (rows * columns * sizeof(int)));
+matrix * initialise_matrix(int rows, int columns) {
+    matrix * a = calloc(sizeof(matrix) + (rows * columns * sizeof(int)));
     a->rows = rows;
     a->columns = columns;
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < columns; j++) {
-            a->arr[i*columns + j] = arr[i][j];
-        }
-    }
 
     return a;
 }
@@ -51,7 +46,7 @@ int main(void) {
         {4,5,6}
     };
 
-    matrix * m = initialise_matrix(2, 3, a);
+    matrix * m = initialise_matrix(2, 3);
     print_matrix(m);
     elem_matrix_operation(&square, m);
     print_matrix(m);

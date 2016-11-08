@@ -14,14 +14,14 @@ typedef struct {
 int square(int x);
 
 /**
- * Initialises a matrix from a 2D integer array
+ * Initialises a matrix
  *
  * \param rows      The number of rows in the array
  * \param columns   The number of columns in the array
  * \param arr       The 2D array
  * \return          A matrix of type matrix
  */
-matrix * initialise_matrix(int rows, int columns, int arr[][columns]);
+matrix * initialise_matrix(int rows, int columns);
 
 /**
  * Applies an element-wise matrix operation
