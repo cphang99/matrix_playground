@@ -2,7 +2,7 @@
 
 int matrix_add_test(matrix * a, matrix * b);
 int matrix_subtract_test(matrix * a, matrix * b);
-int matrix_add_subtract_fail_test(void);
+int matrix_arithmetic_fail_test(void);
 int matrix_multiply_test(matrix * a, matrix * b);
 
 int main(void) {
@@ -30,7 +30,7 @@ int main(void) {
 
     matrix_add_test(m, n);
     matrix_subtract_test(m,n);
-    matrix_add_subtract_fail_test();
+    matrix_arithmetic_fail_test();
     matrix_multiply_test(m,n);
 
     destroy_matrix(m);
@@ -39,7 +39,7 @@ int main(void) {
 }
 
 int matrix_add_test(matrix * a, matrix * b) {
-    printf("Testing matrix add\n");
+    printf("\nTesting matrix add\n");
     matrix * c = matrix_add(a,b);
     print_matrix(a);
     printf("+ \n");
@@ -53,7 +53,7 @@ int matrix_add_test(matrix * a, matrix * b) {
 
 
 int matrix_subtract_test(matrix * a, matrix * b) {
-    printf("Testing matrix subtract\n");
+    printf("\nTesting matrix subtract\n");
     matrix * c = matrix_subtract(a,b);
     print_matrix(a);
     printf("- \n");
@@ -66,13 +66,17 @@ int matrix_subtract_test(matrix * a, matrix * b) {
     return 0;
 }
 
-int matrix_add_subtract_fail_test(void) {
-    printf("Testing failure conditions of matrix add and subtract\n");
+int matrix_arithmetic_fail_test(void) {
+    printf("\nTesting failure conditions of matrix arithmetic\n");
     matrix * a = initialise_matrix(2,3);
     matrix * b = initialise_matrix(3,2);
 
+    printf("Matrix add\n");
     matrix_add(a,b);
+    printf("Matrix subtract\n");
     matrix_subtract(a,b);
+    printf("Matrix multiply\n");
+    matrix_multiplication(a,a);
 
     destroy_matrix(a);
     destroy_matrix(b);
