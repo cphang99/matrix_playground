@@ -20,3 +20,14 @@ matrix * matrix_add(matrix * a, matrix * b);
  * \returns     A matrix representing the subtraction of matrix a from b
  */
 matrix * matrix_subtract(matrix * a, matrix * b);
+
+/**
+ * Multiply two matrices together
+ * Represents in matlab A * B
+ *
+ * \param a     Matrix a
+ * \param b     Matrix b
+ * \returns     A matrix representing the matrix multiplication of 
+ *              matrix a and b
+ */
+matrix * matrix_multiplication(matrix * a, matrix * b);

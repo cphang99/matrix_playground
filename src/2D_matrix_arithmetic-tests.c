@@ -3,6 +3,7 @@
 int matrix_add_test(matrix * a, matrix * b);
 int matrix_subtract_test(matrix * a, matrix * b);
 int matrix_add_subtract_fail_test(void);
+int matrix_multiply_test(matrix * a, matrix * b);
 
 int main(void) {
     int a[2][3] = {
@@ -30,6 +31,7 @@ int main(void) {
     matrix_add_test(m, n);
     matrix_subtract_test(m,n);
     matrix_add_subtract_fail_test();
+    matrix_multiply_test(m,n);
 
     destroy_matrix(m);
     destroy_matrix(n);
@@ -74,5 +76,21 @@ int matrix_add_subtract_fail_test(void) {
 
     destroy_matrix(a);
     destroy_matrix(b);
+    return 0;
+}
+
+int matrix_multiply_test(matrix * a, matrix * b) {
+    printf("\nTesting matrix multiply\n");
+    matrix * b_t = transpose_matrix(b);
+    matrix * c = matrix_multiplication(a,b_t);
+    print_matrix(a);
+    printf("* \n");
+    print_matrix(b_t);
+    printf("= \n");
+    print_matrix(c);
+
+    destroy_matrix(b_t);
+    destroy_matrix(c);
+
     return 0;
 }
