@@ -70,4 +70,10 @@ int get_matrix_member(matrix * m, int x, int y);
  */
 matrix * set_matrix_member(matrix * m, int x, int y, int val);
 
+/*
+ * Transposes a matrix. Equivalent to A.' in matlab
+ *
+ * \param m     The matrix
+ * \return      A transposed matrix of type matrix
+ */
 matrix * transpose_matrix(matrix * m);
