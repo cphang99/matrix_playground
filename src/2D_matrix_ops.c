@@ -1,4 +1,4 @@
-#include "2D_matrix_ops.h"
+#include <2D_matrix_ops.h>
 
 int square(int x) {
     return x * x;
