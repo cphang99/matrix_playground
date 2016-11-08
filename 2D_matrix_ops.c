@@ -57,7 +57,7 @@ matrix * transpose_matrix(matrix * m) {
     return t_m;
 }
 
-matrix * v_concatenate(matrix * a, matrix * b) {
+matrix * h_concatenate(matrix * a, matrix * b) {
 
     matrix * a_b = NULL;
     if(a->rows != b->rows) {
@@ -79,7 +79,7 @@ matrix * v_concatenate(matrix * a, matrix * b) {
 
 }
 
-matrix * h_concatenate(matrix * a, matrix * b) {
+matrix * v_concatenate(matrix * a, matrix * b) {
     matrix * a_b = NULL;
     if(a->columns != b->columns) {
         printf("Cannot horizonatlly concatenate matrices of different widths\n");
