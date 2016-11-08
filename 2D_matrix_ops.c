@@ -71,16 +71,20 @@ int main(void) {
         }
     }
 
+    printf("\nApplying square element wise operations to the matrix\n");
+    printf("Before \n");
     print_matrix(m);
     elem_matrix_operation(&square, m);
+    printf("After\n");
     print_matrix(m);
-    printf("number of rows =%d\n number of columns=%d\n", m->rows, m->columns);
+    printf("number of rows =%d number of columns=%d\n", m->rows, m->columns);
     printf("member at loc 1,2 should be 4, is %d\n", get_matrix_member(m, 1, 2));
     printf("member at loc 2,3 should be 36, is %d\n", get_matrix_member(m, 2, 3));
 
+    printf("\nTransposing the result of this matrix\n");
     matrix * t_m = transpose_matrix(m);
     print_matrix(t_m);
-    printf("number of rows =%d\n number of columns=%d\n", t_m->rows, t_m->columns);
+    printf("number of rows =%d number of columns=%d\n", t_m->rows, t_m->columns);
     printf("member at loc 1,2 should be 16, is %d\n", get_matrix_member(t_m, 1, 2));
     printf("member at loc 2,2 should be 25, is %d\n", get_matrix_member(t_m, 2, 2));
 
