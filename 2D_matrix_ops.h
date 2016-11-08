@@ -49,6 +49,7 @@ void destroy_matrix(matrix * m);
 
 /**
  * Returns a matrix member at a specific location
+ * Please note that indexing starts from *1*
  *
  * \param m     The matrix
  * \param x     The 'x' (row) coordinate
@@ -59,6 +60,8 @@ int get_matrix_member(matrix * m, int x, int y);
 
 /**
  * Updates a matrix member at a specific location
+ * Please note that indexing starts from *1*
+ *
  * \param m     The matrix
  * \param x     The 'x' (row) coordinate
  * \param y     The 'y' (column) coordinate
