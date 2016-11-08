@@ -7,9 +7,9 @@ BIN = ./bin
 SRC_DIR = ./src
 INC_DIR = ./include
 
-MAKE_TARGETS = 2D_matrix_ops
+MAKE_TARGETS = 2D_matrix_ops-tests
 
-all: $(SRC_DIR)/$(MAKE_TARGETS).o
+all: $(SRC_DIR)/$(MAKE_TARGETS).o $(SRC_DIR)/$(OBJ)
 	mkdir -p $(BIN)
 	$(CC) -o $(BIN)/$(MAKE_TARGETS) $^ $(CFLAGS) $(LIBS)
 
