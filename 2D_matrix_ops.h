@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 typedef struct {
     int rows;
@@ -46,4 +47,22 @@ void print_matrix(matrix * m);
  */
 void destroy_matrix(matrix * m);
 
+/**
+ * Returns a matrix member at a specific location
+ *
+ * \param m     The matrix
+ * \param x     The 'x' (row) coordinate
+ * \param y     The 'y' (column) coordinate
+ * \return      The matrix member
+ */
 int get_matrix_member(matrix * m, int x, int y);
+
+/**
+ * Updates a matrix member at a specific location
+ * \param m     The matrix
+ * \param x     The 'x' (row) coordinate
+ * \param y     The 'y' (column) coordinate
+ * \param val   The value to update the matrix member with
+ * \return      The updated matrix
+ */
+matrix * set_matrix_member(matrix * m, int x, int y, int val);

@@ -5,7 +5,8 @@ int square(int x) {
 }
 
 matrix * initialise_matrix(int rows, int columns) {
-    matrix * a = calloc(sizeof(matrix) + (rows * columns * sizeof(int)));
+    matrix * a = malloc(sizeof(matrix) + (rows * columns * sizeof(int)));
+    memset(a, 0, sizeof(matrix) + (rows * columns * sizeof(int)));
     a->rows = rows;
     a->columns = columns;
 
@@ -24,6 +25,11 @@ matrix * elem_matrix_operation(int (*fp)(int), matrix * m ) {
 
 int get_matrix_member(matrix * m, int x, int y) {
     return m->arr[ (x-1)* m->columns +(y-1)];
+}
+
+matrix * set_matrix_member(matrix * m, int x, int y, int val) {
+    m->arr[ (x-1) * m->columns + (y-1) ] = val;
+    return m;
 }
 
 void print_matrix(matrix * m) {
@@ -47,6 +53,12 @@ int main(void) {
     };
 
     matrix * m = initialise_matrix(2, 3);
+    for(int i = 0; i < m->rows; i++) {
+        for(int j = 0; j < m->columns; j++) {
+            set_matrix_member(m, i+1, j+1, a[i][j]);
+        }
+    }
+
     print_matrix(m);
     elem_matrix_operation(&square, m);
     print_matrix(m);
