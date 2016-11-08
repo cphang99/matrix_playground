@@ -77,3 +77,13 @@ matrix * set_matrix_member(matrix * m, int x, int y, int val);
  * \return      A transposed matrix of type matrix
  */
 matrix * transpose_matrix(matrix * m);
+
+/*
+ * Vertically concatenates two matrices together.
+ * Equivalent to [A; B] in matlab
+ *
+ * \param a     The matrix a
+ * \param b     The matrix b
+ * \return      A vertically concatenated matrix of a and b
+ */
+matrix * v_concatenate(matrix * a, matrix * b);

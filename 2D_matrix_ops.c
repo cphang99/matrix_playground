@@ -57,6 +57,26 @@ matrix * transpose_matrix(matrix * m) {
     return t_m;
 }
 
+matrix * v_concatenate(matrix * a, matrix * b) {
+
+    matrix * a_b = NULL;
+    if(a->rows != b->rows) {
+        printf("Cannot vertically concatenate matrices of different heights\n");
+    } else {
+        a_b =  initialise_matrix(a->rows, (a->columns + b->columns));
+        for(int i = 0; i < a_b->rows; i++) {
+            for(int j_a = 0; j_a < a->columns; j_a++) {
+                set_matrix_member(a_b, i+1, j_a+1, get_matrix_member(a, i+1, j_a+1));
+            }
+            for(int j_b = 0; j_b < b->columns; j_b++) {
+                set_matrix_member(a_b, i+1, a->columns+j_b+1, get_matrix_member(b, i+1, j_b+1));
+            }
+        }
+    }
+    return a_b;
+
+}
+
 
 int main(void) {
     int a[2][3] = {
@@ -88,8 +108,21 @@ int main(void) {
     printf("member at loc 1,2 should be 16, is %d\n", get_matrix_member(t_m, 1, 2));
     printf("member at loc 2,2 should be 25, is %d\n", get_matrix_member(t_m, 2, 2));
 
+    printf("\nVertically concatenating a null matrix\n");
+    matrix * null_matrix = initialise_matrix(3, 2);
+    matrix * v_combined;
+    printf("Testing with two matrices of different heights...\n");
+    v_combined = v_concatenate(null_matrix, m);
+
+    printf("Testing with compatible matrices\n");
+    v_combined = v_concatenate(null_matrix, t_m);
+    print_matrix(v_combined);
+
+
     destroy_matrix(m);
     destroy_matrix(t_m);
+    destroy_matrix(null_matrix);
+    destroy_matrix(v_combined);
 
     return 0;
 }
