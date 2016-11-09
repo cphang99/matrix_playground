@@ -105,7 +105,7 @@ matrix * v_concatenate(matrix * a, matrix * b) {
 matrix * create_row_vector(int j, int i, int k) {
     matrix * v = NULL;
     if(k > 0) {
-        int numCols = (i-j+1)/k;
+        int numCols = ((i-j)/k) + 1;
         v = initialise_matrix(1, numCols);
         for(int l = 0; l < numCols; l++) {
             set_matrix_member(v, 1, l+1, j+(l*k));
