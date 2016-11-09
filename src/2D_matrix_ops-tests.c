@@ -119,10 +119,19 @@ static int create_row_vector_test(void) {
     printf("4:9:6 -> 4\n");
     matrix * c = create_row_vector(4, 9, 6);
     print_matrix(c);
+    printf("4:10:6 ->4,10\n");
+    matrix * d = create_row_vector(4, 10, 6);
+    print_matrix(d);
+
+    printf("Checking if 1:10:1 can be transposed to a column vector\n");
+    matrix * e = transpose_matrix(a);
+    print_matrix(e);
 
     destroy_matrix(a);
     destroy_matrix(b);
     destroy_matrix(c);
+    destroy_matrix(d);
+    destroy_matrix(e);
 
     return 0;
 }
