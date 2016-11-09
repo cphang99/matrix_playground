@@ -16,6 +16,7 @@ matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m,
 
 /*
  * Applies a power to an element in a matrix
+ * Equivalent to A.^n in matlab
  *
  * \param x     The element to be transformed
  * \param p     The power to be applied
@@ -25,6 +26,7 @@ elem pow_elem(elem x, float p);
 
 /*
  * Applies an nth root to an element in a matrix
+ * Equivalent to A.^1/n in matlab
  *
  * \param x     The element to be transformed
  * \param p     The root to be applied
