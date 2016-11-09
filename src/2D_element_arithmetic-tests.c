@@ -3,6 +3,7 @@
 static int pow_test(matrix * m);
 static int mul_div_test(matrix *m);
 static int fill_matrix_test(matrix * m);
+static int sum_matrix_test(matrix * m);
 
 int main(void) {
     printf("Executing tests for 2D_element_arithmetic.c\n");
@@ -23,6 +24,24 @@ int main(void) {
     pow_test(m);
     mul_div_test(m);
     fill_matrix_test(n);
+
+
+    int b[3][3] = {
+        {1,3,2},
+        {4,2,5},
+        {6,1,4}
+    };
+
+    matrix * o = initialise_matrix(3, 3);
+    for(int i = 0; i < o->rows; i++) { 
+        for(int j = 0; j < o->columns; j++) {
+            set_matrix_member(o, i+1, j+1, b[i][j]);
+        }
+    }
+    sum_matrix_test(o);
+    sum_matrix_test(m);
+
+    destroy_matrix(o);
     destroy_matrix(m);
     destroy_matrix(n);
     return 0;
@@ -68,6 +87,22 @@ static int fill_matrix_test(matrix * m) {
     printf("After\n");
     print_matrix(m);
     printf("Number of rows=%d, number of columns=%d\n", m->rows, m->columns);
+
+    return 0;
+}
+
+static int sum_matrix_test(matrix * m) {
+    printf("\nTesting a matrix sum in both dimensions\n");
+    printf("Before\n");
+    print_matrix(m);
+    matrix * a = sum_matrix(m, 1);
+    matrix * b = sum_matrix(m, 2);
+    printf("After\n");
+    print_matrix(a);
+    print_matrix(b);
+
+    destroy_matrix(a);
+    destroy_matrix(b);
 
     return 0;
 }

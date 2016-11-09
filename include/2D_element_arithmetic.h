@@ -14,6 +14,16 @@
 matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m, 
         float param);
 
+/*
+ * Sums all members across one matrix dimension
+ * Equivalent to matlab sum(A,1) or sum(A,2) in a 2D matrix.
+ *
+ * \param m     The matrix
+ * \param dim   The dimension to sum in
+ * \return      A row or column vector with the sums
+ */
+matrix * sum_matrix(matrix * m, int dim);
+
 /* Fills a matrix with a given parameter
  * Used as a substitute for ones() in matlab
  *
