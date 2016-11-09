@@ -12,6 +12,13 @@ matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m,
     return m;
 }
 
+//We are ignoring this as x is only provided to fufil the fp prototype
+//in elem_matrix_operation
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+elem fill_matrix(elem x, float p) {
+    return (elem) p;
+}
+
 elem pow_elem(elem x, float p) {
     return (elem)floor(pow((float)x, p));
 }

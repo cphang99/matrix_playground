@@ -1,7 +1,9 @@
 #include<2D_element_arithmetic.h>
 
 static int pow_test(matrix * m);
-static int mul_div_test(matrix *m); 
+static int mul_div_test(matrix *m);
+static int fill_matrix_test(matrix * m);
+
 int main(void) {
     printf("Executing tests for 2D_element_arithmetic.c\n");
 
@@ -17,9 +19,12 @@ int main(void) {
         }
     }
 
+    matrix * n = initialise_matrix(10, 10);
     pow_test(m);
     mul_div_test(m);
+    fill_matrix_test(n);
     destroy_matrix(m);
+    destroy_matrix(n);
     return 0;
 
 }
@@ -55,5 +60,16 @@ static int mul_div_test(matrix *m) {
     return 0;
 }
 
+static int fill_matrix_test(matrix * m) {
+    printf("\nFilling all elements in the matrix\n");
+    printf("Before\n");
+    print_matrix(m);
+    elem_matrix_operation(&fill_matrix,m, 1);
+    printf("After\n");
+    print_matrix(m);
+    printf("Number of rows=%d, number of columns=%d\n", m->rows, m->columns);
+
+    return 0;
+}
 
 

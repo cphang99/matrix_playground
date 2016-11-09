@@ -14,6 +14,15 @@
 matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m, 
         float param);
 
+/* Fills a matrix with a given parameter
+ * Used as a substitute for ones() in matlab
+ *
+ * \param x     The element to be transformed
+ * \param p     The element to fill with.
+ * \return      A parameter p of type elem that fills the element
+ */
+elem fill_matrix(elem x, float p);
+
 /*
  * Applies a power to an element in a matrix
  * Equivalent to A.^n in matlab
