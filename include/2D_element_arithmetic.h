@@ -3,10 +3,13 @@
 
 /**
  * Applies an element-wise matrix operation
+ * Please note that this does not create a new matrix
+ * object, but modifies the existing one.
  *
- * \param fp    The element-wise matrix operation
- * \param arr   The matrix
- * \return      The transformed array
+ * \param fp        The element-wise matrix operation
+ * \param m         The matrix
+ * \param param     A user-specified parameter to pass to the fp
+ * \return          The transformed array
  */
 matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m, 
         float param);
