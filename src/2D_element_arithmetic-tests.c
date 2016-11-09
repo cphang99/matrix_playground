@@ -1,6 +1,7 @@
 #include<2D_element_arithmetic.h>
 
 static int square_element_test(matrix * m);
+static int sq_root_test(matrix * m);
 int main(void) {
     printf("Executing tests for 2D_element_arithmetic.c\n");
 
@@ -17,6 +18,7 @@ int main(void) {
     }
 
     square_element_test(m);
+    sq_root_test(m);
     destroy_matrix(m);
     return 0;
 
@@ -39,5 +41,23 @@ static int square_element_test(matrix * m) {
 
     return 0;
 }
+
+static int sq_root_test(matrix * m) {
+    printf("\nApplying square element wise operations to the matrix\n");
+    printf("Before \n");
+    print_matrix(m);
+    elem_matrix_operation(&sq_root, m);
+    printf("After\n");
+    print_matrix(m);
+    printf("number of rows =%d number of columns=%d\n",
+            m->rows, m->columns);
+    printf("member at loc 1,2 should be 2, is %d\n",
+            get_matrix_member(m, 1, 2));
+    printf("member at loc 2,3 should be 6, is %d\n",
+            get_matrix_member(m, 2, 3));
+
+    return 0;
+}
+
 
 

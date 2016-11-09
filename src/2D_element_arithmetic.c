@@ -14,6 +14,8 @@ elem square(elem x) {
     return x * x;
 }
 
-
+elem sq_root(elem x) {
+    return (elem)floor(sqrt(x));
+}
 
 
