@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
 
 typedef struct {
@@ -8,11 +7,6 @@ typedef struct {
     int columns;
     int arr[]; //Note flexible array member
 } matrix;
-
-/*
- * Squares an individual element in an array
- */
-int square(int x);
 
 /**
  * Initialises an empty matrix
@@ -23,15 +17,6 @@ int square(int x);
  * \return          A matrix of type matrix
  */
 matrix * initialise_matrix(int rows, int columns);
-
-/**
- * Applies an element-wise matrix operation
- *
- * \param fp    The element-wise matrix operation
- * \param arr   The matrix
- * \return      The transformed array
- */
-matrix * elem_matrix_operation(int (*fp)(int), matrix * m) ;
 
 /**
  * Prints the matrix to stdout

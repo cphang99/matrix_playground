@@ -1,6 +1,5 @@
 #include "2D_matrix_ops.h"
 
-static int square_element_test(matrix * m);
 static int transpose_test(matrix * m);
 static int vert_concat_test(matrix * m);
 static int horiz_concat_test(matrix * m);
@@ -23,7 +22,6 @@ int main(void) {
         }
     }
 
-    square_element_test(m);
     transpose_test(m);
     vert_concat_test(m);
     horiz_concat_test(m);
@@ -34,24 +32,6 @@ int main(void) {
     destroy_matrix(m);
     return 0;
 
-}
-
-/* Tests whether all elements in the matrix are being squared */
-static int square_element_test(matrix * m) {
-    printf("\nApplying square element wise operations to the matrix\n");
-    printf("Before \n");
-    print_matrix(m);
-    elem_matrix_operation(&square, m);
-    printf("After\n");
-    print_matrix(m);
-    printf("number of rows =%d number of columns=%d\n",
-            m->rows, m->columns);
-    printf("member at loc 1,2 should be 4, is %d\n",
-            get_matrix_member(m, 1, 2));
-    printf("member at loc 2,3 should be 36, is %d\n",
-            get_matrix_member(m, 2, 3));
-
-    return 0;
 }
 
 /*Tests whether all elements in the matrix are being transposed */
