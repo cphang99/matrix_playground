@@ -117,3 +117,17 @@ matrix * create_row_vector(int j, int i, int k) {
     return v;
 }
 
+matrix * get_horizontal_slice(matrix * m, int r) {
+    matrix * v = NULL;
+    if(r > 0 && r <= m->rows) {
+        v= initialise_matrix(1, m->columns);
+        for(int i = 0; i < m->columns; i++) {
+            set_matrix_member(v, 1, i+1, get_matrix_member(m, r, i+1));
+        }
+    } else {
+        printf("Slice is out of matrix row bounds\n");
+    }
+
+    return v;
+}
+

@@ -107,3 +107,12 @@ matrix * h_concatenate(matrix * a, matrix * b);
  * \return      A row vector between j and i with interval k of type matrix.
  */
 matrix * create_row_vector(int j, int i, int k);
+
+/* Get a horizontal slice of a matrix
+ * Equivalent to A(i,:) in matlab
+ *
+ * \param m     The matrix
+ * \param r     A slice of the array.
+ * \return      A row vector consisting of row r of matrix m
+ */
+matrix * get_horizontal_slice(matrix * m, int r);

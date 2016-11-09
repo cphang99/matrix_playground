@@ -5,6 +5,7 @@ static int transpose_test(matrix * m);
 static int vert_concat_test(matrix * m);
 static int horiz_concat_test(matrix * m);
 static int create_row_vector_test(void);
+static int get_horizontal_slice_test(matrix * m);
 
 int main(void) {
     printf("Executing tests for 2D_matrix_ops.c\n");
@@ -26,6 +27,7 @@ int main(void) {
     vert_concat_test(m);
     horiz_concat_test(m);
     create_row_vector_test();
+    get_horizontal_slice_test(m);
 
     destroy_matrix(m);
     return 0;
@@ -133,5 +135,20 @@ static int create_row_vector_test(void) {
     destroy_matrix(d);
     destroy_matrix(e);
 
+    return 0;
+}
+
+/*Tests whether horizontal slices can be created of a matrix*/
+static int get_horizontal_slice_test(matrix * m) {
+    printf("\nTesting horizontal slice creation\n");
+    matrix * a = get_horizontal_slice(m, 1);
+    print_matrix(a);
+
+    printf("Testing bounds testing of function\n");
+    get_horizontal_slice(m, 0);
+    get_horizontal_slice(m, 3);
+    get_horizontal_slice(m, 5);
+
+    destroy_matrix(a);
     return 0;
 }
