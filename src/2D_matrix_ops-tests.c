@@ -4,6 +4,7 @@ static int square_element_test(matrix * m);
 static int transpose_test(matrix * m);
 static int vert_concat_test(matrix * m);
 static int horiz_concat_test(matrix * m);
+static int create_row_vector_test(void);
 
 int main(void) {
     printf("Executing tests for 2D_matrix_ops.c\n");
@@ -24,6 +25,7 @@ int main(void) {
     transpose_test(m);
     vert_concat_test(m);
     horiz_concat_test(m);
+    create_row_vector_test();
 
     destroy_matrix(m);
     return 0;
@@ -101,6 +103,26 @@ static int horiz_concat_test(matrix * m) {
     destroy_matrix(null_matrix);
     destroy_matrix(t_m);
     destroy_matrix(h_combined);
+
+    return 0;
+}
+
+/*Tests whether row vectors are being created correctly */
+static int create_row_vector_test(void) {
+    printf("\nTesting vertical vector creation\n");
+    printf("1:10:1 -> 1,2,3,4,5,6,7,8,9,10\n");
+    matrix * a = create_row_vector(1, 10, 1);
+    print_matrix(a);
+    printf("2:10:3 -> 2,5,8\n");
+    matrix * b = create_row_vector(2, 10, 3);
+    print_matrix(b);
+    printf("4:9:6 -> 4\n");
+    matrix * c = create_row_vector(4, 9, 6);
+    print_matrix(c);
+
+    destroy_matrix(a);
+    destroy_matrix(b);
+    destroy_matrix(c);
 
     return 0;
 }

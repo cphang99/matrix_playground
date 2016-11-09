@@ -97,3 +97,13 @@ matrix * v_concatenate(matrix * a, matrix * b);
  * \return      A horizontally concatenated matrix of a and b
  */
 matrix * h_concatenate(matrix * a, matrix * b);
+
+/* Create a row vector.
+ * Equivalent to j:i:k in matlab
+ *
+ * \param j     The lower range of the row vector
+ * \param i     The upper range of the row vector
+ * \param k     The interval between the row vector
+ * \return      A row vector between j and i with interval k of type matrix.
+ */
+matrix * create_row_vector(int j, int i, int k);
