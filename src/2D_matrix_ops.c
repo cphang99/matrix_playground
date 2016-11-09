@@ -131,3 +131,17 @@ matrix * get_horizontal_slice(matrix * m, int r) {
     return v;
 }
 
+matrix * get_vertical_slice(matrix * m, int c) {
+    matrix * v = NULL;
+    if(c > 0 && c <= m->columns) {
+        v= initialise_matrix(m->rows, 1);
+        for(int i = 0; i < m->rows; i++) {
+            set_matrix_member(v, i+1, 1, get_matrix_member(m, i+1, c));
+        }
+    } else {
+        printf("Slice is out of matrix column bounds\n");
+    }
+
+    return v;
+}
+

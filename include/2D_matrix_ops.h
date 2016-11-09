@@ -116,3 +116,12 @@ matrix * create_row_vector(int j, int i, int k);
  * \return      A row vector consisting of row r of matrix m
  */
 matrix * get_horizontal_slice(matrix * m, int r);
+
+/* Get a vertical slice of a matrix
+ * Equivalent to A(:,i) in matlab
+ *
+ * \param m     The matrix
+ * \param c     A slice of the array.
+ * \return      A row vector consisting of column c of matrix m
+ */
+matrix * get_vertical_slice(matrix * m, int c);
