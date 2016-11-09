@@ -13,7 +13,7 @@ matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m,
 }
 
 elem pow_elem(elem x, float p) {
-    return (elem)pow(x, p);
+    return (elem)floor(pow((float)x, p));
 }
 
 elem sqroot_elem(elem x, float p) {
