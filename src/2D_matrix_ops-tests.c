@@ -41,9 +41,9 @@ static int transpose_test(matrix * m) {
     print_matrix(t_m);
     printf("number of rows =%d number of columns=%d\n",
             t_m->rows, t_m->columns);
-    printf("member at loc 1,2 should be 16, is %d\n",
+    printf("member at loc 1,2 should be 4, is %d\n",
             get_matrix_member(t_m, 1, 2));
-    printf("member at loc 2,2 should be 25, is %d\n",
+    printf("member at loc 2,2 should be 5, is %d\n",
             get_matrix_member(t_m, 2, 2));
 
     destroy_matrix(t_m);
