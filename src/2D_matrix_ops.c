@@ -1,19 +1,19 @@
 #include <2D_matrix_ops.h>
 
 matrix * initialise_matrix(int rows, int columns) {
-    matrix * a = malloc(sizeof(matrix) + (rows * columns * sizeof(int)));
-    memset(a, 0, sizeof(matrix) + (rows * columns * sizeof(int)));
+    matrix * a = malloc(sizeof(matrix) + (rows * columns * sizeof(elem)));
+    memset(a, 0, sizeof(matrix) + (rows * columns * sizeof(elem)));
     a->rows = rows;
     a->columns = columns;
 
     return a;
 }
 
-int get_matrix_member(matrix * m, int x, int y) {
+elem get_matrix_member(matrix * m, int x, int y) {
     return m->arr[ (x-1)* m->columns +(y-1)];
 }
 
-matrix * set_matrix_member(matrix * m, int x, int y, int val) {
+matrix * set_matrix_member(matrix * m, int x, int y, elem val) {
     m->arr[ (x-1) * m->columns + (y-1) ] = val;
     return m;
 }

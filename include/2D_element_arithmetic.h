@@ -8,11 +8,11 @@
  * \param arr   The matrix
  * \return      The transformed array
  */
-matrix * elem_matrix_operation(int (*fp)(int), matrix * m) ;
+matrix * elem_matrix_operation(elem (*fp)(elem), matrix * m) ;
 
 /*
  * Squares an individual element in an array
  */
-int square(int x);
+elem square(elem x);
 
 

@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+
+typedef int32_t elem;
 
 typedef struct {
     int rows;
     int columns;
-    int arr[]; //Note flexible array member
+    elem arr[]; //Note flexible array member
 } matrix;
 
 /**
@@ -41,7 +44,7 @@ void destroy_matrix(matrix * m);
  * \param y     The 'y' (column) coordinate
  * \return      The matrix member
  */
-int get_matrix_member(matrix * m, int x, int y);
+elem get_matrix_member(matrix * m, int x, int y);
 
 /**
  * Updates a matrix member at a specific location
@@ -53,7 +56,7 @@ int get_matrix_member(matrix * m, int x, int y);
  * \param val   The value to update the matrix member with
  * \return      The updated matrix
  */
-matrix * set_matrix_member(matrix * m, int x, int y, int val);
+matrix * set_matrix_member(matrix * m, int x, int y, elem val);
 
 /*
  * Transposes a matrix. Equivalent to A.' in matlab
