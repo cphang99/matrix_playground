@@ -1,6 +1,7 @@
 #include<2D_element_arithmetic.h>
 
 static int pow_test(matrix * m);
+static int mul_div_test(matrix *m); 
 int main(void) {
     printf("Executing tests for 2D_element_arithmetic.c\n");
 
@@ -17,6 +18,7 @@ int main(void) {
     }
 
     pow_test(m);
+    mul_div_test(m);
     destroy_matrix(m);
     return 0;
 
@@ -33,6 +35,21 @@ static int pow_test(matrix * m) {
 
     printf("Applying the third root to all elements in the matrix\n");
     elem_matrix_operation(&sqroot_elem, m, 3);
+    print_matrix(m);
+
+    return 0;
+}
+
+static int mul_div_test(matrix *m) {
+    printf("\nMultiplying all elements in the matrix\n");
+    printf("Before\n");
+    print_matrix(m);
+    elem_matrix_operation(&multiply_elem, m, 10);
+    printf("After\n");
+    print_matrix(m);
+
+    printf("Dividing all elements by the same amount\n");
+    elem_matrix_operation(&divide_elem, m, 10);
     print_matrix(m);
 
     return 0;

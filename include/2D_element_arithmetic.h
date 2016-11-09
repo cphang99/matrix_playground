@@ -31,3 +31,23 @@ elem pow_elem(elem x, float p);
  * \return      The transformed element
  */
 elem sqroot_elem(elem x, float p);
+
+/*
+ * Multiplies an element by a factor
+ * Equivalent to A.*n in matlab
+ *
+ * \param x     The element to be transformed
+ * \param p     The factor
+ * \return      The transformed element
+ */
+elem multiply_elem(elem x, float p); 
+
+/*
+ * Divides an element by a factor
+ * Equivalent to A./n in matlab
+ *
+ * \param x     The element to be transformed
+ * \param p     The factor
+ * \return      The transformed element
+ */
+elem divide_elem(elem x, float p);

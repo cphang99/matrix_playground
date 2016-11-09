@@ -21,5 +21,13 @@ elem sqroot_elem(elem x, float p) {
     return pow_elem(x, r);
 }
 
+elem multiply_elem(elem x, float p) {
+    return x * p;
+}
+
+elem divide_elem(elem x, float p) {
+    return (elem)floor((float)x / p);
+}
+
 
 
