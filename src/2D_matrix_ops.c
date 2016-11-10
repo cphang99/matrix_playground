@@ -1,4 +1,5 @@
 #include <2D_matrix_ops.h>
+#include <2D_element_arithmetic.h>
 
 matrix * initialise_matrix(int rows, int columns) {
     matrix * a = malloc(sizeof(matrix) + (rows * columns * sizeof(elem)));
@@ -150,4 +151,14 @@ matrix * get_diag_matrix(matrix * v) {
 
     return m;
 
+}
+
+matrix * get_identity_matrix(int n) {
+    matrix * v = initialise_matrix(1, n);
+    elem_matrix_operation(&fill_matrix, v, 1);
+
+    matrix * m = get_diag_matrix(v);
+    destroy_matrix(v);
+
+    return m;
 }

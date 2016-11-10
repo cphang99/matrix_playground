@@ -1,3 +1,6 @@
+#ifndef MATRIX_OPS_H
+#define MATRIX_OPS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -122,3 +125,13 @@ matrix * get_vertical_slice(matrix * m, int c);
  * \return      A n x n diagonal matrix
  */
 matrix * get_diag_matrix(matrix * v);
+
+/* Create an identity matrix of n x n size
+ * Equivalent to eye(n) in matlab
+ *
+ * \param n     The length of both dims in the identity matrix
+ * \return      An n x n identity matrix
+ */
+matrix * get_identity_matrix(int n);
+
+#endif

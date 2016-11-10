@@ -170,10 +170,15 @@ static int get_diag_matrix_test(void) {
     print_matrix(a);
     print_matrix(b);
 
+    printf("Testing identity matrix creation\n");
+    matrix * e = get_identity_matrix(10);
+    print_matrix(e);
+    
     destroy_matrix(a);
     destroy_matrix(b);
     destroy_matrix(c);
     destroy_matrix(d);
+    destroy_matrix(e);
 
     return 0;
 }

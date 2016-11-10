@@ -16,14 +16,14 @@ mkBin:
 
 tests: 2D_matrix_ops-tests 2D_matrix_arithmetic-tests 2D_element_arithmetic-tests
 
-2D_matrix_arithmetic-tests: $(SRC_DIR)/2D_matrix_arithmetic-tests.o $(SRC_DIR)/2D_matrix_arithmetic.o $(SRC_DIR)/$(OBJ)
-	$(CC) -o $(BIN)/$@ $^ $(CFLAGS)
+2D_matrix_arithmetic-tests: $(SRC_DIR)/2D_matrix_arithmetic-tests.o $(SRC_DIR)/2D_matrix_arithmetic.o $(SRC_DIR)/2D_element_arithmetic.o $(SRC_DIR)/$(OBJ)
+	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
 
 2D_element_arithmetic-tests: $(SRC_DIR)/2D_element_arithmetic-tests.o $(SRC_DIR)/2D_element_arithmetic.o $(SRC_DIR)/$(OBJ)
 	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
 
-2D_matrix_ops-tests: $(SRC_DIR)/2D_matrix_ops-tests.o $(SRC_DIR)/2D_matrix_ops.o
-	$(CC) -o $(BIN)/$@ $^ $(CFLAGS)
+2D_matrix_ops-tests: $(SRC_DIR)/2D_matrix_ops-tests.o $(SRC_DIR)/2D_element_arithmetic.o  $(SRC_DIR)/2D_matrix_ops.o
+	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
 
 $(SRC_DIR)/%.o: %.c $(INC_DIR)/$(DEPS)
 	$(CC) -c $< $(CFLAGS)
