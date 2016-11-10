@@ -41,6 +41,9 @@ Elements default to 32 bit int `int32_t`. This can be changed by changing the
 ##Limitations
 
 - Currently limited to treatment of 2D matrices only.
+
+- Note that all matrix elements created need to be destroyed as the array storing
+  the elements are on the heap via `malloc`
  
 - Some element wise operations assume integers are present and will apply floor
 arithmetic (notably `sqroot` and `divide` operations).
