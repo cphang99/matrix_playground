@@ -6,7 +6,7 @@ int matrix_arithmetic_fail_test(void);
 int matrix_multiply_test(matrix * a, matrix * b);
 
 int main(void) {
-    int a[2][3] = {
+    elem a[2][3] = {
         {1,2,3},
         {4,5,6}
     };
@@ -17,7 +17,7 @@ int main(void) {
         }
     }
 
-    int b[2][3] = {
+    elem b[2][3] = {
         {1,2,3},
         {4,5,6}
     };
