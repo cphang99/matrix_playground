@@ -6,6 +6,7 @@ static int horiz_concat_test(matrix * m);
 static int create_row_vector_test(void);
 static int get_horizontal_slice_test(matrix * m);
 static int get_vertical_slice_test(matrix * m);
+static int get_diag_matrix_test(void);
 
 int main(void) {
     printf("Executing tests for 2D_matrix_ops.c\n");
@@ -28,6 +29,7 @@ int main(void) {
     create_row_vector_test();
     get_horizontal_slice_test(m);
     get_vertical_slice_test(m);
+    get_diag_matrix_test();
 
     destroy_matrix(m);
     return 0;
@@ -147,5 +149,31 @@ static int get_vertical_slice_test(matrix * m) {
     get_vertical_slice(m, 5);
 
     destroy_matrix(a);
+    return 0;
+}
+
+static int get_diag_matrix_test(void) {
+    matrix * a = create_row_vector(1,5,1);
+    matrix * b = transpose_matrix(a);
+    printf("\nTesting diagonal matrix creation\n");
+    printf("Matrices to apply:\n");
+    print_matrix(a);
+    print_matrix(b);
+
+    printf("Diagonal matrices:\n");
+    matrix * c = get_diag_matrix(a);
+    matrix * d = get_diag_matrix(b);
+    print_matrix(c);
+    print_matrix(d);
+
+    printf("Checking original matrices haven't been overwritten\n");
+    print_matrix(a);
+    print_matrix(b);
+
+    destroy_matrix(a);
+    destroy_matrix(b);
+    destroy_matrix(c);
+    destroy_matrix(d);
+
     return 0;
 }

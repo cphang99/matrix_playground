@@ -131,3 +131,23 @@ matrix * get_vertical_slice(matrix * m, int c) {
     return v;
 }
 
+matrix * get_diag_matrix(matrix * v) {
+    matrix * m = NULL;
+    bool hasTransposed = false;
+    if(v->rows > 1) {
+        //Transpose if a column vector, so can treat equally
+        //in the next step.
+        m = initialise_matrix(v->rows, v->rows); 
+        v = transpose_matrix(v);
+        hasTransposed = true;
+    } else {
+        m = initialise_matrix(v->columns, v->columns);
+    }
+    for(int i = 0; i < v->columns; i++) {
+        set_matrix_member(m, i+1, i+1, get_matrix_member(v, 1, i+1)); 
+    }
+    if(hasTransposed) destroy_matrix(v);
+
+    return m;
+
+}

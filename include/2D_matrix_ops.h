@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef int32_t elem;
 
@@ -113,3 +114,11 @@ matrix * get_horizontal_slice(matrix * m, int r);
  * \return      A row vector consisting of column c of matrix m
  */
 matrix * get_vertical_slice(matrix * m, int c);
+
+/* Create a n x n diagonal matrix from a vector of length n
+ * Equivalent to diag(v) in matlab
+ *
+ * \param v     The vector to create the matrix from
+ * \return      A n x n diagonal matrix
+ */
+matrix * get_diag_matrix(matrix * v);
