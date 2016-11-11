@@ -62,7 +62,7 @@ void print_matrix(matrix * m) {
     if(m != NULL) {
         for(int i = 0; i < get_rows(m); i++) {
             for(int j = 0; j < get_columns(m); j++) {
-                printf("%d ",m->arr[i*get_columns(m) +j]);
+                printf("%d ", get_matrix_member(m, i+1, j+1));
             }
             putchar('\n');
         }
