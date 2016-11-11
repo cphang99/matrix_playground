@@ -63,6 +63,23 @@ elem get_matrix_member(matrix * m, int x, int y);
 matrix * set_matrix_member(matrix * m, int x, int y, elem val);
 
 /**
+ * Updates a matrix member on an array level
+ * Please note that the array passed must be a 1D array, formatted
+ * so that members can be accessed via arr[i*columns + j]
+ * 
+ * Failure to do so will result in undefined behaviour.
+ *
+ * \param m         The matrix
+ * \param arr       An array of type elem
+ * \param rows      The rows in the array
+ * \param columns   The columns in the array
+ * \return          A matrix with a updated array. Will
+ *                  return an untransformed matrix (or NULL)
+ *                  if this is unsuccessful
+ */
+matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns);
+
+/**
  * Gives the number of rows in the matrix
  * Returns 0 and warning if no valid matrix found
  *

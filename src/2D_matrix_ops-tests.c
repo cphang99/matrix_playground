@@ -8,6 +8,7 @@ static int get_horizontal_slice_test(matrix * m);
 static int get_vertical_slice_test(matrix * m);
 static int get_diag_matrix_test(void);
 static int null_matrix_tests(void);
+static int set_matrix_array_test(void);
 
 int main(void) {
     printf("Executing tests for 2D_matrix_ops.c\n");
@@ -32,6 +33,7 @@ int main(void) {
     get_vertical_slice_test(m);
     get_diag_matrix_test();
     null_matrix_tests();
+    set_matrix_array_test();
 
     destroy_matrix(m);
     return 0;
@@ -217,6 +219,32 @@ static int null_matrix_tests(void) {
     get_rows(m);
     printf("get_columns\n");
     get_columns(m);
+    printf("set_matrix_array\n");
+    set_matrix_array(m, NULL, 0, 0);
+
+    return 0;
+}
+
+/* Tests array-wise assignment of a matrix */
+static int set_matrix_array_test(void) {
+    elem a[6] = {
+         1,2,3,
+         4,5,6
+    };
+    
+    matrix * m = initialise_matrix(2, 3);
+    matrix * n = initialise_matrix(10, 10);
+
+    printf("\nTesting array wise copying to matrix struct\n");
+    set_matrix_array(m, a, 2, 3);
+    print_matrix(m);
+
+    printf("Testing array copying that will fail due to "
+        "incorrect matrix dims\n");
+    set_matrix_array(n, a, 2, 3);
+    
+    destroy_matrix(m);
+    destroy_matrix(n);
 
     return 0;
 }

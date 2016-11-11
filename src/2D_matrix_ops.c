@@ -38,6 +38,22 @@ matrix * set_matrix_member(matrix * m, int x, int y, elem val) {
     }
 }
 
+matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns) {
+    if(m == NULL || arr == NULL) {
+        fprintf(stderr, "Invalid pointer to matrix and/or array. Abort\n");
+    } else if( (get_rows(m) != rows) || (get_columns(m) != columns) ) {
+        fprintf(stderr, "array dimensions do not match that of matrix. "
+                "Abort\n");
+    } else {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                set_matrix_member(m, i+1, j+1, arr[i*columns + j]);
+            }
+        }
+    }
+    return m;
+}
+
 int get_rows(matrix * m) {
     int rows = 0;
     if(m != NULL) {
