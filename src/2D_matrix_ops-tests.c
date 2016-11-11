@@ -154,6 +154,7 @@ static int get_vertical_slice_test(matrix * m) {
     return 0;
 }
 
+/* Tests creation of diagonal matrices */
 static int get_diag_matrix_test(void) {
     matrix * a = create_row_vector(1,5,1);
     matrix * b = transpose_matrix(a);
@@ -185,6 +186,9 @@ static int get_diag_matrix_test(void) {
     return 0;
 }
 
+/**Tests whether for all relevant functions that invalid
+ * matrix pointers are being treated correctly
+ */
 static int null_matrix_tests(void) {
     printf("\nTesting that null matrices are treated correctly " 
             "by all functions\n");
