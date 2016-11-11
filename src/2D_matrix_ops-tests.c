@@ -7,6 +7,7 @@ static int create_row_vector_test(void);
 static int get_horizontal_slice_test(matrix * m);
 static int get_vertical_slice_test(matrix * m);
 static int get_diag_matrix_test(void);
+static int null_matrix_tests(void);
 
 int main(void) {
     printf("Executing tests for 2D_matrix_ops.c\n");
@@ -30,6 +31,7 @@ int main(void) {
     get_horizontal_slice_test(m);
     get_vertical_slice_test(m);
     get_diag_matrix_test();
+    null_matrix_tests();
 
     destroy_matrix(m);
     return 0;
@@ -179,6 +181,34 @@ static int get_diag_matrix_test(void) {
     destroy_matrix(c);
     destroy_matrix(d);
     destroy_matrix(e);
+
+    return 0;
+}
+
+static int null_matrix_tests(void) {
+    printf("\nTesting that null matrices are treated correctly " 
+            "by all functions\n");
+    matrix * m = NULL;
+    printf("print_matrix\n");
+    print_matrix(m);
+    printf("destroy_matrix\n");
+    destroy_matrix(m);
+    printf("get_matrix_member\n");
+    get_matrix_member(m, 0 ,0);
+    printf("set_matrix_member\n");
+    set_matrix_member(m, 0, 0, 0);
+    printf("transpose_matrix\n");
+    transpose_matrix(m);
+    printf("v_concatentate\n");
+    v_concatenate(m, m);
+    printf("h_concatenate\n");
+    h_concatenate(m, m);
+    printf("get_horizontal_slice\n");
+    get_horizontal_slice(m, 0);
+    printf("get_vertical_slice\n");
+    get_vertical_slice(m, 0);
+    printf("get_diag_matrix\n");
+    get_diag_matrix(m);
 
     return 0;
 }
