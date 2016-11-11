@@ -21,7 +21,8 @@ Binaries at the present time contain tests for the library.
     * get and set individual matrix elements.
     * tranpose (`A'`) and concatenate (`[A B]`)  matrices
     * Slice matrices (`:` operator in matlab)
-    * Create vectors (`j:i:k` operator in matlab) 
+    * Create vectors (`j:i:k` operator in matlab)
+    * Diagonal matrices from vectors (`diag(v) operator in matlab) 
 
 - Matrix wide arithmetic: `2D_matrix_arithmetic.h`
     * matrix addition, subtraction and multiplication.
