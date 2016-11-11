@@ -18,8 +18,8 @@ int main(void) {
     };
 
     matrix * m = initialise_matrix(2, 3);
-    for(int i = 0; i < m->rows; i++) {
-        for(int j = 0; j < m->columns; j++) {
+    for(int i = 0; i < get_rows(m); i++) {
+        for(int j = 0; j < get_columns(m); j++) {
             set_matrix_member(m, i+1, j+1, a[i][j]);
         }
     }
@@ -44,7 +44,7 @@ static int transpose_test(matrix * m) {
     matrix * t_m = transpose_matrix(m);
     print_matrix(t_m);
     printf("number of rows =%d number of columns=%d\n",
-            t_m->rows, t_m->columns);
+            get_rows(t_m), get_columns(t_m));
     printf("member at loc 1,2 should be 4, is %d\n",
             get_matrix_member(t_m, 1, 2));
     printf("member at loc 2,2 should be 5, is %d\n",
@@ -209,6 +209,10 @@ static int null_matrix_tests(void) {
     get_vertical_slice(m, 0);
     printf("get_diag_matrix\n");
     get_diag_matrix(m);
+    printf("get_rows\n");
+    get_rows(m);
+    printf("get_columns\n");
+    get_columns(m);
 
     return 0;
 }

@@ -3,10 +3,10 @@
 matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m, 
         float param) {
     int i, j = 0;
-    for(i = 0; i < m->rows; i++) {
-        for(j =0; j < m->columns; j++) {
+    for(i = 0; i < get_rows(m); i++) {
+        for(j =0; j < get_columns(m); j++) {
             set_matrix_member(m, i+1, j+1, 
-                    (*fp)(m->arr[i*m->columns +j], param));
+                    (*fp)(m->arr[i*get_columns(m) +j], param));
         }
     }
     return m;
@@ -22,13 +22,13 @@ matrix * sum_matrix(matrix * m, int dim) {
         //Depending on the dimension that sum_matrix is taking
         //place we need to iterate in different directions
         if(dim == 1) {
-            dim1 = m->columns;
-            dim2 = m->rows;
-            s = initialise_matrix(1, m->columns);
+            dim1 = get_columns(m);
+            dim2 = get_rows(m);
+            s = initialise_matrix(1, get_columns(m));
         } else {
-            dim1 = m->rows;
-            dim2 = m->columns;
-            s = initialise_matrix(m->rows, 1);
+            dim1 = get_rows(m);
+            dim2 = get_columns(m);
+            s = initialise_matrix(get_rows(m), 1);
         }
         //Similarly, we need to fetch and set the matrix members
         //differently depending on dim.

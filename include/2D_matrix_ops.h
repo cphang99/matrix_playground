@@ -62,6 +62,24 @@ elem get_matrix_member(matrix * m, int x, int y);
  */
 matrix * set_matrix_member(matrix * m, int x, int y, elem val);
 
+/**
+ * Gives the number of rows in the matrix
+ * Returns 0 and warning if no valid matrix found
+ *
+ * \param m     The matrix
+ * \return      The number of rows, or 0 and a warning if no matrix present
+ */
+int get_rows(matrix * m);
+
+/**
+ * Gives the number of columns in the matrix
+ * Returns 0 and warning if no valid matrix found
+ *
+ * \param       The matrix
+ * \return      The number of columns, or 0 and a warning if no matrix present
+ */
+int get_columns(matrix * m);
+
 /*
  * Transposes a matrix. Equivalent to A.' in matlab
  *

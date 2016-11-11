@@ -11,8 +11,8 @@ int main(void) {
         {4,5,6}
     };
     matrix * m = initialise_matrix(2, 3);
-    for(int i = 0; i < m->rows; i++) { 
-        for(int j = 0; j < m->columns; j++) {
+    for(int i = 0; i < get_rows(m); i++) { 
+        for(int j = 0; j < get_columns(m); j++) {
             set_matrix_member(m, i+1, j+1, a[i][j]);
         }
     }
@@ -22,8 +22,8 @@ int main(void) {
         {4,5,6}
     };
     matrix * n = initialise_matrix(2, 3);
-    for(int i = 0; i < n->rows; i++) { 
-        for(int j = 0; j < n->columns; j++) {
+    for(int i = 0; i < get_rows(n); i++) { 
+        for(int j = 0; j < get_columns(n); j++) {
             set_matrix_member(n, i+1, j+1, b[i][j]);
         }
     }

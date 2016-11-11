@@ -14,8 +14,8 @@ int main(void) {
     };
 
     matrix * m = initialise_matrix(2, 3);
-    for(int i = 0; i < m->rows; i++) { 
-        for(int j = 0; j < m->columns; j++) {
+    for(int i = 0; i < get_rows(m); i++) { 
+        for(int j = 0; j < get_columns(m); j++) {
             set_matrix_member(m, i+1, j+1, a[i][j]);
         }
     }
@@ -33,8 +33,8 @@ int main(void) {
     };
 
     matrix * o = initialise_matrix(3, 3);
-    for(int i = 0; i < o->rows; i++) { 
-        for(int j = 0; j < o->columns; j++) {
+    for(int i = 0; i < get_rows(o); i++) { 
+        for(int j = 0; j < get_columns(o); j++) {
             set_matrix_member(o, i+1, j+1, b[i][j]);
         }
     }
@@ -86,7 +86,7 @@ static int fill_matrix_test(matrix * m) {
     elem_matrix_operation(&fill_matrix,m, 1);
     printf("After\n");
     print_matrix(m);
-    printf("Number of rows=%d, number of columns=%d\n", m->rows, m->columns);
+    printf("Number of rows=%d, number of columns=%d\n", get_rows(m), get_columns(m));
 
     return 0;
 }

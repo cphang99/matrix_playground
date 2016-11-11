@@ -17,11 +17,11 @@ elem get_matrix_member(matrix * m, int x, int y) {
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
         return 0;
-    } else if(x > m->rows || y > m->columns) {
+    } else if(x > get_rows(m) || y > get_columns(m)) {
         fprintf(stderr, "Out of bounds\n");
         return 0;
     } else {
-        return m->arr[ (x-1)* m->columns +(y-1)];
+        return m->arr[ (x-1)* get_columns(m) +(y-1)];
     }
 }
 
@@ -29,20 +29,40 @@ matrix * set_matrix_member(matrix * m, int x, int y, elem val) {
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
         return NULL;
-    } else if( x > m->rows || y > m->columns) {
+    } else if( x > get_rows(m) || y > get_columns(m)) {
         fprintf(stderr, "Out of bounds\n");
         return NULL;
     } else {
-        m->arr[ (x-1) * m->columns + (y-1) ] = val;
+        m->arr[ (x-1) * get_columns(m) + (y-1) ] = val;
         return m;
     }
 }
 
+int get_rows(matrix * m) {
+    int rows = 0;
+    if(m != NULL) {
+        rows = m->rows;
+    } else {
+        fprintf(stderr, "No valid matrix to obtain rows from\n");
+    }
+    return rows;
+}
+
+int get_columns(matrix * m) {
+    int columns = 0;
+    if(m != NULL) {
+        columns = m->columns;
+    } else {
+        fprintf(stderr, "No valid matrix to obtain columns from\n");
+    }
+    return columns;
+}
+
 void print_matrix(matrix * m) {
     if(m != NULL) {
-        for(int i = 0; i < m->rows; i++) {
-            for(int j = 0; j < m->columns; j++) {
-                printf("%d ",m->arr[i*m->columns +j]);
+        for(int i = 0; i < get_rows(m); i++) {
+            for(int j = 0; j < get_columns(m); j++) {
+                printf("%d ",m->arr[i*get_columns(m) +j]);
             }
             putchar('\n');
         }
@@ -63,10 +83,10 @@ void destroy_matrix(matrix * m) {
 matrix * transpose_matrix(matrix * m) {
     matrix * t_m = NULL;
     if(m != NULL) {
-        t_m = initialise_matrix(m->columns, m->rows);
+        t_m = initialise_matrix(get_columns(m), get_rows(m));
 
-        for(int i = 0; i < m->rows; i++) {
-            for(int j = 0; j < m->columns; j++) {
+        for(int i = 0; i < get_rows(m); i++) {
+            for(int j = 0; j < get_columns(m); j++) {
                 set_matrix_member(t_m, j+1, i+1, get_matrix_member(m, i+1, j+1));
             }
         }
@@ -81,18 +101,18 @@ matrix * h_concatenate(matrix * a, matrix * b) {
     matrix * a_b = NULL;
     if(a == NULL || b == NULL) {
         fprintf(stderr, "One or both matrices are not valid pointers, abort\n");
-    } else if(a->rows != b->rows) {
+    } else if(get_rows(a) != get_rows(b)) {
         fprintf(stderr, "Cannot vertically concatenate matrices " 
                 "of different heights\n");
     } else {
-        a_b =  initialise_matrix(a->rows, (a->columns + b->columns));
-        for(int i = 0; i < a_b->rows; i++) {
-            for(int j_a = 0; j_a < a->columns; j_a++) {
+        a_b =  initialise_matrix(get_rows(a), (get_columns(a) + get_columns(b)));
+        for(int i = 0; i < get_rows(a_b); i++) {
+            for(int j_a = 0; j_a < get_columns(a); j_a++) {
                 set_matrix_member(a_b, i+1, j_a+1, 
                         get_matrix_member(a, i+1, j_a+1));
             }
-            for(int j_b = 0; j_b < b->columns; j_b++) {
-                set_matrix_member(a_b, i+1, a->columns+j_b+1, 
+            for(int j_b = 0; j_b < get_columns(b); j_b++) {
+                set_matrix_member(a_b, i+1, get_columns(a)+j_b+1, 
                         get_matrix_member(b, i+1, j_b+1));
             }
         }
@@ -106,21 +126,21 @@ matrix * v_concatenate(matrix * a, matrix * b) {
     if(a == NULL || b == NULL) {
         fprintf(stderr, "One or both matrices are not valid pointers, abort "
                 "vertical transpose\n");
-    } else if(a->columns != b->columns) {
+    } else if(get_columns(a) != get_columns(b)) {
         fprintf(stderr, "Cannot horizontally concatenate matrices of "
                 "different widths\n");
     } else {
-        a_b = initialise_matrix( (a->rows + b->rows), a->columns );
-        for(int i_a = 0; i_a < a->rows; i_a++) {
-            for(int j_a = 0; j_a < a_b->columns; j_a++) {
+        a_b = initialise_matrix( (get_rows(a) + get_rows(b)), get_columns(a) );
+        for(int i_a = 0; i_a < get_rows(a); i_a++) {
+            for(int j_a = 0; j_a < get_columns(a_b); j_a++) {
                 set_matrix_member(a_b, i_a+1, j_a+1, 
                         get_matrix_member(a, i_a+1, j_a+1));
             }
         }
 
-        for(int i_b = 0; i_b < b->rows; i_b++) {
-            for(int j_b = 0; j_b < a_b->columns; j_b++) {
-                set_matrix_member(a_b, a->rows+i_b+1, j_b+1, 
+        for(int i_b = 0; i_b < get_rows(b); i_b++) {
+            for(int j_b = 0; j_b < get_columns(a_b); j_b++) {
+                set_matrix_member(a_b, get_rows(a)+i_b+1, j_b+1, 
                         get_matrix_member(b, i_b+1, j_b+1));
             }
         }
@@ -147,9 +167,9 @@ matrix * get_horizontal_slice(matrix * m, int r) {
     matrix * v = NULL;
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
-    } else if(r > 0 && r <= m->rows) {
-        v= initialise_matrix(1, m->columns);
-        for(int i = 0; i < m->columns; i++) {
+    } else if(r > 0 && r <= get_rows(m)) {
+        v= initialise_matrix(1, get_columns(m));
+        for(int i = 0; i < get_columns(m); i++) {
             set_matrix_member(v, 1, i+1, get_matrix_member(m, r, i+1));
         }
     } else {
@@ -163,9 +183,9 @@ matrix * get_vertical_slice(matrix * m, int c) {
     matrix * v = NULL;
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
-    } else if(c > 0 && c <= m->columns) {
-        v= initialise_matrix(m->rows, 1);
-        for(int i = 0; i < m->rows; i++) {
+    } else if(c > 0 && c <= get_columns(m)) {
+        v= initialise_matrix(get_rows(m), 1);
+        for(int i = 0; i < get_rows(m); i++) {
             set_matrix_member(v, i+1, 1, get_matrix_member(m, i+1, c));
         }
     } else {
@@ -179,16 +199,16 @@ matrix * get_diag_matrix(matrix * v) {
     matrix * m = NULL;
     if(v != NULL) {
         bool hasTransposed = false;
-        if(v->rows > 1) {
+        if(get_rows(v) > 1) {
             //Transpose if a column vector, so can treat equally
             //in the next step.
-            m = initialise_matrix(v->rows, v->rows); 
+            m = initialise_matrix(get_rows(v), get_rows(v)); 
             v = transpose_matrix(v);
             hasTransposed = true;
         } else {
-            m = initialise_matrix(v->columns, v->columns);
+            m = initialise_matrix(get_columns(v), get_columns(v));
         }
-        for(int i = 0; i < v->columns; i++) {
+        for(int i = 0; i < get_columns(v); i++) {
             set_matrix_member(m, i+1, i+1, get_matrix_member(v, 1, i+1)); 
         }
         if(hasTransposed) destroy_matrix(v);
