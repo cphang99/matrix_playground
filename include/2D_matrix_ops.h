@@ -143,23 +143,25 @@ matrix * h_concatenate(matrix * a, matrix * b);
  */
 matrix * create_row_vector(int j, int i, int k);
 
-/* Get a horizontal slice of a matrix
- * Equivalent to A(i,:) in matlab
+/* Get a horizontal slice of a matrix within two bounds
+ * Equivalent to A(j:k,:) in matlab
  *
  * \param m     The matrix
- * \param r     A slice of the array.
- * \return      A row vector consisting of row r of matrix m
+ * \param r_s   The starting row to slice from
+ * \param r_e   The finishing row to slice to
+ * \return      A matrix consisting of horizontal slices from r_s to r_e
  */
-matrix * get_horizontal_slice(matrix * m, int r);
+matrix * get_horizontal_slice(matrix * m, int r_s, int r_e);
 
-/* Get a vertical slice of a matrix
- * Equivalent to A(:,i) in matlab
+/* Get a vertical slice of a matrix within two bounds
+ * Equivalent to A(:,j:k) in matlab
  *
  * \param m     The matrix
- * \param c     A slice of the array.
- * \return      A row vector consisting of column c of matrix m
+ * \param c_s   The starting column to slice from
+ * \param c_e   The finishing column to slice to    
+ * \return      A matrix consisting of vertical slices from c_s to c_e
  */
-matrix * get_vertical_slice(matrix * m, int c);
+matrix * get_vertical_slice(matrix * m, int c_s, int c_e);
 
 /* Create a n x n diagonal matrix from a vector of length n
  * Equivalent to diag(v) in matlab

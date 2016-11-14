@@ -179,36 +179,54 @@ matrix * create_row_vector(int j, int i, int k) {
     return v;
 }
 
-matrix * get_horizontal_slice(matrix * m, int r) {
-    matrix * v = NULL;
+matrix * get_horizontal_slice(matrix * m, int r_s, int r_e) {
+    matrix * h_s = NULL;
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
-    } else if(r > 0 && r <= get_rows(m)) {
-        v= initialise_matrix(1, get_columns(m));
-        for(int i = 0; i < get_columns(m); i++) {
-            set_matrix_member(v, 1, i+1, get_matrix_member(m, r, i+1));
+    } else if(r_s > 0 && r_s <= get_rows(m)) {
+        int num_rows = r_e - r_s + 1;
+        if(num_rows > 0 && num_rows < get_rows(m)) {
+            h_s= initialise_matrix(num_rows, get_columns(m));
+            for(int i = 0; i < num_rows; i++) { 
+                for(int j = 0; j < get_columns(m); j++) {
+                    set_matrix_member(h_s, i+1, j+1, 
+                            get_matrix_member(m, i+r_s, j+1));
+                }
+            }
+        } else {
+            fprintf(stderr, "error in subscripts passed to function. "
+                    "Number of rows = %d\n", num_rows);
         }
     } else {
         printf("Slice is out of matrix row bounds\n");
     }
 
-    return v;
+    return h_s;
 }
 
-matrix * get_vertical_slice(matrix * m, int c) {
-    matrix * v = NULL;
+matrix * get_vertical_slice(matrix * m, int c_s, int c_e) {
+    matrix * v_s = NULL;
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
-    } else if(c > 0 && c <= get_columns(m)) {
-        v= initialise_matrix(get_rows(m), 1);
-        for(int i = 0; i < get_rows(m); i++) {
-            set_matrix_member(v, i+1, 1, get_matrix_member(m, i+1, c));
+    } else if(c_s > 0 && c_s <= get_columns(m)) {
+        int num_columns = c_e - c_s + 1;
+        if(num_columns > 0 && num_columns < get_columns(m)) {
+            v_s= initialise_matrix(get_rows(m), num_columns);
+            for(int i = 0; i < get_rows(m); i++) { 
+                for(int j = 0; j < num_columns; j++) {
+                    set_matrix_member(v_s, i+1, j+1, 
+                            get_matrix_member(m, i+1, j+c_s));
+                }
+            }
+        } else {
+            fprintf(stderr, "error in subscripts passed to function. "
+                    "Number of columns = %d\n", num_columns);
         }
     } else {
         printf("Slice is out of matrix column bounds\n");
     }
 
-    return v;
+    return v_s;
 }
 
 matrix * get_diag_matrix(matrix * v) {

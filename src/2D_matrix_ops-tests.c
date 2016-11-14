@@ -25,19 +25,21 @@ int main(void) {
             set_matrix_member(m, i+1, j+1, a[i][j]);
         }
     }
+    matrix * b = initialise_matrix(3,3);
 
     transpose_test(m);
     vert_concat_test(m);
     horiz_concat_test(m);
     create_row_vector_test();
-    get_horizontal_slice_test(m);
-    get_vertical_slice_test(m);
+    get_horizontal_slice_test(b);
+    get_vertical_slice_test(b);
     get_diag_matrix_test();
     null_matrix_tests();
     set_matrix_array_test();
     getMin_getMax_test(m);
 
     destroy_matrix(m);
+    destroy_matrix(b);
     return 0;
 
 }
@@ -131,13 +133,14 @@ static int create_row_vector_test(void) {
 /*Tests whether horizontal slices can be created of a matrix*/
 static int get_horizontal_slice_test(matrix * m) {
     printf("\nTesting horizontal slice creation\n");
-    matrix * a = get_horizontal_slice(m, 1);
+    print_matrix(m);
+    matrix * a = get_horizontal_slice(m, 1, 2);
     print_matrix(a);
 
     printf("Testing bounds testing of function\n");
-    get_horizontal_slice(m, 0);
-    get_horizontal_slice(m, 3);
-    get_horizontal_slice(m, 5);
+    get_horizontal_slice(m, 0, 0);
+    get_horizontal_slice(m, 1, 0);
+    get_horizontal_slice(m, 5, 5);
 
     destroy_matrix(a);
     return 0;
@@ -147,12 +150,13 @@ static int get_horizontal_slice_test(matrix * m) {
 /*Tests whether vertical slices can be created of a matrix*/
 static int get_vertical_slice_test(matrix * m) {
     printf("\nTesting vertical slice creation\n");
-    matrix * a = get_vertical_slice(m, 2);
+    print_matrix(m);
+    matrix * a = get_vertical_slice(m, 2 ,3);
     print_matrix(a);
 
     printf("Testing bounds testing of function\n");
-    get_vertical_slice(m, 0);
-    get_vertical_slice(m, 5);
+    get_vertical_slice(m, 2, 67);
+    get_vertical_slice(m, 5, 5);
 
     destroy_matrix(a);
     return 0;
@@ -212,9 +216,9 @@ static int null_matrix_tests(void) {
     printf("h_concatenate\n");
     h_concatenate(m, m);
     printf("get_horizontal_slice\n");
-    get_horizontal_slice(m, 0);
+    get_horizontal_slice(m, 0, 0);
     printf("get_vertical_slice\n");
-    get_vertical_slice(m, 0);
+    get_vertical_slice(m, 0, 0);
     printf("get_diag_matrix\n");
     get_diag_matrix(m);
     printf("get_rows\n");
