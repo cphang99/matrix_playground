@@ -8,12 +8,20 @@
 #include <stdbool.h>
 
 typedef int32_t elem;
+#define ELEM_MAX INT32_MAX
+#define ELEM_MIN INT32_MIN
 
 typedef struct {
     int rows;
     int columns;
     elem arr[]; //Note flexible array member
 } matrix;
+
+typedef struct {
+    int x;
+    int y;
+    elem value;
+} pos;
 
 /**
  * Initialises an empty matrix
@@ -168,5 +176,23 @@ matrix * get_diag_matrix(matrix * v);
  * \return      An n x n identity matrix
  */
 matrix * get_identity_matrix(int n);
+
+/** Returns the value and position of the largest element in a matrix
+ *  Equivalent to max(A) in matlab
+ *
+ *  \param m    The matrix
+ *  \return     A position and value correpsonding to the largest element of
+ *              matrix m
+ */
+pos get_max(matrix * m);
+
+/** Returns the value and position of the smallest element in a matrix
+ *  Equivalent to min(A) in matlab
+ *
+ *  \param m    The matrix
+ *  \return     A position and value correpsonding to the smallest element of
+ *              matrix m
+ */
+pos get_min(matrix * m);
 
 #endif

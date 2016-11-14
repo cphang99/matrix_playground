@@ -245,3 +245,48 @@ matrix * get_identity_matrix(int n) {
 
     return m;
 }
+
+pos get_max(matrix * m) {
+    pos max;
+    max.value = 0;
+    max.x = 0;
+    max.y = 0;
+    if(m != NULL) {
+        for(int i = 0; i < get_rows(m); i++) {
+            for(int j = 0; j < get_columns(m); j++) {
+                elem e = get_matrix_member(m, i+1, j+1);
+                if(e > max.value) {
+                    max.value = e;
+                    max.x = i+1;
+                    max.y = j+1;
+                }
+            }
+        }
+    } else {
+        fprintf(stderr, "Not valid matrix pointer\n");
+    }
+    return max;
+}
+
+pos get_min(matrix * m) {
+    pos min;
+    min.value = ELEM_MAX;
+    min.x = 0;
+    min.y = 0;
+    if(m != NULL) {
+        for(int i = 0; i < get_rows(m); i++) {
+            for(int j = 0; j < get_columns(m); j++) {
+                elem e = get_matrix_member(m, i+1, j+1);
+                if(e < min.value) {
+                    min.value = e;
+                    min.x = i+1;
+                    min.y = j+1;
+                }
+            }
+        }
+    } else {
+        fprintf(stderr, "Not valid matrix pointer\n");
+    }
+    return min;
+}
+

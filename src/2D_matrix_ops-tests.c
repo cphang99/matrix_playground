@@ -9,6 +9,7 @@ static int get_vertical_slice_test(matrix * m);
 static int get_diag_matrix_test(void);
 static int null_matrix_tests(void);
 static int set_matrix_array_test(void);
+static int getMin_getMax_test(matrix * m);
 
 int main(void) {
     printf("Executing tests for 2D_matrix_ops.c\n");
@@ -34,6 +35,7 @@ int main(void) {
     get_diag_matrix_test();
     null_matrix_tests();
     set_matrix_array_test();
+    getMin_getMax_test(m);
 
     destroy_matrix(m);
     return 0;
@@ -221,6 +223,11 @@ static int null_matrix_tests(void) {
     get_columns(m);
     printf("set_matrix_array\n");
     set_matrix_array(m, NULL, 0, 0);
+    printf("set_max\n");
+    get_max(m);
+    printf("get_min\n");
+    get_min(m);
+
 
     return 0;
 }
@@ -246,5 +253,18 @@ static int set_matrix_array_test(void) {
     destroy_matrix(m);
     destroy_matrix(n);
 
+    return 0;
+}
+
+/* Tests the obtaining of  minimum, maximum values from a matrix */
+static int getMin_getMax_test(matrix * m) {
+    printf("\nTesting getMin() and getMax() functions\n");
+    printf("matrix to be tested\n");
+    print_matrix(m);
+    pos max = get_max(m);
+    pos min = get_min(m);
+
+    printf("Max val %d at pos %d %d \n", max.value, max.x, max.y);
+    printf("Min val %d at pos %d %d\n", min.value, min.x, min.y); 
     return 0;
 }
