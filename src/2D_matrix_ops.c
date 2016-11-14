@@ -17,8 +17,11 @@ elem get_matrix_member(matrix * m, int x, int y) {
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
         return 0;
+    } else if(x < 1 || y < 1) {
+        fprintf(stderr, "Out of bounds x=%d y=%d\n", x, y);
+        return 0;
     } else if(x > get_rows(m) || y > get_columns(m)) {
-        fprintf(stderr, "Out of bounds\n");
+        fprintf(stderr, "Out of bounds x=%d y=%d\n", x, y);
         return 0;
     } else {
         return m->arr[ (x-1)* get_columns(m) +(y-1)];
@@ -29,8 +32,11 @@ matrix * set_matrix_member(matrix * m, int x, int y, elem val) {
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
         return NULL;
+    } else if(x < 1 || y < 1) {
+        fprintf(stderr, "Out of bounds x=%d y=%d\n", x, y);
+        return NULL;
     } else if( x > get_rows(m) || y > get_columns(m)) {
-        fprintf(stderr, "Out of bounds\n");
+        fprintf(stderr, "Out of bounds x=%d y=%d\n", x, y);
         return NULL;
     } else {
         m->arr[ (x-1) * get_columns(m) + (y-1) ] = val;
