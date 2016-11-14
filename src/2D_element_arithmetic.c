@@ -12,6 +12,42 @@ matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m,
     return m;
 }
 
+matrix * elem_row_operation(elem (*fp)(elem, float), matrix * m, 
+        int r_s, int r_e, float param) {
+    matrix * h_s = get_horizontal_slice(m, r_s, r_e);
+    if(h_s != NULL) {
+        h_s = elem_matrix_operation((*fp), h_s, param);
+        for(int i = r_s - 1; i < r_e; i++) {
+            for(int j = 0; j < get_columns(h_s); j++) {
+                set_matrix_member(m, i+1, j+1, 
+                        get_matrix_member(h_s, i-r_s + 2, j+1));
+            }
+        }
+        destroy_matrix(h_s);
+    } else {
+        fprintf(stderr, "Invalid indices for row operations. Abort\n");
+    }
+    return m;
+}
+
+matrix * elem_column_operation(elem (*fp)(elem, float), matrix * m, 
+        int c_s, int c_e, float param) {
+    matrix * v_s = get_vertical_slice(m, c_s, c_e);
+    if(v_s != NULL) {
+        v_s = elem_matrix_operation((*fp), v_s, param);
+        for(int i = 0; i < get_rows(v_s); i++) {
+            for(int j = c_s - 1; j < c_e; j++) {
+                set_matrix_member(m, i+1, j+1, 
+                        get_matrix_member(v_s, i+1, j-c_s + 2));
+            }
+        }
+        destroy_matrix(v_s);
+    } else {
+        fprintf(stderr, "Invalid indices for column operations. Abort\n");
+    }
+    return m;
+}
+
 matrix * sum_matrix(matrix * m, int dim) {
     matrix * s = NULL;
     if(dim < 1 || dim > 2) {

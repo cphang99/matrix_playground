@@ -14,6 +14,36 @@
 matrix * elem_matrix_operation(elem (*fp)(elem, float), matrix * m, 
         float param);
 
+/**
+ * Applies an element-wise operation to a horizontal slice
+ * Please note that this does not create a new matrix
+ * object, but modifies the existing one.
+ *
+ * \param fp        The element-wise matrix oepration
+ * \param m         The matrix
+ * \param r_s       The starting row to apply the operation from.
+ * \param r_e       The finishing row to apply to operation from.
+ * \param param     A user-specified parameter to pass to the fp
+ * \return          The transformed array
+ */
+matrix * elem_row_operation(elem (*fp)(elem, float), matrix * m,
+                int r_s, int r_e, float param);
+
+/**
+ * Applies an element-wise operation to a vertical slice
+ * Please note that this does not create a new matrix
+ * object, but modifies the existing one.
+ *
+ * \param fp        The element-wise matrix oepration
+ * \param m         The matrix
+ * \param c_s       The starting column to apply the operation from.
+ * \param c_e       The finishing column to apply to operation from.
+ * \param param     A user-specified parameter to pass to the fp
+ * \return          The transformed array
+ */
+matrix * elem_column_operation(elem (*fp)(elem, float), matrix * m,
+                int c_s, int c_e, float param);
+
 /*
  * Sums all members across one matrix dimension
  * Equivalent to matlab sum(A,1) or sum(A,2) in a 2D matrix.
