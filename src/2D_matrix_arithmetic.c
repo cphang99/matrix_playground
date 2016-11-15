@@ -110,3 +110,26 @@ matrix * column_interchange(matrix * m, int c1, int c2) {
     }
     return m;
 }
+
+matrix * row_addition(matrix * m, int r1, int r2, int f) {
+    if(m != NULL) {
+        if(r1 > 0 && r1 <= get_rows(m) && r2 > 0 && r2 <= get_rows(m)) {
+            matrix * m_r1 = get_horizontal_slice(m, r1, r1);
+            matrix * m_r2 = get_horizontal_slice(m, r2, r2);
+
+            for(int i = 0; i < get_columns(m_r1); i++) {
+                set_matrix_member(m, r2, i+1,
+                        (get_matrix_member(m_r1, 1, i+1) * f) +
+                        get_matrix_member(m_r2, 1, i+1));
+            }
+            destroy_matrix(m_r1);
+            destroy_matrix(m_r2);
+        } else {
+            fprintf(stderr, "either r1 or r2 are invalid row indices "
+                    "r1=%d r2 =%d\n",r1, r2);
+        }
+    } else {
+        fprintf(stderr, "Invalid matrix pointer given\n");
+    }
+    return m;
+}

@@ -6,6 +6,7 @@ int matrix_subtract_test(matrix * a, matrix * b);
 int matrix_arithmetic_fail_test(void);
 int matrix_multiply_test(matrix * a, matrix * b);
 int matrix_interchange_test(void);
+int matrix_row_addition_test(void);
 
 int main(void) {
     elem a[2][3] = {
@@ -35,6 +36,7 @@ int main(void) {
     matrix_arithmetic_fail_test();
     matrix_multiply_test(m,n);
     matrix_interchange_test();
+    matrix_row_addition_test();
 
     destroy_matrix(m);
     destroy_matrix(n);
@@ -129,4 +131,27 @@ int matrix_interchange_test(void) {
     return 0;
 }
 
+int matrix_row_addition_test(void) {
+    printf("\nTesting matrix_interchanages\n");
+    matrix * a = create_row_vector(1,3,1);
+    matrix * b = create_row_vector(4,6,1);
+    matrix * c = create_row_vector(7,9,1);
+    matrix * d = v_concatenate(a, b);
+    matrix * e = v_concatenate(d, c);
 
+    printf("Testing row addition: r3= 2*r1 + r3\n");
+    print_matrix(e);
+    row_addition(e, 1, 3, 2);
+    print_matrix(e);
+
+    printf("Testing erroneous input: one row = -1\n");
+    row_addition(e, 1, -1, 10);
+
+    destroy_matrix(a);
+    destroy_matrix(b);
+    destroy_matrix(c);
+    destroy_matrix(d);
+    destroy_matrix(e);
+
+    return 0;
+}
