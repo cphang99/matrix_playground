@@ -79,7 +79,8 @@ matrix * row_interchange(matrix * m, int r1, int r2) {
             destroy_matrix(m_r2);
         } else {
             fprintf(stderr, "either r1 or r2 are invalid indices for "
-                    "row interchange r1=%d r2=%d\n", r1, r2);
+                    "row interchange r1=%d r2=%d num_rows=%d\n", 
+                    r1, r2, get_rows(m));
         }
     } else {
         fprintf(stderr, "Invalid matrix pointer given\n");
