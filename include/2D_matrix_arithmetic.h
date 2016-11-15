@@ -55,13 +55,14 @@ matrix * row_interchange(matrix * m, int r1, int r2);
 matrix * column_interchange(matrix * m, int c1, int c2);
 
 /**
- * Perform row addition adding r1*f to r2 in matrix m
+ * Perform row addition adding r1*f to r2*f in matrix m
  * 
  * \param m     The matrix
  * \param r1    The row to add
  * \param r2    The row to be added to
  * \param f     A factor of r1 to apply
+ * \param f2    A factor of r2 to apply
  *
  * \return      Matrix m with row addition applied
  */
-matrix * row_addition(matrix * m, int r1, int r2, int f);
+matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2);

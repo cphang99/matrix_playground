@@ -139,13 +139,13 @@ int matrix_row_addition_test(void) {
     matrix * d = v_concatenate(a, b);
     matrix * e = v_concatenate(d, c);
 
-    printf("Testing row addition: r3= 2*r1 + r3\n");
+    printf("Testing row addition: r3= 2*r1 + r3*2\n");
     print_matrix(e);
-    row_addition(e, 1, 3, 2);
+    row_addition(e, 1, 3, 2, 2);
     print_matrix(e);
 
     printf("Testing erroneous input: one row = -1\n");
-    row_addition(e, 1, -1, 10);
+    row_addition(e, 1, -1, 10, 10);
 
     destroy_matrix(a);
     destroy_matrix(b);
