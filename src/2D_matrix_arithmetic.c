@@ -62,3 +62,51 @@ matrix * matrix_multiplication(matrix * a, matrix *b) {
     }
     return a_b;
 }
+
+matrix * row_interchange(matrix * m, int r1, int r2) {
+    if(m != NULL) {
+        if(r1 > 0 && r1 <= get_rows(m) && r2 > 0 && r2 <= get_rows(m)) {
+            matrix * m_r1 = get_horizontal_slice(m, r1, r1);
+            matrix * m_r2 = get_horizontal_slice(m, r2, r2);
+
+            for(int j = 0; j < get_columns(m); j++) {
+                set_matrix_member(m, r2, j+1, 
+                        get_matrix_member(m_r1, 1, j+1));
+                set_matrix_member(m, r1, j+1,
+                        get_matrix_member(m_r2, 1, j+1));
+            }
+            destroy_matrix(m_r1);
+            destroy_matrix(m_r2);
+        } else {
+            fprintf(stderr, "either r1 or r2 are invalid indices for "
+                    "row interchange r1=%d r2=%d\n", r1, r2);
+        }
+    } else {
+        fprintf(stderr, "Invalid matrix pointer given\n");
+    }
+    return m;
+}
+
+matrix * column_interchange(matrix * m, int c1, int c2) {
+    if(m != NULL) {
+        if(c1 > 0 && c1 <= get_columns(m) && c2 > 0 && c2 <= get_columns(m)) {
+            matrix * m_c1 = get_vertical_slice(m, c1, c1);
+            matrix * m_c2 = get_vertical_slice(m, c2, c2);
+
+            for(int j = 0; j < get_rows(m); j++) {
+                set_matrix_member(m, j+1, c2, 
+                        get_matrix_member(m_c1, j+1, 1));
+                set_matrix_member(m, j+1, c1,
+                        get_matrix_member(m_c2, j+1, 1));
+            }
+            destroy_matrix(m_c1);
+            destroy_matrix(m_c2);
+        } else {
+            fprintf(stderr, "either c1 or c2 are invalid indices for "
+                    "column interchange c1=%d c2=%d\n", c1, c2);
+        }
+    } else {
+        fprintf(stderr, "Invalid matrix pointer given\n");
+    }
+    return m;
+}
