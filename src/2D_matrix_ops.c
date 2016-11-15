@@ -274,7 +274,7 @@ matrix * get_identity_matrix(int n) {
 
 pos get_max(matrix * m) {
     pos max;
-    max.value = 0;
+    max.value = ELEM_MIN;
     max.x = 0;
     max.y = 0;
     if(m != NULL) {
