@@ -8,29 +8,23 @@ LIBS = -lm
 BIN = ./bin
 SRC_DIR = ./src
 INC_DIR = ./include
+TEST_DIR = ./$(SRC_DIR)/tests
 
-all: mkBin tests
+PRG_N = $(notdir $(patsubst %.c, %, $(wildcard $(TEST_DIR)/*.c)))
+PRG_O = $(patsubst %, $(TEST_DIR)/%.o, $(PRG_N))
+
+all: mkBin $(PRG_N)
 
 mkBin:
 	mkdir -p $(BIN)
 
-tests:  2D_matrix_ops-tests \
-        2D_matrix_arithmetic-tests \
-	2D_element_arithmetic-tests
-
-2D_matrix_arithmetic-tests: $(SRC_DIR)/2D_matrix_arithmetic-tests.o $(OBJ)
-	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
-
-2D_element_arithmetic-tests: $(SRC_DIR)/2D_element_arithmetic-tests.o  $(OBJ)
-	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
-
-2D_matrix_ops-tests: $(SRC_DIR)/2D_matrix_ops-tests.o $(OBJ)
-	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
+$(PRG_N): $(OBJ) $(PRG_O)
+	$(CC) -o $(BIN)/$@ $(TEST_DIR)/$@.o $(OBJ) $(CFLAGS) $(LIBS)
 
 .PHONY: all install clean
 
 clean:
-	rm -rf $(BIN) $(SRC_DIR)/*.o
+	rm -rf $(BIN) $(SRC_DIR)/*.o $(TEST_DIR)/*.o
 
 
 
