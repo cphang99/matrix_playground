@@ -189,9 +189,9 @@ matrix * get_horizontal_slice(matrix * m, int r_s, int r_e) {
     matrix * h_s = NULL;
     if(m == NULL) {
         fprintf(stderr, "Not valid matrix pointer\n");
-    } else if(r_s > 0 && r_s <= get_rows(m)) {
+    } else if( (r_s > 0) && (r_s <= get_rows(m)) ) {
         int num_rows = r_e - r_s + 1;
-        if(num_rows > 0 && num_rows < get_rows(m)) {
+        if(num_rows > 0 && num_rows <= get_rows(m)) {
             h_s= initialise_matrix(num_rows, get_columns(m));
             for(int i = 0; i < num_rows; i++) { 
                 for(int j = 0; j < get_columns(m); j++) {
@@ -201,7 +201,9 @@ matrix * get_horizontal_slice(matrix * m, int r_s, int r_e) {
             }
         } else {
             fprintf(stderr, "error in subscripts passed to function. "
-                    "Number of rows = %d\n", num_rows);
+                    "Number of rows to be sliced = %d, "
+                    "number of rows in matrix =%d \n", 
+                    num_rows, get_rows(m));
         }
     } else {
         printf("Slice is out of matrix row bounds\n");
