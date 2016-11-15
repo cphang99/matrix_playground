@@ -7,6 +7,8 @@ int matrix_arithmetic_fail_test(void);
 int matrix_multiply_test(matrix * a, matrix * b);
 int matrix_interchange_test(void);
 int matrix_row_addition_test(void);
+int gauss_elimination_ppivot_test(void);
+int null_matrix_tests(void);
 
 int main(void) {
     elem a[2][3] = {
@@ -37,6 +39,8 @@ int main(void) {
     matrix_multiply_test(m,n);
     matrix_interchange_test();
     matrix_row_addition_test();
+    gauss_elimination_ppivot_test();
+    null_matrix_tests();
 
     destroy_matrix(m);
     destroy_matrix(n);
@@ -152,6 +156,78 @@ int matrix_row_addition_test(void) {
     destroy_matrix(c);
     destroy_matrix(d);
     destroy_matrix(e);
+
+    return 0;
+}
+
+int gauss_elimination_ppivot_test(void) {
+    printf("\nTesting gauss elimination with partial pivot:1\n");
+    elem a_arr[9] = {
+        3, 2, -4,
+        2, 3, 3,
+        5, -3, 1
+    };
+
+    elem v_arr[3] = {
+        3,
+        15,
+        14
+    };
+    
+    matrix * a = initialise_matrix(3,3);
+    matrix * v = initialise_matrix(3,1);
+    set_matrix_array(a, a_arr, 3, 3);
+    set_matrix_array(v, v_arr, 3, 1);
+    print_matrix(a);
+    print_matrix(v);
+    
+    matrix * a_m = gauss_elimination_ppivot(a, v);
+    print_matrix(a_m);
+    
+    destroy_matrix(a);
+    destroy_matrix(v);
+    destroy_matrix(a_m);
+
+    printf("\nTesting gauss elimination with partial pivot:2\n");
+    elem c_arr[16] = {
+        1, -3, 2, 1,
+        2, -6, 1, 4,
+        -1, 2, 3, 4,
+        0, -1, 1, 1
+    };
+    
+    elem d_arr[4] = {
+        -4,
+        1,
+        12,
+        0
+    };
+    matrix * c = initialise_matrix(4,4);
+    matrix * d = initialise_matrix(4,1);
+    set_matrix_array(c, c_arr, 4, 4);
+    set_matrix_array(d, d_arr, 4, 1);
+    print_matrix(c);
+    print_matrix(d);
+
+    matrix * b_m = gauss_elimination_ppivot(c, d);
+    print_matrix(b_m);
+
+    printf("\nTesting for incorrect matrix size being used\n");
+    matrix * e = initialise_matrix(4,2);
+    gauss_elimination_ppivot(c, e);
+
+    destroy_matrix(c);
+    destroy_matrix(d);
+    destroy_matrix(e);
+    destroy_matrix(b_m);
+    
+    return 0;
+}
+
+int null_matrix_tests(void) {
+    printf("\ntesting that null matrices are treated correctly\n");
+    matrix * m = NULL;
+    gauss_elimination_ppivot(m, m);
 
     return 0;
 }

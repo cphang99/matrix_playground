@@ -66,3 +66,14 @@ matrix * column_interchange(matrix * m, int c1, int c2);
  * \return      Matrix m with row addition applied
  */
 matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2);
+
+/**
+ * Perform a gauss elimination with partial pivoting on an augmented matrix
+ *
+ * \param a    The matrix
+ * \param v    A column vector
+ *
+ * \returns    The solution to the linear equations posed by the 
+ *             augmented matrix
+ */
+matrix * gauss_elimination_ppivot(matrix * a, matrix * v);
