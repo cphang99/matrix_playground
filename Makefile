@@ -1,32 +1,31 @@
 CC=gcc
 CFLAGS=-I$(INC_DIR) -std=c99 -Wall -Wextra
-DEPS = 2D_matrix_ops.h 2D_matrix_arithmetic.h 2D_element_arithmetic.h
-OBJ = 2D_matrix_ops.o
+
+OBJ_F = 2D_matrix_arithmetic 2D_element_arithmetic 2D_matrix_ops
+OBJ = $(patsubst %, $(SRC_DIR)/%.o, $(OBJ_F))
+
 LIBS = -lm
 BIN = ./bin
 SRC_DIR = ./src
 INC_DIR = ./include
-
-MAKE_TARGETS = 2D_matrix_ops-tests
 
 all: mkBin tests
 
 mkBin:
 	mkdir -p $(BIN)
 
-tests: 2D_matrix_ops-tests 2D_matrix_arithmetic-tests 2D_element_arithmetic-tests
+tests:  2D_matrix_ops-tests \
+        2D_matrix_arithmetic-tests \
+	2D_element_arithmetic-tests
 
-2D_matrix_arithmetic-tests: $(SRC_DIR)/2D_matrix_arithmetic-tests.o $(SRC_DIR)/2D_matrix_arithmetic.o $(SRC_DIR)/2D_element_arithmetic.o $(SRC_DIR)/$(OBJ)
+2D_matrix_arithmetic-tests: $(SRC_DIR)/2D_matrix_arithmetic-tests.o $(OBJ)
 	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
 
-2D_element_arithmetic-tests: $(SRC_DIR)/2D_element_arithmetic-tests.o $(SRC_DIR)/2D_element_arithmetic.o $(SRC_DIR)/$(OBJ)
+2D_element_arithmetic-tests: $(SRC_DIR)/2D_element_arithmetic-tests.o  $(OBJ)
 	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
 
-2D_matrix_ops-tests: $(SRC_DIR)/2D_matrix_ops-tests.o $(SRC_DIR)/2D_element_arithmetic.o  $(SRC_DIR)/2D_matrix_ops.o
+2D_matrix_ops-tests: $(SRC_DIR)/2D_matrix_ops-tests.o $(OBJ)
 	$(CC) -o $(BIN)/$@ $^ $(CFLAGS) $(LIBS)
-
-$(SRC_DIR)/%.o: %.c $(INC_DIR)/$(DEPS)
-	$(CC) -c $< $(CFLAGS)
 
 .PHONY: all install clean
 
