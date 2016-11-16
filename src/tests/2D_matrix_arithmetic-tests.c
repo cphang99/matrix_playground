@@ -181,12 +181,15 @@ int gauss_elimination_ppivot_test(void) {
     print_matrix(a);
     print_matrix(v);
     
-    matrix * a_m = gauss_elimination_ppivot(a, v);
+    matrix * a_m = gauss_elimination_ppivot(a, v, true);
     print_matrix(a_m);
-    
+    matrix * a_m_rev = gauss_elimination_ppivot(a, v, false);
+    print_matrix(a_m_rev);
+
     destroy_matrix(a);
     destroy_matrix(v);
     destroy_matrix(a_m);
+    destroy_matrix(a_m_rev);
 
     printf("\nTesting gauss elimination with partial pivot:2\n");
     elem c_arr[16] = {
@@ -209,17 +212,20 @@ int gauss_elimination_ppivot_test(void) {
     print_matrix(c);
     print_matrix(d);
 
-    matrix * b_m = gauss_elimination_ppivot(c, d);
+    matrix * b_m = gauss_elimination_ppivot(c, d, true);
     print_matrix(b_m);
+    matrix * b_m_rev = gauss_elimination_ppivot(c, d, false);
+    print_matrix(b_m_rev);
 
     printf("\nTesting for incorrect matrix size being used\n");
     matrix * e = initialise_matrix(4,2);
-    gauss_elimination_ppivot(c, e);
+    gauss_elimination_ppivot(c, e, true);
 
     destroy_matrix(c);
     destroy_matrix(d);
     destroy_matrix(e);
     destroy_matrix(b_m);
+    destroy_matrix(b_m_rev);
     
     return 0;
 }
@@ -227,7 +233,7 @@ int gauss_elimination_ppivot_test(void) {
 int null_matrix_tests(void) {
     printf("\ntesting that null matrices are treated correctly\n");
     matrix * m = NULL;
-    gauss_elimination_ppivot(m, m);
+    gauss_elimination_ppivot(m, m, true);
 
     return 0;
 }

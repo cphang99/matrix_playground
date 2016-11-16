@@ -76,4 +76,4 @@ matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2);
  * \returns    The solution to the linear equations posed by the 
  *             augmented matrix
  */
-matrix * gauss_elimination_ppivot(matrix * a, matrix * v);
+matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd);
