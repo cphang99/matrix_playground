@@ -137,63 +137,80 @@ matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2) {
 
 matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
     matrix * a_m = NULL;
-    if(a != NULL && v != NULL) {
-        if(get_columns(v) == 1) {
-            a_m = h_concatenate(a, v);
-            //Each go through a column represents a pass
-            //Each time we establish a starting row which has the 
-            //same indice as the current column 
-            int s_col = 0, e_col = 0, e_row = 0;
-            int dir = 0;
-            if(isFwd) {
-                s_col = 0;
-                e_col = get_columns(a_m)-2;
-                e_row = get_rows(a_m);
-                dir = 1;
-            } else {
-                s_col = get_columns(a_m)-2;
-                e_col = -1;
-                e_row = -1;
-                dir = -1;
-            }
-            for(int i = s_col; i != e_col; i+=(1*dir)) {
-                //Establish the pivot
-                elem pivot = ELEM_MIN;
-                int max_row = 0;
-
-                //Note that pivot cannot work if the max elem = 0
-                //Find max row and then interchange with current starting
-                //row
-                for(int j = i; j != e_row; j+=(1*dir)) {
-                    elem e = get_matrix_member(a_m, j+1, i+1);
-                    if(e > pivot && e != 0) {
-                        pivot = e;
-                        max_row = j+1;
-                    }
-                }
-                if(max_row != i+1) {
-                    //For debugging row interchange indices
-                    //printf("Interchanging row %d with row %d, "
-                    //        "max_row=%d i=%d\n", i+1, max_row, max_row, i);
-                    row_interchange(a_m, i+1, max_row);
-                }
-
-                //Perform elementry row operations to put all elements below
-                //the current starting row = 0
-                for(int k = i+(1*dir); k != e_row; k+=(1*dir)) {
-                    elem f1 = get_matrix_member(a_m, k+1, i+1) * -1;
-                    row_addition(a_m, i+1, k+1, f1, pivot);
-                    //For debugging row elementry operations
-                    //printf("r%d = r%d*%d + r%d*%d\n", 
-                    //        k+1, i+1, f1, k+1, pivot);
-                }
-            }
-        } else {
-            fprintf(stderr, "matrix v does not only have one column: cannot "
-                    "create augmented matrix. cols=%d\n", get_columns(v));
-        }
+    if(a == NULL) {
+        fprintf(stderr, "invalid pointer given on matrix a \n");
+    } else if (v != NULL && get_columns(v) != 1) {
+        fprintf(stderr, "matrix v does not only have one column: cannot "
+                "create augmented matrix. cols=%d\n", get_columns(v));
     } else {
-        fprintf(stderr, "invalid pointer given on matrix a or v\n");
+
+        //Setup of row and column boundaries 
+        //Depends on whether 1) forward or backward gauss elimination 
+        //is occuring and 2) if there is an augmented matrix.
+        //If we don't have an augmented matrix, we want to consider
+        //the whole matrix.
+        int s_col = 0, e_col = 0, e_row = 0;
+        int dir = 0;
+        if(v != NULL) {
+            a_m = h_concatenate(a, v);
+        } else {
+            a_m = initialise_matrix(get_rows(a), get_columns(a));
+            memcpy(a_m->arr, a->arr, 
+                    get_rows(a_m)*get_columns(a_m)*sizeof(elem));
+            if(isFwd) {
+                e_col++;
+            } else {
+                s_col++;
+            }
+        }
+
+        if(isFwd) {
+            s_col = 0;
+            e_col += get_columns(a_m)-2;
+            e_row = get_rows(a_m);
+            dir = 1;
+        } else {
+            s_col += get_columns(a_m)-2;
+            e_col = -1;
+            e_row = -1;
+            dir = -1;
+        }
+
+        //Each go through a column represents a pass
+        //Each time we establish a starting row which has the 
+        //same indice as the current column 
+        for(int i = s_col; i != e_col; i+=(1*dir)) {
+            //Establish the pivot
+            elem pivot = ELEM_MIN;
+            int max_row = 0;
+
+            //Note that pivot cannot work if the max elem = 0
+            //Find max row and then interchange with current starting
+            //row
+            for(int j = i; j != e_row; j+=(1*dir)) {
+                elem e = get_matrix_member(a_m, j+1, i+1);
+                if(e > pivot && e != 0) {
+                    pivot = e;
+                    max_row = j+1;
+                }
+            }
+            if(max_row != i+1) {
+                //For debugging row interchange indices
+                //printf("Interchanging row %d with row %d, "
+                //        "max_row=%d i=%d\n", i+1, max_row, max_row, i);
+                row_interchange(a_m, i+1, max_row);
+            }
+
+            //Perform elementry row operations to put all elements below
+            //the current starting row = 0
+            for(int k = i+(1*dir); k != e_row; k+=(1*dir)) {
+                elem f1 = get_matrix_member(a_m, k+1, i+1) * -1;
+                row_addition(a_m, i+1, k+1, f1, pivot);
+                //For debugging row elementry operations
+                //printf("r%d = r%d*%d + r%d*%d\n", 
+                //        k+1, i+1, f1, k+1, pivot);
+            }
+        }
     }
     return a_m;
 }

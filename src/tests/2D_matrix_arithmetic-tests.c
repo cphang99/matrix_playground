@@ -221,12 +221,20 @@ int gauss_elimination_ppivot_test(void) {
     matrix * e = initialise_matrix(4,2);
     gauss_elimination_ppivot(c, e, true);
 
-    destroy_matrix(&c);
-    destroy_matrix(&d);
     destroy_matrix(&e);
     destroy_matrix(&b_m);
     destroy_matrix(&b_m_rev);
-    
+
+    printf("Testing when we only want to pass matrix a\n");
+    matrix * c_m = gauss_elimination_ppivot(c, NULL, true);
+    matrix * c_m_rev = gauss_elimination_ppivot(c, NULL, false);
+    print_matrix(c_m);
+    print_matrix(c_m_rev);
+
+    destroy_matrix(&c_m);
+    destroy_matrix(&c_m_rev); 
+    destroy_matrix(&c);
+    destroy_matrix(&d);
     return 0;
 }
 
