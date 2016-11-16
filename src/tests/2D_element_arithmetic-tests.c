@@ -45,9 +45,9 @@ int main(void) {
     elem_row_test();
     elem_column_test();
 
-    destroy_matrix(o);
-    destroy_matrix(m);
-    destroy_matrix(n);
+    destroy_matrix(&o);
+    destroy_matrix(&m);
+    destroy_matrix(&n);
     return 0;
 
 }
@@ -105,8 +105,8 @@ static int sum_matrix_test(matrix * m) {
     print_matrix(a);
     print_matrix(b);
 
-    destroy_matrix(a);
-    destroy_matrix(b);
+    destroy_matrix(&a);
+    destroy_matrix(&b);
 
     return 0;
 }
@@ -120,7 +120,7 @@ static int elem_row_test(void) {
     printf("After row operations\n");
     print_matrix(t);
 
-    destroy_matrix(t);
+    destroy_matrix(&t);
 
     return 0;
 }
@@ -134,7 +134,7 @@ static int elem_column_test(void) {
     printf("After column operations\n");
     print_matrix(t);
 
-    destroy_matrix(t);
+    destroy_matrix(&t);
 
     return 0;
 }

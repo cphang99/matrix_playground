@@ -94,9 +94,10 @@ void print_matrix(matrix * m) {
     }
 }
 
-void destroy_matrix(matrix * m) {
-    if(m != NULL) {
-        free(m);
+void destroy_matrix(matrix ** m) {
+    if(*m != NULL) {
+        free(*m);
+        *m = NULL;
     } else {
         fprintf(stderr, "No valid matrix to free memory from\n");
     }
@@ -253,7 +254,7 @@ matrix * get_diag_matrix(matrix * v) {
         for(int i = 0; i < get_columns(v); i++) {
             set_matrix_member(m, i+1, i+1, get_matrix_member(v, 1, i+1)); 
         }
-        if(hasTransposed) destroy_matrix(v);
+        if(hasTransposed) destroy_matrix(&v);
     } else {
         fprintf(stderr, "Not valid matrix pointer\n");
     }
@@ -267,7 +268,7 @@ matrix * get_identity_matrix(int n) {
     elem_matrix_operation(&fill_matrix, v, 1);
 
     matrix * m = get_diag_matrix(v);
-    destroy_matrix(v);
+    destroy_matrix(&v);
 
     return m;
 }

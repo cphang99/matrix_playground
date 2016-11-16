@@ -23,7 +23,7 @@ matrix * elem_row_operation(elem (*fp)(elem, float), matrix * m,
                         get_matrix_member(h_s, i-r_s + 2, j+1));
             }
         }
-        destroy_matrix(h_s);
+        destroy_matrix(&h_s);
     } else {
         fprintf(stderr, "Invalid indices for row operations. Abort\n");
     }
@@ -41,7 +41,7 @@ matrix * elem_column_operation(elem (*fp)(elem, float), matrix * m,
                         get_matrix_member(v_s, i+1, j-c_s + 2));
             }
         }
-        destroy_matrix(v_s);
+        destroy_matrix(&v_s);
     } else {
         fprintf(stderr, "Invalid indices for column operations. Abort\n");
     }

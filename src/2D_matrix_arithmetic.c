@@ -75,8 +75,8 @@ matrix * row_interchange(matrix * m, int r1, int r2) {
                 set_matrix_member(m, r1, j+1,
                         get_matrix_member(m_r2, 1, j+1));
             }
-            destroy_matrix(m_r1);
-            destroy_matrix(m_r2);
+            destroy_matrix(&m_r1);
+            destroy_matrix(&m_r2);
         } else {
             fprintf(stderr, "either r1 or r2 are invalid indices for "
                     "row interchange r1=%d r2=%d num_rows=%d\n", 
@@ -100,8 +100,8 @@ matrix * column_interchange(matrix * m, int c1, int c2) {
                 set_matrix_member(m, j+1, c1,
                         get_matrix_member(m_c2, j+1, 1));
             }
-            destroy_matrix(m_c1);
-            destroy_matrix(m_c2);
+            destroy_matrix(&m_c1);
+            destroy_matrix(&m_c2);
         } else {
             fprintf(stderr, "either c1 or c2 are invalid indices for "
                     "column interchange c1=%d c2=%d\n", c1, c2);
@@ -123,8 +123,8 @@ matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2) {
                         (get_matrix_member(m_r1, 1, i+1) * f1) +
                         (get_matrix_member(m_r2, 1, i+1) * f2));
             }
-            destroy_matrix(m_r1);
-            destroy_matrix(m_r2);
+            destroy_matrix(&m_r1);
+            destroy_matrix(&m_r2);
         } else {
             fprintf(stderr, "either r1 or r2 are invalid row indices "
                     "r1=%d r2 =%d\n",r1, r2);

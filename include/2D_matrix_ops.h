@@ -41,11 +41,11 @@ matrix * initialise_matrix(int rows, int columns);
 void print_matrix(matrix * m); 
 
 /**
- * Frees the memory allocated to the matrix
+ * Frees the memory allocated to the matrix and makes it NULL
  *
  * \param m     The matrix
  */
-void destroy_matrix(matrix * m);
+void destroy_matrix(matrix ** m);
 
 /**
  * Returns a matrix member at a specific location

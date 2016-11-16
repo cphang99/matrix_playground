@@ -42,8 +42,8 @@ int main(void) {
     gauss_elimination_ppivot_test();
     null_matrix_tests();
 
-    destroy_matrix(m);
-    destroy_matrix(n);
+    destroy_matrix(&m);
+    destroy_matrix(&n);
     return 0;
 }
 
@@ -56,7 +56,7 @@ int matrix_add_test(matrix * a, matrix * b) {
     printf("= \n");
     print_matrix(c);
 
-    destroy_matrix(c);
+    destroy_matrix(&c);
     return 0;
 }
 
@@ -70,7 +70,7 @@ int matrix_subtract_test(matrix * a, matrix * b) {
     printf("= \n");
     print_matrix(c);
 
-    destroy_matrix(c);
+    destroy_matrix(&c);
 
     return 0;
 }
@@ -87,8 +87,8 @@ int matrix_arithmetic_fail_test(void) {
     printf("Matrix multiply\n");
     matrix_multiplication(a,a);
 
-    destroy_matrix(a);
-    destroy_matrix(b);
+    destroy_matrix(&a);
+    destroy_matrix(&b);
     return 0;
 }
 
@@ -102,8 +102,8 @@ int matrix_multiply_test(matrix * a, matrix * b) {
     printf("= \n");
     print_matrix(c);
 
-    destroy_matrix(b_t);
-    destroy_matrix(c);
+    destroy_matrix(&b_t);
+    destroy_matrix(&c);
 
     return 0;
 }
@@ -126,11 +126,11 @@ int matrix_interchange_test(void) {
     printf("After column interchange (columns 2 and 3)\n");
     print_matrix(e);
 
-    destroy_matrix(a);
-    destroy_matrix(b);
-    destroy_matrix(c);
-    destroy_matrix(d);
-    destroy_matrix(e);
+    destroy_matrix(&a);
+    destroy_matrix(&b);
+    destroy_matrix(&c);
+    destroy_matrix(&d);
+    destroy_matrix(&e);
 
     return 0;
 }
@@ -151,11 +151,11 @@ int matrix_row_addition_test(void) {
     printf("Testing erroneous input: one row = -1\n");
     row_addition(e, 1, -1, 10, 10);
 
-    destroy_matrix(a);
-    destroy_matrix(b);
-    destroy_matrix(c);
-    destroy_matrix(d);
-    destroy_matrix(e);
+    destroy_matrix(&a);
+    destroy_matrix(&b);
+    destroy_matrix(&c);
+    destroy_matrix(&d);
+    destroy_matrix(&e);
 
     return 0;
 }
@@ -186,10 +186,10 @@ int gauss_elimination_ppivot_test(void) {
     matrix * a_m_rev = gauss_elimination_ppivot(a, v, false);
     print_matrix(a_m_rev);
 
-    destroy_matrix(a);
-    destroy_matrix(v);
-    destroy_matrix(a_m);
-    destroy_matrix(a_m_rev);
+    destroy_matrix(&a);
+    destroy_matrix(&v);
+    destroy_matrix(&a_m);
+    destroy_matrix(&a_m_rev);
 
     printf("\nTesting gauss elimination with partial pivot:2\n");
     elem c_arr[16] = {
@@ -221,11 +221,11 @@ int gauss_elimination_ppivot_test(void) {
     matrix * e = initialise_matrix(4,2);
     gauss_elimination_ppivot(c, e, true);
 
-    destroy_matrix(c);
-    destroy_matrix(d);
-    destroy_matrix(e);
-    destroy_matrix(b_m);
-    destroy_matrix(b_m_rev);
+    destroy_matrix(&c);
+    destroy_matrix(&d);
+    destroy_matrix(&e);
+    destroy_matrix(&b_m);
+    destroy_matrix(&b_m_rev);
     
     return 0;
 }

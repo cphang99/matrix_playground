@@ -38,8 +38,8 @@ int main(void) {
     set_matrix_array_test();
     getMin_getMax_test(m);
 
-    destroy_matrix(m);
-    destroy_matrix(b);
+    destroy_matrix(&m);
+    destroy_matrix(&b);
     return 0;
 
 }
@@ -56,7 +56,7 @@ static int transpose_test(matrix * m) {
     printf("member at loc 2,2 should be 5, is %d\n",
             get_matrix_member(t_m, 2, 2));
 
-    destroy_matrix(t_m);
+    destroy_matrix(&t_m);
 
     return 0;
 }
@@ -74,9 +74,9 @@ static int vert_concat_test(matrix * m) {
     v_combined = v_concatenate(null_matrix, t_m);
     print_matrix(v_combined);
 
-    destroy_matrix(null_matrix);
-    destroy_matrix(t_m);
-    destroy_matrix(v_combined);
+    destroy_matrix(&null_matrix);
+    destroy_matrix(&t_m);
+    destroy_matrix(&v_combined);
 
     return 0;
 }
@@ -94,9 +94,9 @@ static int horiz_concat_test(matrix * m) {
     h_combined = h_concatenate(null_matrix, t_m);
     print_matrix(h_combined);
 
-    destroy_matrix(null_matrix);
-    destroy_matrix(t_m);
-    destroy_matrix(h_combined);
+    destroy_matrix(&null_matrix);
+    destroy_matrix(&t_m);
+    destroy_matrix(&h_combined);
 
     return 0;
 }
@@ -121,11 +121,11 @@ static int create_row_vector_test(void) {
     matrix * e = transpose_matrix(a);
     print_matrix(e);
 
-    destroy_matrix(a);
-    destroy_matrix(b);
-    destroy_matrix(c);
-    destroy_matrix(d);
-    destroy_matrix(e);
+    destroy_matrix(&a);
+    destroy_matrix(&b);
+    destroy_matrix(&c);
+    destroy_matrix(&d);
+    destroy_matrix(&e);
 
     return 0;
 }
@@ -142,7 +142,7 @@ static int get_horizontal_slice_test(matrix * m) {
     get_horizontal_slice(m, 1, 0);
     get_horizontal_slice(m, 5, 5);
 
-    destroy_matrix(a);
+    destroy_matrix(&a);
     return 0;
 }
 
@@ -158,7 +158,7 @@ static int get_vertical_slice_test(matrix * m) {
     get_vertical_slice(m, 2, 67);
     get_vertical_slice(m, 5, 5);
 
-    destroy_matrix(a);
+    destroy_matrix(&a);
     return 0;
 }
 
@@ -185,11 +185,11 @@ static int get_diag_matrix_test(void) {
     matrix * e = get_identity_matrix(10);
     print_matrix(e);
     
-    destroy_matrix(a);
-    destroy_matrix(b);
-    destroy_matrix(c);
-    destroy_matrix(d);
-    destroy_matrix(e);
+    destroy_matrix(&a);
+    destroy_matrix(&b);
+    destroy_matrix(&c);
+    destroy_matrix(&d);
+    destroy_matrix(&e);
 
     return 0;
 }
@@ -204,7 +204,7 @@ static int null_matrix_tests(void) {
     printf("print_matrix\n");
     print_matrix(m);
     printf("destroy_matrix\n");
-    destroy_matrix(m);
+    destroy_matrix(&m);
     printf("get_matrix_member\n");
     get_matrix_member(m, 0 ,0);
     printf("set_matrix_member\n");
@@ -254,8 +254,8 @@ static int set_matrix_array_test(void) {
         "incorrect matrix dims\n");
     set_matrix_array(n, a, 2, 3);
     
-    destroy_matrix(m);
-    destroy_matrix(n);
+    destroy_matrix(&m);
+    destroy_matrix(&n);
 
     return 0;
 }
