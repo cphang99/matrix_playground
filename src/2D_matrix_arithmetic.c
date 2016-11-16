@@ -140,7 +140,6 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
     if(a != NULL && v != NULL) {
         if(get_columns(v) == 1) {
             a_m = h_concatenate(a, v);
-            print_matrix(a_m);
             //Each go through a column represents a pass
             //Each time we establish a starting row which has the 
             //same indice as the current column 
@@ -174,8 +173,8 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
                 }
                 if(max_row != i+1) {
                     //For debugging row interchange indices
-                    //printf("Interchanging row %d with row %d, 
-                    //        max_row=%d i=%d\n", i+1, max_row, max_row, i);
+                    //printf("Interchanging row %d with row %d, "
+                    //        "max_row=%d i=%d\n", i+1, max_row, max_row, i);
                     row_interchange(a_m, i+1, max_row);
                 }
 
