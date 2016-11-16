@@ -1,9 +1,10 @@
 
 #Compiler options and linking libraries
 CC=gcc
-CFLAGS=-I$(INC_DIR) -std=c99 -Wall -Wextra
 AR=ar
 AR_FLAGS=-cr
+CFLAGS=-I$(INC_DIR) -std=c99 -Wall -Wextra -pedantic -Wstrict-prototypes \
+	   -Wmissing-prototypes -Wshadow -Wpointer-arith -Wcast-qual
 LIBS = -lm -L$(LIB_DIR) -l$(patsubst lib%,%, $(LIB_NAME))
 
 # Specification of library and test objects
