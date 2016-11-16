@@ -1,4 +1,6 @@
 *.swp
 *.pdf
 *.o
+*.a
 bin/
+lib/
