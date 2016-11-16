@@ -69,11 +69,18 @@ matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2);
 
 /**
  * Perform a gauss elimination with partial pivoting on an augmented matrix
+ * derived from matrices a and v
  *
- * \param a    The matrix
- * \param v    A column vector
+ * The gaussian elimination can either proceed 'forwards' or 'backwards':
+ *     - forwards yields an upper triangular matrix
+ *     - backwards yields a lower triangular matrix
  *
- * \returns    The solution to the linear equations posed by the 
- *             augmented matrix
+ * \param a         The matrix
+ * \param v         A column vector
+ * \param isFwd     Whether to proceed forwards or backwards on the
+ *                  gaussian elimination.
+ *
+ * \returns         An augmented matrix in row echelon form either in
+ *                  an upper or lower triangular form
  */
 matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd);
