@@ -97,7 +97,11 @@ elem fill_matrix(elem x, float p) {
 }
 
 elem pow_elem(elem x, float p) {
-    return (elem)floor(pow((float)x, p));
+    #ifdef FLOAT
+        return (elem)pow(x,p);
+    #else
+        return (elem)floor(pow((float)x, p));
+    #endif
 }
 
 elem sqroot_elem(elem x, float p) {
@@ -110,7 +114,11 @@ elem multiply_elem(elem x, float p) {
 }
 
 elem divide_elem(elem x, float p) {
-    return (elem)floor((float)x / p);
+    #ifdef FLOAT
+        return x / p;
+    #else
+        return (elem)floor((float)x / p);
+    #endif
 }
 
 
