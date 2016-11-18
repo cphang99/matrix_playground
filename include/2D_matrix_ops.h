@@ -6,10 +6,20 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <float.h>
+//#define FLOAT
 
-typedef int32_t elem;
-#define ELEM_MAX INT32_MAX
-#define ELEM_MIN INT32_MIN
+#ifndef FLOAT
+    typedef int32_t elem;
+    #define ELEM_MAX INT32_MAX
+    #define ELEM_MIN INT32_MIN
+    #define ELEM_F "d"
+#else
+    typedef float elem;
+    #define ELEM_MAX FLT_MAX
+    #define ELEM_MIN -FLT_MAX
+    #define ELEM_F ".2f"
+#endif
 
 typedef struct {
     int rows;

@@ -51,9 +51,9 @@ static int transpose_test(matrix * m) {
     print_matrix(t_m);
     printf("number of rows =%d number of columns=%d\n",
             get_rows(t_m), get_columns(t_m));
-    printf("member at loc 1,2 should be 4, is %d\n",
+    printf("member at loc 1,2 should be 4, is %"ELEM_F"\n",
             get_matrix_member(t_m, 1, 2));
-    printf("member at loc 2,2 should be 5, is %d\n",
+    printf("member at loc 2,2 should be 5, is %"ELEM_F"\n",
             get_matrix_member(t_m, 2, 2));
 
     destroy_matrix(&t_m);
@@ -268,7 +268,7 @@ static int getMin_getMax_test(matrix * m) {
     pos max = get_max(m);
     pos min = get_min(m);
 
-    printf("Max val %d at pos %d %d \n", max.value, max.x, max.y);
-    printf("Min val %d at pos %d %d\n", min.value, min.x, min.y); 
+    printf("Max val %"ELEM_F " at pos %d %d \n", max.value, max.x, max.y);
+    printf("Min val %"ELEM_F " at pos %d %d\n", min.value, min.x, min.y);
     return 0;
 }
