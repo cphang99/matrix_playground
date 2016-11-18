@@ -268,7 +268,7 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
         }
         PLU->det = 1;
         for(int k = 0; k < get_rows(U); k++) {
-           PLU->det *= get_matrix_member(U, k+1, k+1);
+           PLU->det *= get_matrix_member(U, k+1, k+1) / detFactorChange;
         }
     }
      
