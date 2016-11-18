@@ -137,6 +137,7 @@ matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2) {
 
 matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
     matrix * a_m = NULL;
+    int detFactorChange = 1;
     if(a == NULL) {
         fprintf(stderr, "invalid pointer given on matrix a \n");
     } else if (v != NULL && get_columns(v) != 1) {
@@ -175,7 +176,7 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
             e_row = -1;
             dir = -1;
         }
-
+        matrix * P = get_identity_matrix(get_rows(a));
         //Each go through a column represents a pass
         //Each time we establish a starting row which has the 
         //same indice as the current column 
@@ -199,6 +200,8 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
                 //printf("Interchanging row %d with row %d, "
                 //        "max_row=%d i=%d\n", i+1, max_row, max_row, i);
                 row_interchange(a_m, i+1, max_row);
+                row_interchange(P, i+1, max_row);
+                detFactorChange *= -1;
             }
 
             //Perform elementry row operations to put all elements below
@@ -206,11 +209,19 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
             for(int k = i+(1*dir); k != e_row; k+=(1*dir)) {
                 elem f1 = get_matrix_member(a_m, k+1, i+1) * -1;
                 row_addition(a_m, i+1, k+1, f1, pivot);
+                detFactorChange *= pivot;
                 //For debugging row elementry operations
-                //printf("r%d = r%d*%d + r%d*%d\n", 
+                //printf("r%d = r%d*%"ELEM_F" + r%d*%"ELEM_F"\n",
                 //        k+1, i+1, f1, k+1, pivot);
             }
         }
+
+        elem det = 1;
+        for(int k = 0; k < get_rows(a_m); k++) {
+           det *= get_matrix_member(a_m, k+1, k+1);
+        } 
+        printf("Determinant of matrix a = %"ELEM_F"\n", det/detFactorChange);
+        destroy_matrix(&P);
     }
     return a_m;
 }
