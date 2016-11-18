@@ -183,6 +183,7 @@ int LU_decomposition_test(void) {
     
     print_matrix(PLU_mat);
 
+    destroy_matrix(&a);
     destroy_matrix(&PL);
     destroy_matrix(&PLU_mat);
     destroy_PLU(&PLU_a);
