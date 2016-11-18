@@ -112,7 +112,7 @@ matrix * column_interchange(matrix * m, int c1, int c2) {
     return m;
 }
 
-matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2) {
+matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2) {
     if(m != NULL) {
         if(r1 > 0 && r1 <= get_rows(m) && r2 > 0 && r2 <= get_rows(m)) {
             matrix * m_r1 = get_horizontal_slice(m, r1, r1);

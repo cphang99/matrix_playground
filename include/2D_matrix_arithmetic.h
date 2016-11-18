@@ -65,7 +65,7 @@ matrix * column_interchange(matrix * m, int c1, int c2);
  *
  * \return      Matrix m with row addition applied
  */
-matrix * row_addition(matrix * m, int r1, int r2, int f1, int f2);
+matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2);
 
 /**
  * Perform a gauss elimination with partial pivoting on an augmented matrix
