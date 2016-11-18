@@ -1,5 +1,12 @@
 #include <2D_matrix_ops.h>
 
+typedef struct {
+    matrix * P;
+    matrix * L;
+    matrix * U;
+    elem det;
+} PLU_matrix_array;
+
 /**
  * Adds two matrices together
  * Represents in matlab A + B
@@ -68,20 +75,17 @@ matrix * column_interchange(matrix * m, int c1, int c2);
 matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2);
 
 /**
- * Perform a gauss elimination with partial pivoting on an augmented matrix
- * derived from matrices a and v
+ * Performs LU decomposition on a given matrix a
  *
- * The gaussian elimination can either proceed 'forwards' or 'backwards':
- *     - forwards yields an upper triangular matrix
- *     - backwards yields a lower triangular matrix
+ * \param a     The matrix
  *
- * \param a         The matrix
- * \param v         A column vector. If NULL, gauss elimination
- *                  will be performed on matrix a only.
- * \param isFwd     Whether to proceed forwards or backwards on the
- *                  gaussian elimination.
- *
- * \returns         A augmented or ordinary matrix in row echelon form 
- *                  either in an upper or lower triangular form
+ * \returns     A set of matrices P, L and U
  */
-matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd);
+PLU_matrix_array * LU_decomposition(matrix * a);
+
+/**
+ * Destroys a PLU matrix array
+ *
+ * \param PLU_ptr   A ptr to a PLU array
+ */   
+void destroy_PLU(PLU_matrix_array ** PLU_ptr); 

@@ -1,5 +1,7 @@
 #include <2D_matrix_arithmetic.h>
 
+static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd);
+
 matrix * matrix_add(matrix * a, matrix * b) {
     matrix * a_b = NULL;
     if( (get_rows(a) != get_rows(b)) || (get_columns(a) != get_columns(b)) ) {
@@ -135,8 +137,50 @@ matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2) {
     return m;
 }
 
-matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
-    matrix * a_m = NULL;
+
+PLU_matrix_array * LU_decomposition(matrix * a) {
+    #ifndef FLOAT
+        fprintf(stderr, "Integer elements being used will result"
+                " in an inaccurate PLU array being generated\n");
+    #endif
+    return gauss_elimination_ppivot(a, NULL, true);
+}
+
+void destroy_PLU(PLU_matrix_array ** PLU_ptr) {
+    PLU_matrix_array * PLU = *PLU_ptr;
+    if(PLU->P != NULL && PLU->L != NULL && PLU->U !=NULL) {
+        destroy_matrix(&(PLU->P));
+        destroy_matrix(&(PLU->L));
+        destroy_matrix(&(PLU->U));
+        free(PLU);
+        *PLU_ptr = NULL;
+    } else {
+        fprintf(stderr, "PLU array does not contain valid matrix pointers\n");
+    }
+
+}
+
+/**
+ * Perform a gauss elimination with partial pivoting on an augmented matrix
+ * derived from matrices a and v
+ *
+ * The gaussian elimination can either proceed 'forwards' or 'backwards':
+ *     - forwards yields an upper triangular matrix
+ *     - backwards yields a lower triangular matrix
+ *
+ * \param a         The matrix
+ * \param v         A column vector. If NULL, gauss elimination
+ *                  will be performed on matrix a only.
+ * \param isFwd     Whether to proceed forwards or backwards on the
+ *                  gaussian elimination.
+ *
+ * \returns         A augmented or ordinary matrix in row echelon form 
+ *                  either in an upper or lower triangular form
+ */
+static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v, 
+        bool isFwd) {
+    PLU_matrix_array  * PLU = calloc(1, sizeof(PLU_matrix_array));
+    matrix * U  = NULL;
     int detFactorChange = 1;
     if(a == NULL) {
         fprintf(stderr, "invalid pointer given on matrix a \n");
@@ -153,33 +197,35 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
         int s_col = 0, e_col = 0, e_row = 0;
         int dir = 0;
         if(v != NULL) {
-            a_m = h_concatenate(a, v);
+            U = h_concatenate(a, v);
         } else {
-            a_m = initialise_matrix(get_rows(a), get_columns(a));
-            memcpy(a_m->arr, a->arr, 
-                    get_rows(a_m)*get_columns(a_m)*sizeof(elem));
+            U = initialise_matrix(get_rows(a), get_columns(a));
+            memcpy(U->arr, a->arr, 
+                    get_rows(U)*get_columns(U)*sizeof(elem));
             if(isFwd) {
                 e_col++;
             } else {
                 s_col++;
             }
         }
+        PLU->U = U;
 
         if(isFwd) {
             s_col = 0;
-            e_col += get_columns(a_m)-2;
-            e_row = get_rows(a_m);
+            e_col += get_columns(U)-2;
+            e_row = get_rows(U);
             dir = 1;
         } else {
-            s_col += get_columns(a_m)-2;
+            s_col += get_columns(U)-2;
             e_col = -1;
             e_row = -1;
             dir = -1;
         }
-        matrix * P = get_identity_matrix(get_rows(a));
+        matrix * P = PLU->P = get_identity_matrix(get_rows(a));
+        matrix * L = PLU->L =  get_identity_matrix(get_rows(a));
         //Each go through a column represents a pass
         //Each time we establish a starting row which has the 
-        //same indice as the current column 
+        //same indice as the current column
         for(int i = s_col; i != e_col; i+=(1*dir)) {
             //Establish the pivot
             elem pivot = ELEM_MIN;
@@ -189,7 +235,7 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
             //Find max row and then interchange with current starting
             //row
             for(int j = i; j != e_row; j+=(1*dir)) {
-                elem e = get_matrix_member(a_m, j+1, i+1);
+                elem e = get_matrix_member(U, j+1, i+1);
                 if(e > pivot && e != 0) {
                     pivot = e;
                     max_row = j+1;
@@ -199,7 +245,7 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
                 //For debugging row interchange indices
                 //printf("Interchanging row %d with row %d, "
                 //        "max_row=%d i=%d\n", i+1, max_row, max_row, i);
-                row_interchange(a_m, i+1, max_row);
+                row_interchange(U, i+1, max_row);
                 row_interchange(P, i+1, max_row);
                 detFactorChange *= -1;
             }
@@ -207,21 +253,26 @@ matrix * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd) {
             //Perform elementry row operations to put all elements below
             //the current starting row = 0
             for(int k = i+(1*dir); k != e_row; k+=(1*dir)) {
-                elem f1 = get_matrix_member(a_m, k+1, i+1) * -1;
-                row_addition(a_m, i+1, k+1, f1, pivot);
-                detFactorChange *= pivot;
+                elem f1 = get_matrix_member(U, k+1, i+1) * -1;
+                #ifdef FLOAT
+                    row_addition(U, i+1, k+1, f1/pivot, 1);
+                #else
+                    row_addition(U, i+1, k+1, f1, pivot);
+                    detFactorChange *= pivot;
+                #endif
+                set_matrix_member(L, k+1, i+1, f1/pivot*-1);
                 //For debugging row elementry operations
                 //printf("r%d = r%d*%"ELEM_F" + r%d*%"ELEM_F"\n",
                 //        k+1, i+1, f1, k+1, pivot);
             }
         }
-
-        elem det = 1;
-        for(int k = 0; k < get_rows(a_m); k++) {
-           det *= get_matrix_member(a_m, k+1, k+1);
-        } 
-        printf("Determinant of matrix a = %"ELEM_F"\n", det/detFactorChange);
-        destroy_matrix(&P);
+        PLU->det = 1;
+        for(int k = 0; k < get_rows(U); k++) {
+           PLU->det *= get_matrix_member(U, k+1, k+1);
+        }
     }
-    return a_m;
+     
+    return PLU;
 }
+
+
