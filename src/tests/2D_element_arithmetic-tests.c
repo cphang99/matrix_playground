@@ -18,7 +18,12 @@ int main(void) {
     matrix * m = initialise_matrix(2, 3);
     for(int i = 0; i < get_rows(m); i++) { 
         for(int j = 0; j < get_columns(m); j++) {
-            set_matrix_member(m, i+1, j+1, a[i][j]);
+            #ifdef FIXED
+                elem val = fix16_from_int(a[i][j]);
+            #else
+                elem val = a[i][j];
+            #endif
+            set_matrix_member(m, i+1, j+1, val);
         }
     }
 
@@ -37,7 +42,12 @@ int main(void) {
     matrix * o = initialise_matrix(3, 3);
     for(int i = 0; i < get_rows(o); i++) { 
         for(int j = 0; j < get_columns(o); j++) {
-            set_matrix_member(o, i+1, j+1, b[i][j]);
+            #ifdef FIXED
+                elem val = fix16_from_int(b[i][j]);
+            #else
+                elem val = b[i][j];
+            #endif
+            set_matrix_member(o, i+1, j+1, val);
         }
     }
     sum_matrix_test(o);
