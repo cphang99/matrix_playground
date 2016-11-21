@@ -7,18 +7,24 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <float.h>
-//#define FLOAT
+#include <libfixmath/fix16.h>
+#include <mapla_config.h>
 
-#ifndef FLOAT
-    typedef int32_t elem;
-    #define ELEM_MAX INT32_MAX
-    #define ELEM_MIN INT32_MIN
-    #define ELEM_F "d"
-#else
+#ifdef FLOAT
     typedef float elem;
     #define ELEM_MAX FLT_MAX
     #define ELEM_MIN -FLT_MAX
     #define ELEM_F ".2f"
+#elif defined(FIXED)
+    typedef fix16_t elem;
+    #define ELEM_MAX fix16_maximum;
+    #define ELEM_MIN fix16_minimum;
+    #define ELEM_F "d"
+#else
+    typedef int32_t elem;
+    #define ELEM_MAX INT32_MAX
+    #define ELEM_MIN INT32_MIN
+    #define ELEM_F "d"
 #endif
 
 typedef struct {
