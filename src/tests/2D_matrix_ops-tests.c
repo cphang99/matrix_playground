@@ -22,7 +22,12 @@ int main(void) {
     matrix * m = initialise_matrix(2, 3);
     for(int i = 0; i < get_rows(m); i++) {
         for(int j = 0; j < get_columns(m); j++) {
-            set_matrix_member(m, i+1, j+1, a[i][j]);
+            #ifdef FIXED
+                elem val = fix16_from_int(a[i][j]);
+            #else
+                elem val = a[i][j];
+            #endif
+            set_matrix_member(m, i+1, j+1, val);
         }
     }
     matrix * b = initialise_matrix(3,3);
@@ -51,10 +56,17 @@ static int transpose_test(matrix * m) {
     print_matrix(t_m);
     printf("number of rows =%d number of columns=%d\n",
             get_rows(t_m), get_columns(t_m));
-    printf("member at loc 1,2 should be 4, is %"ELEM_F"\n",
-            get_matrix_member(t_m, 1, 2));
-    printf("member at loc 2,2 should be 5, is %"ELEM_F"\n",
-            get_matrix_member(t_m, 2, 2));
+    #ifdef FIXED
+        printf("member at loc 1,2 should be 4, is %"ELEM_F"\n",
+                convert_fixed_member(t_m, 1, 2));
+        printf("member at loc 2,2 should be 5, is %"ELEM_F"\n",
+                convert_fixed_member(t_m, 2, 2));
+    #else
+        printf("member at loc 1,2 should be 4, is %"ELEM_F"\n",
+                get_matrix_member(t_m, 1, 2));
+        printf("member at loc 2,2 should be 5, is %"ELEM_F"\n",
+                get_matrix_member(t_m, 2, 2));
+    #endif
 
     destroy_matrix(&t_m);
 
@@ -242,6 +254,13 @@ static int set_matrix_array_test(void) {
          1,2,3,
          4,5,6
     };
+    #ifdef FIXED
+        for(int i = 0; i < 2; i++) {
+            for(int j = 0; j < 3; j++) {
+                a[i*3+j] = fix16_from_int(a[i*3+j]);
+            }
+        }
+    #endif
     
     matrix * m = initialise_matrix(2, 3);
     matrix * n = initialise_matrix(10, 10);
@@ -267,8 +286,15 @@ static int getMin_getMax_test(matrix * m) {
     print_matrix(m);
     pos max = get_max(m);
     pos min = get_min(m);
+    #ifdef FIXED
+        float val_max = fix16_to_float(max.value);
+        float val_min = fix16_to_float(min.value);
+    #else
+        elem val_max = max.value;
+        elem val_min = min.value;
+    #endif
+    printf("Max val %"ELEM_F " at pos %d %d \n", val_max, max.x, max.y);
+    printf("Min val %"ELEM_F " at pos %d %d\n", val_min, min.x, min.y);
 
-    printf("Max val %"ELEM_F " at pos %d %d \n", max.value, max.x, max.y);
-    printf("Min val %"ELEM_F " at pos %d %d\n", min.value, min.x, min.y);
     return 0;
 }
