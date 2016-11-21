@@ -44,6 +44,12 @@ matrix * set_matrix_member(matrix * m, int x, int y, elem val) {
     }
 }
 
+#ifdef FIXED
+float convert_fixed_member(matrix * m, int x, int y) {
+    return fix16_to_float(get_matrix_member(m, x, y));
+}
+#endif
+
 matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns) {
     if(m == NULL || arr == NULL) {
         fprintf(stderr, "Invalid pointer to matrix and/or array. Abort\n");
@@ -84,7 +90,12 @@ void print_matrix(matrix * m) {
     if(m != NULL) {
         for(int i = 0; i < get_rows(m); i++) {
             for(int j = 0; j < get_columns(m); j++) {
-                printf("%"ELEM_F " ", get_matrix_member(m, i+1, j+1));
+                #ifdef FIXED
+                    float element = fix16_to_float(get_matrix_member(m, i+1, j+1));
+                    printf("%"ELEM_F " ", element);
+                #else
+                    printf("%"ELEM_F " ", get_matrix_member(m, i+1, j+1));
+                #endif
             }
             putchar('\n');
         }

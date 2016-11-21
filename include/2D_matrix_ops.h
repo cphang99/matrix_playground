@@ -19,7 +19,7 @@
     typedef fix16_t elem;
     #define ELEM_MAX fix16_maximum;
     #define ELEM_MIN fix16_minimum;
-    #define ELEM_F "d"
+    #define ELEM_F ".2f"
 #else
     typedef int32_t elem;
     #define ELEM_MAX INT32_MAX
@@ -85,6 +85,19 @@ elem get_matrix_member(matrix * m, int x, int y);
  * \return      The updated matrix
  */
 matrix * set_matrix_member(matrix * m, int x, int y, elem val);
+
+/**
+ * Converts a matrix member from fixed point integer to float
+ * Only available if FIXED is defined
+ *
+ * \param m     The matrix
+ * \param x     The 'x' (row) coordinate
+ * \param y     The 'y' (column) coordinate
+ * \return      The matrix member as a floating point val
+ */
+#ifdef FIXED
+float convert_fixed_member(matrix * m, int x, int y);
+#endif
 
 /**
  * Updates a matrix member on an array level
