@@ -91,8 +91,7 @@ void print_matrix(matrix * m) {
         for(int i = 0; i < get_rows(m); i++) {
             for(int j = 0; j < get_columns(m); j++) {
                 #ifdef FIXED
-                    float element = fix16_to_float(get_matrix_member(m, i+1, j+1));
-                    printf("%"ELEM_F " ", element);
+                    printf("%"ELEM_F " ", convert_fixed_member(m, i+1, j+1));
                 #else
                     printf("%"ELEM_F " ", get_matrix_member(m, i+1, j+1));
                 #endif
