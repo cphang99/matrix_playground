@@ -93,31 +93,54 @@ matrix * sum_matrix(matrix * m, int dim) {
 //in elem_matrix_operation
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 elem fill_matrix(elem x, float p) {
-    return (elem) p;
+    #ifdef FIXED
+        return fix16_from_float(p);
+    #else
+        return (elem) p;
+    #endif
 }
 
 elem pow_elem(elem x, float p) {
     #ifdef FLOAT
         return (elem)pow(x,p);
+    #elif defined(FIXED)
+        elem res = x;
+        for(int i = 0; i < p; i++) {
+            res = multiply_elem(res, fix16_to_float(x));
+        }
+        return res;
     #else
-        return (elem)floor(pow((float)x, p));
+        return (elem)floor(pow((float)x, (float)p));
     #endif
 }
 
 elem sqroot_elem(elem x, float p) {
-    float r = (float)1 / p;
-    return pow_elem(x, r);
+    #ifdef FIXED
+        if(p != fix16_from_int(2)) {
+            fprintf(stderr, "Only square root supported for fixed values\n");
+        }
+        return fix16_sqrt(x);
+    #else
+        elem r = (elem)1 / p;
+        return pow_elem(x, r);
+    #endif
 }
 
 elem multiply_elem(elem x, float p) {
-    return x * p;
+    #ifdef FIXED
+        return fix16_mul(x, fix16_from_float(p));
+    #else
+        return x * p;
+    #endif
 }
 
 elem divide_elem(elem x, float p) {
     #ifdef FLOAT
         return x / p;
+    #elif defined(FIXED)
+        return fix16_div(x, fix16_from_float(p));
     #else
-        return (elem)floor((float)x / p);
+        return (elem)floor((float)x / (float)p);
     #endif
 }
 
