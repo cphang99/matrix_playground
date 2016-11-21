@@ -187,7 +187,12 @@ matrix * create_row_vector(int j, int i, int k) {
         int numCols = ((i-j)/k) + 1;
         v = initialise_matrix(1, numCols);
         for(int l = 0; l < numCols; l++) {
-            set_matrix_member(v, 1, l+1, j+(l*k));
+            #ifdef FIXED
+                elem val = fix16_from_int(j+(l*k));
+            #else
+                elem val = j+(l*k);
+            #endif
+            set_matrix_member(v, 1, l+1, val);
         }
     } else {
         printf("The interval must be greater than 0\n");
