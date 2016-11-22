@@ -1,10 +1,22 @@
 #include <2D_matrix_tests.h>
 
-test_suite initialise_test_suite(int num_tests) {
+test_suite initialise_test_suite(int num_tests, ...) {
+    va_list valist;
     test_suite ts = {.num_tests = num_tests,
         .tests_passed = 0,
         .tests_failed = 0};
+    ts.t = malloc(num_tests * sizeof(test));
+    va_start(valist, num_tests);
+    for(int i = 0; i < num_tests; i++) {
+        ts.t[i] = va_arg(valist, test);
+    }
+    va_end(valist);
     return ts;
+}
+
+void destroy_test_suite(test_suite * ts) {
+    free(ts->t);
+    ts->t = NULL;
 }
 
 bool are_matrices_equal(matrix * a, matrix * b) {

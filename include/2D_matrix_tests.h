@@ -1,9 +1,13 @@
 #include <2D_matrix_ops.h>
+#include <stdarg.h>
+
+typedef bool (*test)(void);
 
 typedef struct {
     const int num_tests;
     int tests_passed;
     int tests_failed;
+    test * t;
 } test_suite;
 
 /**
@@ -12,7 +16,14 @@ typedef struct {
  * \param   num_tests   The number of tests to run in the test suite
  * \returns             A test_suite structure
  */
-test_suite initialise_test_suite(int num_tests);
+test_suite initialise_test_suite(int num_tests, ...);
+
+/**
+ * Frees the memory allocated to a test suite
+ *
+ * \param ts        The test suite
+ */
+void destroy_test_suite(test_suite * ts);
 
 /**
  * Determines whether two matrices are equal or not
