@@ -19,9 +19,9 @@ the Library overview section.
 
 Elements default to 32 bit int `int32_t`. Elements are set by passing the `TYPE`
 variable to make, which can either be:
-    - Integer `int32_t` (The default, nothing needs to be set)
-    - floating point `float` (Set `TYPE="FLOAT"`)
-    - Fixed-point (Q16.16) (Set `TYPE="FIXED"`)
+- Integer `int32_t` (The default, nothing needs to be set)
+- floating point `float` (Set `TYPE="FLOAT"`)
+- Fixed-point (Q16.16) (Set `TYPE="FIXED"`)
 
 ```shell
 #In your working directory:
