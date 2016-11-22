@@ -3,6 +3,12 @@
 A experimental library for the manipulation of 2D matrices. The aim is to re-implement
 key matlab functions in C to ease matlab to C conversions.
 
+Use at your own risk! Assume that functionality is either missing or incomplete
+at this time.
+
+Fixed point arithmetic is provided by using the libfixmath library
+(https://en.wikipedia.org/wiki/Libfixmath).
+
 ##Installation
 
 To build, follow the below commands, all generated binaries are in the bin folder.
@@ -11,8 +17,20 @@ At the present time, a static library is created and placed in `./lib`. The head
 for the library are all contained within `./include` and their use detailed in
 the Library overview section.
 
+Elements default to 32 bit int `int32_t`. Elements are set by passing the `TYPE`
+variable to make, which can either be:
+    - Integer `int32_t` (The default, nothing needs to be set)
+    - floating point `float` (Set `TYPE="FLOAT"`)
+    - Fixed-point (Q16.16) (Set `TYPE="FIXED"`)
+
 ```shell
-make all
+#In your working directory:
+
+git clone https://github.com/cphang99/matrix_playground.git --recursive
+cd matrix_playground
+
+#if you want to use a specfic element type, set the TYPE variable
+make all TYPE="FIXED"
 
 #and to remove...
 make clean
@@ -49,9 +67,6 @@ Binaries at the present time contain tests for the library.
     * Sum matrix in either dimension (`sum(A,dim)` in matlab)
     * Elements can be updated per matrix or per row/column
 
-Elements default to 32 bit int `int32_t`. To enable floating point elements
-add `#define FLOAT` before the declaration of the `elem` type in
- `2D_matrix_ops.h`.
 
 ##Limitations
 
@@ -62,6 +77,9 @@ add `#define FLOAT` before the declaration of the `elem` type in
  
 - Element wise operations  will apply floor arithmetic if integer elements are used
 (notably `sqroot` and `divide` operations).
+
+- nth root operations are not supported for fixed point elements, and will default
+  to a square root operation with a warning.
 
 - The matrix arithmetic implementations are all naive ones at the present time.
 Therefore note that matrix multiplication is `O(n^3)`. We'll be looking to
