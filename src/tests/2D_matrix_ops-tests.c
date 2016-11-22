@@ -250,17 +250,10 @@ static int null_matrix_tests(void) {
 
 /* Tests array-wise assignment of a matrix */
 static int set_matrix_array_test(void) {
-    elem a[6] = {
+    float a[6] = {
          1,2,3,
          4,5,6
     };
-    #ifdef FIXED
-        for(int i = 0; i < 2; i++) {
-            for(int j = 0; j < 3; j++) {
-                a[i*3+j] = fix16_from_int(a[i*3+j]);
-            }
-        }
-    #endif
     
     matrix * m = initialise_matrix(2, 3);
     matrix * n = initialise_matrix(10, 10);

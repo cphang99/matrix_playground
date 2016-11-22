@@ -50,7 +50,7 @@ float convert_fixed_member(matrix * m, int x, int y) {
 }
 #endif
 
-matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns) {
+matrix * set_matrix_array(matrix * m, float * arr, int rows, int columns) {
     if(m == NULL || arr == NULL) {
         fprintf(stderr, "Invalid pointer to matrix and/or array. Abort\n");
     } else if( (get_rows(m) != rows) || (get_columns(m) != columns) ) {
@@ -59,7 +59,12 @@ matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns) {
     } else {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
-                set_matrix_member(m, i+1, j+1, arr[i*columns + j]);
+                #ifdef FIXED
+                    set_matrix_member(m, i+1, j+1,
+                            fix16_from_float(arr[i*columns + j]));
+                #else
+                    set_matrix_member(m, i+1, j+1, arr[i*columns + j]);
+                #endif
             }
         }
     }
