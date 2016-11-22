@@ -7,7 +7,7 @@ typedef struct {
     const int num_tests;
     int tests_passed;
     int tests_failed;
-    test * t;
+    test * tests;
 } test_suite;
 
 /**
@@ -17,6 +17,15 @@ typedef struct {
  * \returns             A test_suite structure
  */
 test_suite initialise_test_suite(int num_tests, ...);
+
+/**
+ * Runs a test suite
+ *
+ * \param   ts      The test suite
+ * \returns         A int telling if all tests in the test suite were
+ *                  successful (0) or if any were unsuccessful (1)
+ */
+int run_test_suite(test_suite * ts);
 
 /**
  * Frees the memory allocated to a test suite
