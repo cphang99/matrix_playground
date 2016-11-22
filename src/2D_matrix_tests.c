@@ -1,5 +1,12 @@
 #include <2D_matrix_tests.h>
 
+test_suite initialise_test_suite(int num_tests) {
+    test_suite ts = {.num_tests = num_tests,
+        .tests_passed = 0,
+        .tests_failed = 0};
+    return ts;
+}
+
 bool are_matrices_equal(matrix * a, matrix * b) {
     if( (get_rows(a) != get_rows(b)) || (get_columns(a) != get_columns(b))) {
         return false;

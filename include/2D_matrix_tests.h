@@ -1,5 +1,19 @@
 #include <2D_matrix_ops.h>
 
+typedef struct {
+    const int num_tests;
+    int tests_passed;
+    int tests_failed;
+} test_suite;
+
+/**
+ * Initalises a test suite
+ *
+ * \param   num_tests   The number of tests to run in the test suite
+ * \returns             A test_suite structure
+ */
+test_suite initialise_test_suite(int num_tests);
+
 /**
  * Determines whether two matrices are equal or not
  *
