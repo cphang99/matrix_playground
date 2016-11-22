@@ -4,7 +4,8 @@ CC=gcc
 AR=ar
 AR_FLAGS=-cr
 CFLAGS= $(INC_DIR) -std=c99 -Wall -Wextra -pedantic -Wstrict-prototypes \
-	   -Wmissing-prototypes -Wshadow -Wpointer-arith -Wcast-qual
+	   -Wmissing-prototypes -Wshadow -Wpointer-arith -Wcast-qual \
+	   $(patsubst %, -D%, $(TYPE))
 LIBS = -lm -L$(LIB_DIR) $(patsubst lib%,-l%, $(LIB_NAME))
 
 # Specification of library and test objects
@@ -45,7 +46,7 @@ $(TEST_NAMES): $(TEST_OBJ) $(MAPLA_LIB) mk_$(FIXED_LIB)
 
 clean:
 	rm -rf $(BIN_DIR) $(LIB_DIR) $(SRC_DIR)/*.o $(TEST_DIR)/*.o
-	$(MAKE) -C ./libfixmath/libfixmath clean
+	$(MAKE) -C ./$(FIXED_LIB)/$(FIXED_LIB) clean
 
 
 

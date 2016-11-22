@@ -8,7 +8,6 @@
 #include <stdbool.h>
 #include <float.h>
 #include <libfixmath/fix16.h>
-#include <mapla_config.h>
 
 #ifdef FLOAT
     typedef float elem;
