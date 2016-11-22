@@ -280,12 +280,6 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
             //Perform elementry row operations to put all elements below
             //the current starting row = 0
             for(int k = i+(1*dir); k != e_row; k+=(1*dir)) {
-                #ifdef FIXED
-                    elem minus_one = fix16_from_int(-1);
-                #else
-                    elem minus_one = -1;
-                #endif
-
                 elem f1 = get_matrix_member(U, k+1, i+1) * -1;
                 #ifdef FLOAT
                     row_addition(U, i+1, k+1, f1/pivot, 1);
@@ -299,9 +293,10 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
 
                 #ifdef FIXED
                     set_matrix_member(L, k+1, i+1,
-                            fix16_mul(fix16_div(f1, pivot), minus_one));
+                            fix16_mul(fix16_div(f1, pivot),
+                                      fix16_from_int(-1)));
                 #else
-                    set_matrix_member(L, k+1, i+1, f1/pivot * minus_one);
+                    set_matrix_member(L, k+1, i+1, f1/pivot * -1);
                 #endif
                 //For debugging row elementry operations
                 //printf("r%d = r%d*%"ELEM_F" + r%d*%"ELEM_F"\n",
@@ -309,24 +304,22 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
             }
         }
 
+        PLU->det = 1;
         #ifdef FIXED
-            PLU->det = fix16_one;
-        #else
-            PLU->det = 1;
+            elem det_fixed_pt = fix16_one;
         #endif
-
         for(int k = 0; k < get_rows(U); k++) {
             #ifdef FIXED
-               PLU->det = fix16_mul(PLU->det, get_matrix_member(U, k+1, k+1));
+               det_fixed_pt = fix16_mul(det_fixed_pt,
+                       get_matrix_member(U, k+1, k+1));
             #else
                PLU->det *= get_matrix_member(U, k+1, k+1);
             #endif
         }
         #ifdef FIXED
-            PLU->det = fix16_div(PLU->det, fix16_from_int(detFactorChange));
-        #else
-            PLU->det /= detFactorChange;
+            PLU->det = fix16_to_float(det_fixed_pt);
         #endif
+        PLU->det /= detFactorChange;
     }
      
     return PLU;

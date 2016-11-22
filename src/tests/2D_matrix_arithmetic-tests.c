@@ -189,12 +189,7 @@ int LU_decomposition_test(void) {
     printf("Testing by multiplying matrices P, L and U\n");
     matrix * PL = matrix_multiplication(PLU_a->P, PLU_a->L);
     matrix * PLU_mat = matrix_multiplication(PL, PLU_a->U);
-    #ifdef FIXED
-        float det = fix16_to_float(PLU_a->det);
-    #else
-        float det = PLU_a->det;
-    #endif
-    printf("Determinant =%"ELEM_F"\n", det);
+    printf("Determinant =%.2f\n", PLU_a->det);
     
     print_matrix(PLU_mat);
 

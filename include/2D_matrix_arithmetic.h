@@ -4,7 +4,7 @@ typedef struct {
     matrix * P;
     matrix * L;
     matrix * U;
-    elem det;
+    float det;
 } PLU_matrix_array;
 
 /**
