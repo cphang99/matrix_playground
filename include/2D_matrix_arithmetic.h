@@ -72,7 +72,7 @@ matrix * column_interchange(matrix * m, int c1, int c2);
  *
  * \return      Matrix m with row addition applied
  */
-matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2);
+matrix * row_addition(matrix * m, int r1, int r2, float f1, float f2);
 
 /**
  * Performs LU decomposition on a given matrix a

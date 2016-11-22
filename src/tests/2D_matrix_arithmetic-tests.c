@@ -10,14 +10,19 @@ int matrix_row_addition_test(void);
 int LU_decomposition_test(void);
 
 int main(void) {
-    elem a[2][3] = {
+    int a[2][3] = {
         {1,2,3},
         {4,5,6}
     };
     matrix * m = initialise_matrix(2, 3);
     for(int i = 0; i < get_rows(m); i++) { 
         for(int j = 0; j < get_columns(m); j++) {
-            set_matrix_member(m, i+1, j+1, a[i][j]);
+            #ifdef FIXED
+                elem val = fix16_from_int(a[i][j]);
+            #else
+                elem val = a[i][j];
+            #endif
+            set_matrix_member(m, i+1, j+1, val);
         }
     }
 
@@ -28,7 +33,12 @@ int main(void) {
     matrix * n = initialise_matrix(2, 3);
     for(int i = 0; i < get_rows(n); i++) { 
         for(int j = 0; j < get_columns(n); j++) {
-            set_matrix_member(n, i+1, j+1, b[i][j]);
+            #ifdef FIXED
+                elem val = fix16_from_int(b[i][j]);
+            #else
+                elem val = b[i][j];
+            #endif
+            set_matrix_member(n, i+1, j+1, val);
         }
     }
 
@@ -160,7 +170,7 @@ int matrix_row_addition_test(void) {
 
 int LU_decomposition_test(void) {
     printf("\nLU decomposition:1\n");
-    elem a_arr[9] = {
+    float a_arr[9] = {
         3, 2, -4,
         2, 3, 3,
         5, -3, 1
@@ -179,7 +189,12 @@ int LU_decomposition_test(void) {
     printf("Testing by multiplying matrices P, L and U\n");
     matrix * PL = matrix_multiplication(PLU_a->P, PLU_a->L);
     matrix * PLU_mat = matrix_multiplication(PL, PLU_a->U);
-    printf("Determinant =%"ELEM_F"\n", PLU_a->det);
+    #ifdef FIXED
+        float det = fix16_to_float(PLU_a->det);
+    #else
+        float det = PLU_a->det;
+    #endif
+    printf("Determinant =%"ELEM_F"\n", det);
     
     print_matrix(PLU_mat);
 

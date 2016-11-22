@@ -11,8 +11,13 @@ matrix * matrix_add(matrix * a, matrix * b) {
         a_b = initialise_matrix(get_rows(a), get_columns(a));
         for(int i = 0; i < get_rows(a); i++) {
             for(int j = 0; j < get_columns(a); j++) {
-                elem val = get_matrix_member(a, i+1, j+1) + 
-                    get_matrix_member(b, i+1, j+1);
+                #ifdef FIXED
+                    elem val = fix16_add(get_matrix_member(a, i+1, j+1),
+                            get_matrix_member(b, i+1, j+1));
+                #else
+                    elem val = get_matrix_member(a, i+1, j+1) +
+                        get_matrix_member(b, i+1, j+1);
+                #endif
                 set_matrix_member(a_b, i+1, j+1, val);
             }
         }
@@ -31,8 +36,13 @@ matrix * matrix_subtract(matrix * a, matrix * b) {
         a_b = initialise_matrix(get_rows(a), get_columns(a));
         for(int i = 0; i < get_rows(a); i++) {
             for(int j = 0; j < get_columns(a); j++) {
-                elem val = get_matrix_member(a, i+1, j+1) - 
-                    get_matrix_member(b, i+1, j+1);
+                #ifdef FIXED
+                    elem val = fix16_sub(get_matrix_member(a, i+1, j+1),
+                            get_matrix_member(b, i+1, j+1));
+                #else
+                    elem val = get_matrix_member(a, i+1, j+1) -
+                        get_matrix_member(b, i+1, j+1);
+                #endif
                 set_matrix_member(a_b, i+1, j+1, val);
             }
         }
@@ -55,8 +65,13 @@ matrix * matrix_multiplication(matrix * a, matrix *b) {
                     //Debug statement for matrix multiplication
                     /*printf("(A%d%d * B%d%d)\n", i+1, k+1,
                             k+1, j+1);*/
-                    val += get_matrix_member(a, i+1, k+1) * 
-                        get_matrix_member(b, k+1, j+1);
+                    #ifdef FIXED
+                        val += fix16_mul(get_matrix_member(a, i+1, k+1),
+                                get_matrix_member(b, k+1, j+1));
+                    #else
+                        val += get_matrix_member(a, i+1, k+1) *
+                            get_matrix_member(b, k+1, j+1);
+                    #endif
                 }
                 set_matrix_member(a_b, i+1, j+1, val);
             }
@@ -114,16 +129,25 @@ matrix * column_interchange(matrix * m, int c1, int c2) {
     return m;
 }
 
-matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2) {
+matrix * row_addition(matrix * m, int r1, int r2, float f1, float f2) {
     if(m != NULL) {
         if(r1 > 0 && r1 <= get_rows(m) && r2 > 0 && r2 <= get_rows(m)) {
             matrix * m_r1 = get_horizontal_slice(m, r1, r1);
             matrix * m_r2 = get_horizontal_slice(m, r2, r2);
 
             for(int i = 0; i < get_columns(m_r1); i++) {
-                set_matrix_member(m, r2, i+1,
-                        (get_matrix_member(m_r1, 1, i+1) * f1) +
-                        (get_matrix_member(m_r2, 1, i+1) * f2));
+                #ifdef FIXED
+                    elem v1 = fix16_mul(get_matrix_member(m_r1, 1, i+1),
+                            fix16_from_float(f1));
+                    elem v2 = fix16_mul(get_matrix_member(m_r2, 1, i+1),
+                            fix16_from_float(f2));
+                    elem val = fix16_add(v1, v2);
+                    set_matrix_member(m, r2, i+1, val);
+                #else
+                    set_matrix_member(m, r2, i+1,
+                            (get_matrix_member(m_r1, 1, i+1) * f1) +
+                            (get_matrix_member(m_r2, 1, i+1) * f2));
+                #endif
             }
             destroy_matrix(&m_r1);
             destroy_matrix(&m_r2);
@@ -140,8 +164,10 @@ matrix * row_addition(matrix * m, int r1, int r2, elem f1, elem f2) {
 
 PLU_matrix_array * LU_decomposition(matrix * a) {
     #ifndef FLOAT
-        fprintf(stderr, "Integer elements being used will result"
-                " in an inaccurate PLU array being generated\n");
+        #ifndef FIXED
+            fprintf(stderr, "Integer elements being used will result"
+                    " in an inaccurate PLU array being generated\n");
+        #endif
     #endif
     return gauss_elimination_ppivot(a, NULL, true);
 }
@@ -241,6 +267,7 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
                     max_row = j+1;
                 }
             }
+
             if(max_row != i+1) {
                 //For debugging row interchange indices
                 //printf("Interchanging row %d with row %d, "
@@ -253,23 +280,53 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
             //Perform elementry row operations to put all elements below
             //the current starting row = 0
             for(int k = i+(1*dir); k != e_row; k+=(1*dir)) {
+                #ifdef FIXED
+                    elem minus_one = fix16_from_int(-1);
+                #else
+                    elem minus_one = -1;
+                #endif
+
                 elem f1 = get_matrix_member(U, k+1, i+1) * -1;
                 #ifdef FLOAT
                     row_addition(U, i+1, k+1, f1/pivot, 1);
+                #elif defined(FIXED)
+                    float f = fix16_to_float(fix16_div(f1,pivot));
+                    row_addition(U, i+1, k+1, f, 1);
                 #else
                     row_addition(U, i+1, k+1, f1, pivot);
                     detFactorChange *= pivot;
                 #endif
-                set_matrix_member(L, k+1, i+1, f1/pivot*-1);
+
+                #ifdef FIXED
+                    set_matrix_member(L, k+1, i+1,
+                            fix16_mul(fix16_div(f1, pivot), minus_one));
+                #else
+                    set_matrix_member(L, k+1, i+1, f1/pivot * minus_one);
+                #endif
                 //For debugging row elementry operations
                 //printf("r%d = r%d*%"ELEM_F" + r%d*%"ELEM_F"\n",
                 //        k+1, i+1, f1, k+1, pivot);
             }
         }
-        PLU->det = 1;
+
+        #ifdef FIXED
+            PLU->det = fix16_one;
+        #else
+            PLU->det = 1;
+        #endif
+
         for(int k = 0; k < get_rows(U); k++) {
-           PLU->det *= get_matrix_member(U, k+1, k+1) / detFactorChange;
+            #ifdef FIXED
+               PLU->det = fix16_mul(PLU->det, get_matrix_member(U, k+1, k+1));
+            #else
+               PLU->det *= get_matrix_member(U, k+1, k+1);
+            #endif
         }
+        #ifdef FIXED
+            PLU->det = fix16_div(PLU->det, fix16_from_int(detFactorChange));
+        #else
+            PLU->det /= detFactorChange;
+        #endif
     }
      
     return PLU;

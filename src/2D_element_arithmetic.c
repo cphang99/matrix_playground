@@ -105,7 +105,7 @@ elem pow_elem(elem x, float p) {
         return (elem)pow(x,p);
     #elif defined(FIXED)
         elem res = x;
-        for(int i = 0; i < p; i++) {
+        for(int i = 0; i < p -1; i++) {
             res = multiply_elem(res, fix16_to_float(x));
         }
         return res;
