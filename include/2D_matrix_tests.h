@@ -1,7 +1,14 @@
 #include <2D_matrix_ops.h>
 #include <stdarg.h>
 
-typedef bool (*test)(void);
+typedef bool (*test_func)(void);
+
+typedef struct {
+    const char * name;
+    test_func t_func;
+} test;
+
+#define CREATE_TEST(t_func) (test){#t_func, &t_func}
 
 typedef struct {
     const int num_tests;
@@ -20,7 +27,7 @@ typedef struct {
  * \returns             A test_suite structure
  */
 #define initialise_test_suite(num_tests, ...) \
-    _initialise_test_suite(num_tests, __VA_ARGS__, NULL);
+    _initialise_test_suite(num_tests, __VA_ARGS__, (test){NULL, NULL});
 
 /**
  * Initialises a test suite

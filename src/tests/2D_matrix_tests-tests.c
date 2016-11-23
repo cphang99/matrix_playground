@@ -5,9 +5,9 @@ static bool alwaysFalse(void);
 
 int main(void) {
     test_suite * ts = initialise_test_suite(3,
-            &alwaysTrue,
-            &alwaysTrue,
-            &alwaysFalse);
+            CREATE_TEST(alwaysTrue),
+            CREATE_TEST(alwaysTrue),
+            CREATE_TEST(alwaysFalse));
     int outcome = run_test_suite(ts);
     print_outcome(ts);
     destroy_test_suite(&ts);
