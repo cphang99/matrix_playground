@@ -9,8 +9,7 @@ int main(void) {
             &alwaysTrue,
             &alwaysFalse);
     int outcome = run_test_suite(&ts);
-    printf("Outcome = %d Tests passed = %d, Tests Failed = %d\n",
-            outcome, ts.tests_passed, ts.tests_failed);
+    print_outcome(&ts);
     destroy_test_suite(&ts);
     return outcome;
 }
