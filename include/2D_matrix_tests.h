@@ -5,6 +5,7 @@ typedef bool (*test)(void);
 
 typedef struct {
     const int num_tests;
+    int suite_outcome;
     int tests_passed;
     int tests_failed;
     test * tests;
@@ -14,9 +15,26 @@ typedef struct {
  * Initalises a test suite
  *
  * \param   num_tests   The number of tests to run in the test suite
+ * \param   ...         Variable arguments indidcating the tests
+ *                      in a test suite
  * \returns             A test_suite structure
  */
-test_suite initialise_test_suite(int num_tests, ...);
+#define initialise_test_suite(num_tests, ...) \
+    _initialise_test_suite(num_tests, __VA_ARGS__, NULL);
+
+/**
+ * Initialises a test suite
+ *
+ * Designed to be run by calling the macro initialise_test_suite
+ * which will append a NULL sentinel value to the variable
+ * arguements for safety
+ *
+ * \param num_tests     The number of tests
+ * \param ...           Variable arguments indidcating the tests
+ *                      in a test suite
+ * \return              A test_suite structure
+ */
+test_suite _initialise_test_suite(int num_tests, ...);
 
 /**
  * Runs a test suite
