@@ -36,8 +36,16 @@ test_suite * _initialise_test_suite(int num_tests, ...) {
 int run_test_suite(test_suite * ts) {
     if(ts != NULL) {
         for(int i = 0; i < ts->num_tests; i++) {
-            printf("Running test %s\n", ts->tests[i].name);
-            (*(ts->tests[i].t_func))() ? (ts->tests_passed)++ : (ts->tests_failed)++;
+            printf("-------------------------------------\n");
+            printf("Running test %s...\n", ts->tests[i].name);
+            if((*(ts->tests[i].t_func))()) {
+                printf("Test %s passed\n", ts->tests[i].name);
+                (ts->tests_passed)++;
+            } else {
+                printf("Test %s failed\n", ts->tests[i].name);
+                (ts->tests_failed)++;
+            }
+            printf("-------------------------------------\n");
         }
         return ts->suite_outcome = (ts->tests_failed ? 1 : 0);
     } else {
