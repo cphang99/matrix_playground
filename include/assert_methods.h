@@ -16,3 +16,17 @@ bool compare_integers(int a, int b);
  * \return      True if NULL, False if not.
  */
 bool compare_null(void * a);
+
+/**
+ * Test method for test_suite. Always returns true
+ *
+ * \return      True
+ */
+bool alwaysTrue(void);
+
+/**
+ * Test method for test_suite. Always returns false
+ *
+ * \return      False
+ */
+bool alwaysFalse(void);
