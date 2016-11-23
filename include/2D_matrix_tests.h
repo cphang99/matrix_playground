@@ -1,4 +1,5 @@
 #include <2D_matrix_ops.h>
+#include <assert_methods.h>
 #include <stdarg.h>
 
 typedef bool (*test_func)(void);
