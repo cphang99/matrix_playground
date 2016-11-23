@@ -15,7 +15,7 @@ test_suite * _initialise_test_suite(int num_tests, ...) {
     va_start(valist, num_tests);
     for(int i = 0; i < num_tests; i++) {
         test t =  va_arg(valist, test);
-        if(t != NULL) {
+        if(t.t_func != NULL) {
             ts->tests[i] = t;
             tests_added++;
         } else {
@@ -36,7 +36,8 @@ test_suite * _initialise_test_suite(int num_tests, ...) {
 int run_test_suite(test_suite * ts) {
     if(ts != NULL) {
         for(int i = 0; i < ts->num_tests; i++) {
-            (*(ts->tests[i]))() ? (ts->tests_passed)++ : (ts->tests_failed)++;
+            printf("Running test %s\n", ts->tests[i].name);
+            (*(ts->tests[i].t_func))() ? (ts->tests_passed)++ : (ts->tests_failed)++;
         }
         return ts->suite_outcome = (ts->tests_failed ? 1 : 0);
     } else {
