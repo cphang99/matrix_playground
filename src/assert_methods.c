@@ -8,4 +8,11 @@ bool compare_null(void * a) {
     return a==NULL ? true : false;
 }
 
+bool alwaysTrue(void) {
+    return true;
+}
+
+bool alwaysFalse(void) {
+    return false;
+}
 

@@ -1,7 +1,5 @@
 #include <2D_matrix_tests.h>
 
-static bool alwaysTrue(void);
-static bool alwaysFalse(void);
 static bool test_suite_test(void);
 static bool compare_null_test(void);
 
@@ -13,14 +11,6 @@ int main(void) {
     print_outcome(ts);
     destroy_test_suite(&ts);
     return outcome;
-}
-
-static bool alwaysTrue(void) {
-    return true;
-}
-
-static bool alwaysFalse(void) {
-    return false;
 }
 
 static bool test_suite_test(void) {
