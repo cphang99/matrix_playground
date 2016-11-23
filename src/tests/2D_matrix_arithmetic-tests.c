@@ -1,16 +1,13 @@
 #include <2D_matrix_arithmetic.h>
 #include <2D_element_arithmetic.h>
+#include <2D_matrix_tests.h>
 
-int matrix_add_test(matrix * a, matrix * b);
-int matrix_subtract_test(matrix * a, matrix * b);
-int matrix_arithmetic_fail_test(void);
-int matrix_multiply_test(matrix * a, matrix * b);
-int matrix_interchange_test(void);
-int matrix_row_addition_test(void);
-int LU_decomposition_test(void);
+///////////////////////////////////////////////////
+//Static allocation of resources for tests here
 
-int main(void) {
-    int a[2][3] = {
+static matrix * init_m_from_a(void);
+static matrix * init_m_from_a(void) {
+    const float a[2][3] = {
         {1,2,3},
         {4,5,6}
     };
@@ -18,15 +15,19 @@ int main(void) {
     for(int i = 0; i < get_rows(m); i++) { 
         for(int j = 0; j < get_columns(m); j++) {
             #ifdef FIXED
-                elem val = fix16_from_int(a[i][j]);
+                elem val = fix16_from_float(a[i][j]);
             #else
                 elem val = a[i][j];
             #endif
             set_matrix_member(m, i+1, j+1, val);
         }
     }
+    return m;
+}
 
-    elem b[2][3] = {
+static matrix * init_n_from_b(void);
+static matrix * init_n_from_b(void) {
+    const float b[2][3] = {
         {1,2,3},
         {4,5,6}
     };
@@ -34,90 +35,132 @@ int main(void) {
     for(int i = 0; i < get_rows(n); i++) { 
         for(int j = 0; j < get_columns(n); j++) {
             #ifdef FIXED
-                elem val = fix16_from_int(b[i][j]);
+                elem val = fix16_from_float(b[i][j]);
             #else
                 elem val = b[i][j];
             #endif
             set_matrix_member(n, i+1, j+1, val);
         }
     }
+    return n;
+}
+////////////////////////////////////////////////////
 
-    matrix_add_test(m, n);
-    matrix_subtract_test(m,n);
-    matrix_arithmetic_fail_test();
-    matrix_multiply_test(m,n);
-    matrix_interchange_test();
-    matrix_row_addition_test();
-    LU_decomposition_test();
+bool matrix_add_test(void);
+bool matrix_subtract_test(void);
+bool matrix_arithmetic_fail_test(void);
+bool matrix_multiply_test(void);
+bool matrix_interchange_test(void);
+bool matrix_row_addition_test(void);
+bool LU_decomposition_test(void);
 
+int main(void) {
+    test_suite * ts = initialise_test_suite(7,
+            CREATE_TEST(matrix_add_test),
+            CREATE_TEST(matrix_subtract_test),
+            CREATE_TEST(matrix_arithmetic_fail_test),
+            CREATE_TEST(matrix_multiply_test),
+            CREATE_TEST(matrix_interchange_test),
+            CREATE_TEST(matrix_row_addition_test),
+            CREATE_TEST(LU_decomposition_test));
+    int outcome = run_test_suite(ts);
+    print_outcome(ts);
+    destroy_test_suite(&ts);
+    return outcome;
+}
+
+bool matrix_add_test(void) {
+    matrix * m = init_m_from_a();
+    matrix * n = init_n_from_b();
+    matrix * c = matrix_add(m,n);
+    print_matrix(m);
+    printf("+ \n");
+    print_matrix(n);
+    printf("= \n");
+    print_matrix(c);
+
+    matrix * res = initialise_matrix(2,3);
+    float res_arr[6] = {
+        2,4,6,
+        8,10,12
+    };
+    set_matrix_array(res, res_arr, 2, 3);
+    bool outcome = compare_matrices(c, res);
+
+    destroy_matrix(&c);
+    destroy_matrix(&res);
     destroy_matrix(&m);
     destroy_matrix(&n);
-    return 0;
-}
-
-int matrix_add_test(matrix * a, matrix * b) {
-    printf("\nTesting matrix add\n");
-    matrix * c = matrix_add(a,b);
-    print_matrix(a);
-    printf("+ \n");
-    print_matrix(b);
-    printf("= \n");
-    print_matrix(c);
-
-    destroy_matrix(&c);
-    return 0;
+    return outcome;
 }
 
 
-int matrix_subtract_test(matrix * a, matrix * b) {
-    printf("\nTesting matrix subtract\n");
-    matrix * c = matrix_subtract(a,b);
-    print_matrix(a);
+bool matrix_subtract_test(void) {
+    matrix * m = init_m_from_a();
+    matrix * n = init_n_from_b();
+    matrix * c = matrix_subtract(m,n);
+    print_matrix(m);
     printf("- \n");
-    print_matrix(b);
+    print_matrix(n);
     printf("= \n");
     print_matrix(c);
 
-    destroy_matrix(&c);
+    matrix * res = initialise_matrix(2,3);
+    bool outcome = compare_matrices(c, res);
 
-    return 0;
+    destroy_matrix(&c);
+    destroy_matrix(&res);
+    destroy_matrix(&m);
+    destroy_matrix(&n);
+
+    return outcome;
 }
 
-int matrix_arithmetic_fail_test(void) {
-    printf("\nTesting failure conditions of matrix arithmetic\n");
+bool matrix_arithmetic_fail_test(void) {
     matrix * a = initialise_matrix(2,3);
     matrix * b = initialise_matrix(3,2);
 
     printf("Matrix add\n");
-    matrix_add(a,b);
+    bool outcome1 = compare_null(matrix_add(a,b));
     printf("Matrix subtract\n");
-    matrix_subtract(a,b);
+    bool outcome2 = compare_null(matrix_subtract(a,b));
     printf("Matrix multiply\n");
-    matrix_multiplication(a,a);
+    bool outcome3 = compare_null(matrix_multiplication(a,a));
 
     destroy_matrix(&a);
     destroy_matrix(&b);
-    return 0;
+    return outcome1 && outcome2 && outcome3;
 }
 
-int matrix_multiply_test(matrix * a, matrix * b) {
-    printf("\nTesting matrix multiply\n");
-    matrix * b_t = transpose_matrix(b);
-    matrix * c = matrix_multiplication(a,b_t);
-    print_matrix(a);
+bool matrix_multiply_test(void) {
+    matrix * m = init_m_from_a();
+    matrix * n = init_n_from_b();
+    matrix * b_t = transpose_matrix(n);
+    matrix * c = matrix_multiplication(m,b_t);
+    print_matrix(m);
     printf("* \n");
     print_matrix(b_t);
     printf("= \n");
     print_matrix(c);
 
+    matrix * res = initialise_matrix(2,2);
+    float res_arr[6] = {
+        14,32,
+        32,77
+    };
+    set_matrix_array(res, res_arr, 2, 2);
+    bool outcome = compare_matrices(c, res);
+
+
     destroy_matrix(&b_t);
     destroy_matrix(&c);
-
-    return 0;
+    destroy_matrix(&m);
+    destroy_matrix(&n);
+    destroy_matrix(&res);
+    return outcome;
 }
 
-int matrix_interchange_test(void) {
-    printf("\nTesting matrix_interchanages\n");
+bool matrix_interchange_test(void) {
     matrix * a = create_row_vector(1,3,1);
     matrix * b = create_row_vector(4,6,1);
     matrix * c = create_row_vector(7,9,1);
@@ -134,16 +177,26 @@ int matrix_interchange_test(void) {
     printf("After column interchange (columns 2 and 3)\n");
     print_matrix(e);
 
+    matrix * res = initialise_matrix(3,3);
+    float res_arr[9] = {
+        7,9,8,
+        4,6,5,
+        1,3,2
+    };
+    set_matrix_array(res, res_arr, 3, 3);
+    bool outcome = compare_matrices(e, res);
+
     destroy_matrix(&a);
     destroy_matrix(&b);
     destroy_matrix(&c);
     destroy_matrix(&d);
     destroy_matrix(&e);
+    destroy_matrix(&res);
 
-    return 0;
+    return outcome;
 }
 
-int matrix_row_addition_test(void) {
+bool matrix_row_addition_test(void) {
     printf("\nTesting matrix_interchanages\n");
     matrix * a = create_row_vector(1,3,1);
     matrix * b = create_row_vector(4,6,1);
@@ -156,19 +209,30 @@ int matrix_row_addition_test(void) {
     row_addition(e, 1, 3, 2, 2);
     print_matrix(e);
 
+    matrix * res = initialise_matrix(3,3);
+    float res_arr[9] = {
+        1,2,3,
+        4,5,6,
+        16,20,24
+    };
+    set_matrix_array(res, res_arr, 3, 3);
+    bool outcome1 = compare_matrices(e, res);
+
     printf("Testing erroneous input: one row = -1\n");
     row_addition(e, 1, -1, 10, 10);
+    bool outcome2 = compare_matrices(e, res);
 
     destroy_matrix(&a);
     destroy_matrix(&b);
     destroy_matrix(&c);
     destroy_matrix(&d);
     destroy_matrix(&e);
+    destroy_matrix(&res);
 
-    return 0;
+    return outcome1 && outcome2;
 }
 
-int LU_decomposition_test(void) {
+bool LU_decomposition_test(void) {
     printf("\nLU decomposition:1\n");
     float a_arr[9] = {
         3, 2, -4,
@@ -190,6 +254,11 @@ int LU_decomposition_test(void) {
     matrix * PL = matrix_multiplication(PLU_a->P, PLU_a->L);
     matrix * PLU_mat = matrix_multiplication(PL, PLU_a->U);
     printf("Determinant =%.2f\n", PLU_a->det);
+    #ifdef FIXED
+        bool outcome = compare_integers(146, (int)ceil(PLU_a->det));
+    #else
+        bool outcome = compare_integers(146, (int)PLU_a->det);
+    #endif
     
     print_matrix(PLU_mat);
 
@@ -197,7 +266,7 @@ int LU_decomposition_test(void) {
     destroy_matrix(&PL);
     destroy_matrix(&PLU_mat);
     destroy_PLU(&PLU_a);
+    fprintf(stderr, "Note that only determinants were only checked here\n");
 
-    return 0;
+    return outcome;
 }
-
