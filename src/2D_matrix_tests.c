@@ -36,6 +36,12 @@ int run_test_suite(test_suite * ts) {
     return ts->suite_outcome = (ts->tests_failed ? 1 : 0);
 }
 
+void print_outcome(test_suite * ts) {
+    printf("Outcome = %s Tests passed = %d, Tests Failed = %d\n",
+            ts->suite_outcome == 0 ? "SUCCESS" : "FAIL", 
+            ts->tests_passed, ts->tests_failed);
+}
+
 void destroy_test_suite(test_suite * ts) {
     free(ts->tests);
     ts->tests = NULL;

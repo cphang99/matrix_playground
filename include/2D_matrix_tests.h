@@ -46,6 +46,15 @@ test_suite _initialise_test_suite(int num_tests, ...);
 int run_test_suite(test_suite * ts);
 
 /**
+ * Prints the outcome of the test_suite to the user
+ *
+ * Indicates the overall outcome, number of tests passed and failed.
+ *
+ * \param   ts      The test suite
+ */
+void print_outcome(test_suite * ts);
+
+/**
  * Frees the memory allocated to a test suite
  *
  * \param ts        The test suite
