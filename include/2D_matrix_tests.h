@@ -5,7 +5,7 @@ typedef bool (*test)(void);
 
 typedef struct {
     const int num_tests;
-    int suite_outcome;
+    int suite_outcome; // 0 indicates success, 1 indicates failure
     int tests_passed;
     int tests_failed;
     test * tests;
