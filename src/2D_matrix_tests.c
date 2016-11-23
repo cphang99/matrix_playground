@@ -28,7 +28,7 @@ test_suite * _initialise_test_suite(int num_tests, ...) {
         fprintf(stderr, "Number of tests added (%d) do not match "
                 "the number of tests indicated (%d). Abort\n",
                 tests_added, num_tests);
-        exit(1);
+        return NULL;
     }
     return ts;
 }
@@ -50,27 +50,31 @@ int run_test_suite(test_suite * ts) {
         return ts->suite_outcome = (ts->tests_failed ? 1 : 0);
     } else {
         fprintf(stderr, "No valid test_suite to run\n");
-        return 1;
+        return 2;
     }
 }
 
-void print_outcome(test_suite * ts) {
+bool print_outcome(test_suite * ts) {
     if(ts != NULL) {
         printf("Outcome = %s Tests passed = %d, Tests Failed = %d\n",
                 ts->suite_outcome == 0 ? "SUCCESS" : "FAIL", 
                 ts->tests_passed, ts->tests_failed);
+        return true;
     } else {
         fprintf(stderr, "No valid test_suite print_outcome\n");
+        return false;
     }
 }
 
-void destroy_test_suite(test_suite ** ts) {
+bool destroy_test_suite(test_suite ** ts) {
     if(*ts != NULL) {
         free((*ts)->tests);
         (*ts)->tests = NULL;
         free(*ts);
         *ts = NULL;
+        return true;
     } else {
         fprintf(stderr, "No valid test_suite to destroy\n");
+        return false;
     }
 }

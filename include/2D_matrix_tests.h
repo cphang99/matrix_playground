@@ -49,7 +49,9 @@ test_suite * _initialise_test_suite(int num_tests, ...);
  *
  * \param   ts      The test suite
  * \returns         A int telling if all tests in the test suite were
- *                  successful (0) or if any were unsuccessful (1)
+ *                  successful (0) or if any were unsuccessful (1), or
+ *                  if the test_suite could not run due to incorrect
+ *                  pointer (2).
  */
 int run_test_suite(test_suite * ts);
 
@@ -59,12 +61,16 @@ int run_test_suite(test_suite * ts);
  * Indicates the overall outcome, number of tests passed and failed.
  *
  * \param   ts      The test suite
+ * \return          True if successful. False if not
+ *                  (if a NULL pointer is passed)
  */
-void print_outcome(test_suite * ts);
+bool print_outcome(test_suite * ts);
 
 /**
  * Frees the memory allocated to a test suite
  *
  * \param ts        The test suite
+ * \return          True if successful. False if not
+ *                  (if a NULL pointer is passed)
  */
-void destroy_test_suite(test_suite ** ts);
+bool destroy_test_suite(test_suite ** ts);

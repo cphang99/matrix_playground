@@ -3,12 +3,14 @@
 static bool test_suite_test(void);
 static bool compare_null_test(void);
 static bool compare_matrices_equal_test(void);
+static bool null_methods_test(void);
 
 int main(void) {
-    test_suite * ts = initialise_test_suite(3,
+    test_suite * ts = initialise_test_suite(4,
             CREATE_TEST(test_suite_test),
             CREATE_TEST(compare_null_test),
-            CREATE_TEST(compare_matrices_equal_test));
+            CREATE_TEST(compare_matrices_equal_test),
+            CREATE_TEST(null_methods_test));
     int outcome = run_test_suite(ts);
     print_outcome(ts);
     destroy_test_suite(&ts);
@@ -74,5 +76,15 @@ static bool compare_matrices_equal_test(void) {
     destroy_matrix(&c_m);
     destroy_matrix(&d_m);
 
+    return outcome1 && outcome2 && outcome3 && outcome4;
+}
+
+static bool null_methods_test(void) {
+    test_suite * ts = initialise_test_suite(10,
+            CREATE_TEST(alwaysFalse));
+    bool outcome1 = compare_null(ts);
+    bool outcome2 = compare_integers(run_test_suite(ts), 2);
+    bool outcome3 = !(print_outcome(ts));
+    bool outcome4 = !(destroy_test_suite(&ts));
     return outcome1 && outcome2 && outcome3 && outcome4;
 }
