@@ -34,7 +34,7 @@ typedef struct {
  *                      in a test suite
  * \return              A test_suite structure
  */
-test_suite _initialise_test_suite(int num_tests, ...);
+test_suite * _initialise_test_suite(int num_tests, ...);
 
 /**
  * Runs a test suite
@@ -59,7 +59,7 @@ void print_outcome(test_suite * ts);
  *
  * \param ts        The test suite
  */
-void destroy_test_suite(test_suite * ts);
+void destroy_test_suite(test_suite ** ts);
 
 /**
  * Determines whether two matrices are equal or not
