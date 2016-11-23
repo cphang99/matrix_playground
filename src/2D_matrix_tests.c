@@ -34,23 +34,36 @@ test_suite * _initialise_test_suite(int num_tests, ...) {
 }
 
 int run_test_suite(test_suite * ts) {
-    for(int i = 0; i < ts->num_tests; i++) {
-        (*(ts->tests[i]))() ? (ts->tests_passed)++ : (ts->tests_failed)++;
+    if(ts != NULL) {
+        for(int i = 0; i < ts->num_tests; i++) {
+            (*(ts->tests[i]))() ? (ts->tests_passed)++ : (ts->tests_failed)++;
+        }
+        return ts->suite_outcome = (ts->tests_failed ? 1 : 0);
+    } else {
+        fprintf(stderr, "No valid test_suite to run\n");
+        return 1;
     }
-    return ts->suite_outcome = (ts->tests_failed ? 1 : 0);
 }
 
 void print_outcome(test_suite * ts) {
-    printf("Outcome = %s Tests passed = %d, Tests Failed = %d\n",
-            ts->suite_outcome == 0 ? "SUCCESS" : "FAIL", 
-            ts->tests_passed, ts->tests_failed);
+    if(ts != NULL) {
+        printf("Outcome = %s Tests passed = %d, Tests Failed = %d\n",
+                ts->suite_outcome == 0 ? "SUCCESS" : "FAIL", 
+                ts->tests_passed, ts->tests_failed);
+    } else {
+        fprintf(stderr, "No valid test_suite print_outcome\n");
+    }
 }
 
 void destroy_test_suite(test_suite ** ts) {
-    free((*ts)->tests);
-    (*ts)->tests = NULL;
-    free(*ts);
-    *ts = NULL;
+    if(*ts != NULL) {
+        free((*ts)->tests);
+        (*ts)->tests = NULL;
+        free(*ts);
+        *ts = NULL;
+    } else {
+        fprintf(stderr, "No valid test_suite to destroy\n");
+    }
 }
 
 bool are_matrices_equal(matrix * a, matrix * b) {
