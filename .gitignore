@@ -2,6 +2,7 @@
 *.pdf
 *.o
 *.a
+log
 bin/
 lib/
 libfixmath/
