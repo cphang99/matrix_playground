@@ -35,7 +35,12 @@ make all TYPE="FIXED"
 #and to remove...
 make clean
 ```
-Binaries at the present time contain tests for the library.
+
+Binaries at the present time contain tests for the library. To run these tests
+for all `TYPE=`, there is a script `test_playground.sh` that runs all tests for
+all types and also runs (valgrind) memory checks for each test.
+
+The results of tests are written to a file `log.out`
 
 ##Library overview
 - Matrix Transformations: `2D_matrix_ops.h`
