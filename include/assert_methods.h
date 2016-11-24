@@ -1,4 +1,5 @@
 #include<2D_matrix_ops.h>
+#include<math.h>
 
 /**
  * Compares two integers to whether they are equal or not
