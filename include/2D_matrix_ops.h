@@ -16,8 +16,8 @@
     #define ELEM_F ".2f"
 #elif defined(FIXED)
     typedef fix16_t elem;
-    #define ELEM_MAX fix16_maximum;
-    #define ELEM_MIN fix16_minimum;
+    #define ELEM_MAX fix16_maximum
+    #define ELEM_MIN fix16_minimum
     #define ELEM_F ".2f"
 #else
     typedef int32_t elem;
