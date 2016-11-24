@@ -98,7 +98,7 @@ int get_columns(matrix * m) {
     return columns;
 }
 
-void print_matrix(matrix * m) {
+bool print_matrix(matrix * m) {
     if(m != NULL) {
         for(int i = 0; i < get_rows(m); i++) {
             for(int j = 0; j < get_columns(m); j++) {
@@ -111,17 +111,21 @@ void print_matrix(matrix * m) {
             putchar('\n');
         }
         putchar('\n');
+        return true;
     } else {
         fprintf(stderr, "No valid matrix to print out\n");
+        return false;
     }
 }
 
-void destroy_matrix(matrix ** m) {
+bool destroy_matrix(matrix ** m) {
     if(*m != NULL) {
         free(*m);
         *m = NULL;
+        return true;
     } else {
         fprintf(stderr, "No valid matrix to free memory from\n");
+        return false;
     }
 }
 

@@ -53,15 +53,17 @@ matrix * initialise_matrix(int rows, int columns);
  * Prints the matrix to stdout
  *
  * \param m     The matrix
+ * \returns     True if successful, False if not
  */
-void print_matrix(matrix * m); 
+bool print_matrix(matrix * m);
 
 /**
  * Frees the memory allocated to the matrix and makes it NULL
  *
  * \param m     The matrix
+ * \returns     True if successful, False if not
  */
-void destroy_matrix(matrix ** m);
+bool destroy_matrix(matrix ** m);
 
 /**
  * Returns a matrix member at a specific location
