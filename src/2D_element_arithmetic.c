@@ -121,7 +121,7 @@ elem sqroot_elem(elem x, float p) {
         }
         return fix16_sqrt(x);
     #else
-        elem r = (elem)1 / p;
+        float r = (float)1 / p;
         return pow_elem(x, r);
     #endif
 }
