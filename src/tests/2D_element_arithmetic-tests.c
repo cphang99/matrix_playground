@@ -10,7 +10,7 @@ static int elem_column_test(void);
 int main(void) {
     printf("Executing tests for 2D_element_arithmetic.c\n");
 
-    int a[2][3] = {
+    elem a[2][3] = {
         {1,2,3},
         {4,5,6}
     };
@@ -19,7 +19,11 @@ int main(void) {
     for(int i = 0; i < get_rows(m); i++) { 
         for(int j = 0; j < get_columns(m); j++) {
             #ifdef FIXED
-                elem val = fix16_from_int(a[i][j]);
+                #ifdef FLOAT
+                    elem val = fix16_from_float(a[i][j]);
+                #else
+                    elem val = fix16_from_int(a[i][j]);
+                #endif
             #else
                 elem val = a[i][j];
             #endif
@@ -33,7 +37,7 @@ int main(void) {
     fill_matrix_test(n);
 
 
-    int b[3][3] = {
+    elem b[3][3] = {
         {1,3,2},
         {4,2,5},
         {6,1,4}
@@ -43,7 +47,11 @@ int main(void) {
     for(int i = 0; i < get_rows(o); i++) { 
         for(int j = 0; j < get_columns(o); j++) {
             #ifdef FIXED
-                elem val = fix16_from_int(b[i][j]);
+                #ifdef FLOAT
+                    elem val = fix16_from_float(b[i][j]);
+                #else
+                    elem val = fix16_from_int(b[i][j]);
+                #endif
             #else
                 elem val = b[i][j];
             #endif

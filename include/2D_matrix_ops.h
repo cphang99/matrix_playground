@@ -112,7 +112,7 @@ float convert_fixed_member(matrix * m, int x, int y);
  * \return          A matrix with a updated array. Will
  *                  return NULL if this is unsuccessful
  */
-matrix * set_matrix_array(matrix * m, float * arr, int rows, int columns);
+matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns);
 
 /**
  * Gives the number of rows in the matrix

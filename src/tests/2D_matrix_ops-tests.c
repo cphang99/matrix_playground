@@ -250,7 +250,7 @@ static int null_matrix_tests(void) {
 
 /* Tests array-wise assignment of a matrix */
 static int set_matrix_array_test(void) {
-    float a[6] = {
+    elem a[6] = {
          1,2,3,
          4,5,6
     };

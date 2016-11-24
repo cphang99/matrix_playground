@@ -7,7 +7,7 @@
 
 static matrix * init_m_from_a(void);
 static matrix * init_m_from_a(void) {
-    const float a[2][3] = {
+    const elem a[2][3] = {
         {1,2,3},
         {4,5,6}
     };
@@ -15,7 +15,11 @@ static matrix * init_m_from_a(void) {
     for(int i = 0; i < get_rows(m); i++) { 
         for(int j = 0; j < get_columns(m); j++) {
             #ifdef FIXED
-                elem val = fix16_from_float(a[i][j]);
+                #ifdef FLOAT
+                    elem val = fix16_from_float(a[i][j]);
+                #else
+                    elem val = fix16_from_int(a[i][j]);
+                #endif
             #else
                 elem val = a[i][j];
             #endif
@@ -27,7 +31,7 @@ static matrix * init_m_from_a(void) {
 
 static matrix * init_n_from_b(void);
 static matrix * init_n_from_b(void) {
-    const float b[2][3] = {
+    const elem b[2][3] = {
         {1,2,3},
         {4,5,6}
     };
@@ -35,7 +39,11 @@ static matrix * init_n_from_b(void) {
     for(int i = 0; i < get_rows(n); i++) { 
         for(int j = 0; j < get_columns(n); j++) {
             #ifdef FIXED
-                elem val = fix16_from_float(b[i][j]);
+                #ifdef FLOAT
+                    elem val = fix16_from_float(b[i][j]);
+                #else
+                    elem val = fix16_from_int(b[i][j]);
+                #endif
             #else
                 elem val = b[i][j];
             #endif
@@ -80,7 +88,7 @@ bool matrix_add_test(void) {
     print_matrix(c);
 
     matrix * res = initialise_matrix(2,3);
-    float res_arr[6] = {
+    elem res_arr[6] = {
         2,4,6,
         8,10,12
     };
@@ -144,7 +152,7 @@ bool matrix_multiply_test(void) {
     print_matrix(c);
 
     matrix * res = initialise_matrix(2,2);
-    float res_arr[6] = {
+    elem res_arr[6] = {
         14,32,
         32,77
     };
@@ -178,7 +186,7 @@ bool matrix_interchange_test(void) {
     print_matrix(e);
 
     matrix * res = initialise_matrix(3,3);
-    float res_arr[9] = {
+    elem res_arr[9] = {
         7,9,8,
         4,6,5,
         1,3,2
@@ -210,7 +218,7 @@ bool matrix_row_addition_test(void) {
     print_matrix(e);
 
     matrix * res = initialise_matrix(3,3);
-    float res_arr[9] = {
+    elem res_arr[9] = {
         1,2,3,
         4,5,6,
         16,20,24
@@ -234,7 +242,7 @@ bool matrix_row_addition_test(void) {
 
 bool LU_decomposition_test(void) {
     printf("\nLU decomposition:1\n");
-    float a_arr[9] = {
+    elem a_arr[9] = {
         3, 2, -4,
         2, 3, 3,
         5, -3, 1

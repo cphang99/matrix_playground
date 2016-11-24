@@ -42,18 +42,18 @@ static bool compare_null_test(void) {
 }
 
 static bool compare_matrices_equal_test(void) {
-    float a[9] = {
+    elem a[9] = {
         1,2,3,
         4,5,6,
         7,8,9};
-    float b[6] = {
+    elem b[6] = {
         1,2,3,
         4,5,6};
-    float c[9] = {
+    elem c[9] = {
         1,2,3,
         4,5,6,
         7,8,9};
-    float d[9] = {
+    elem d[9] = {
         1,2,3,
         4,5,6,
         7,8,0};
