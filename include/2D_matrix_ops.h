@@ -110,8 +110,7 @@ float convert_fixed_member(matrix * m, int x, int y);
  * \param rows      The rows in the array
  * \param columns   The columns in the array
  * \return          A matrix with a updated array. Will
- *                  return an untransformed matrix (or NULL)
- *                  if this is unsuccessful
+ *                  return NULL if this is unsuccessful
  */
 matrix * set_matrix_array(matrix * m, float * arr, int rows, int columns);
 

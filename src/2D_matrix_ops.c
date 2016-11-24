@@ -53,9 +53,11 @@ float convert_fixed_member(matrix * m, int x, int y) {
 matrix * set_matrix_array(matrix * m, float * arr, int rows, int columns) {
     if(m == NULL || arr == NULL) {
         fprintf(stderr, "Invalid pointer to matrix and/or array. Abort\n");
+        return NULL;
     } else if( (get_rows(m) != rows) || (get_columns(m) != columns) ) {
         fprintf(stderr, "array dimensions do not match that of matrix. "
                 "Abort\n");
+        return NULL;
     } else {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
