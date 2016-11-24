@@ -1,9 +1,5 @@
 #include<assert_methods.h>
 
-#ifdef FLOAT
-static bool compare_float(float a, float b);
-#endif
-
 bool compare_integers(int a, int b) {
     return a==b ? true : false;
 }
@@ -44,11 +40,8 @@ bool compare_matrices(matrix * a, matrix * b) {
     return true;
 }
 
-/*Only used if floating point values are employed
- * True if the same, false if not (within FLT_EPS value)
- */
 #ifdef FLOAT
-static bool compare_float(float a, float b) {
+bool compare_float(float a, float b) {
     return (fabsf(a-b) < FLT_EPS) ? 1 : 0;
 }
 #endif
