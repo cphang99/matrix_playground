@@ -75,6 +75,14 @@ matrix * column_interchange(matrix * m, int c1, int c2);
 matrix * row_addition(matrix * m, int r1, int r2, float f1, float f2);
 
 /**
+ * Yields the determinant of the matrix
+ *
+ * \param a     The matrix a
+ * \returns     The determinant as a float
+ */
+float get_determinant(matrix * a);
+
+/**
  * Performs LU decomposition on a given matrix a
  *
  * \param a     The matrix

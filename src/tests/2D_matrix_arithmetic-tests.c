@@ -61,16 +61,18 @@ bool matrix_multiply_test(void);
 bool matrix_interchange_test(void);
 bool matrix_row_addition_test(void);
 bool LU_decomposition_test(void);
+bool determinant_test(void);
 
 int main(void) {
-    test_suite * ts = initialise_test_suite(7,
+    test_suite * ts = initialise_test_suite(8,
             CREATE_TEST(matrix_add_test),
             CREATE_TEST(matrix_subtract_test),
             CREATE_TEST(matrix_arithmetic_fail_test),
             CREATE_TEST(matrix_multiply_test),
             CREATE_TEST(matrix_interchange_test),
             CREATE_TEST(matrix_row_addition_test),
-            CREATE_TEST(LU_decomposition_test));
+            CREATE_TEST(LU_decomposition_test),
+            CREATE_TEST(determinant_test));
     int outcome = run_test_suite(ts);
     print_outcome(ts);
     destroy_test_suite(&ts);
@@ -262,10 +264,12 @@ bool LU_decomposition_test(void) {
     matrix * PL = matrix_multiplication(PLU_a->P, PLU_a->L);
     matrix * PLU_mat = matrix_multiplication(PL, PLU_a->U);
     printf("Determinant =%.2f\n", PLU_a->det);
-    #ifdef FIXED
+    #if defined(FIXED) || defined(FLOAT)
         bool outcome = compare_integers(146, (int)ceil(PLU_a->det));
     #else
-        bool outcome = compare_integers(146, (int)PLU_a->det);
+        fprintf(stderr, "LU decomposition cannot be performed on integer types "
+                "use float or fixed types\n");
+        bool outcome = true;
     #endif
     
     print_matrix(PLU_mat);
@@ -277,4 +281,34 @@ bool LU_decomposition_test(void) {
     fprintf(stderr, "Note that only determinants were only checked here\n");
 
     return outcome;
+}
+
+bool determinant_test(void) {
+    elem a_arr[4] = {
+        2, 5,
+        7, 9
+    };
+    matrix * a = initialise_matrix(2,2);
+    set_matrix_array(a, a_arr, 2, 2);
+    float det1 = get_determinant(a);
+    bool outcome1 = compare_integers(-17, (int)rintf(det1));
+    printf("Determinant of matrix a: expected %d, got %d\n", -17, (int)rintf(det1));
+
+    destroy_matrix(&a);
+
+    elem b_arr[16] = {
+        1,2,5,6,
+        -9,5,-7,2,
+        15,100,-9,32,
+        1,2,3,4
+    };
+    matrix * b = initialise_matrix(4,4);
+    set_matrix_array(b, b_arr, 4,4);
+    float det2 = get_determinant(b);
+    bool outcome2 = compare_integers(-1324, (int)rintf(det2));
+    printf("Determinant of matrix a: expected %d, got %d\n", -1324, (int)rintf(det2));
+    destroy_matrix(&b);
+
+    bool outcome3 = compare_integers(0, (int)get_determinant(NULL));
+    return outcome1 && outcome2 && outcome3;
 }

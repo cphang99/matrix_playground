@@ -161,6 +161,17 @@ matrix * row_addition(matrix * m, int r1, int r2, float f1, float f2) {
     return m;
 }
 
+float get_determinant(matrix * a) {
+    if(a != NULL) {
+        PLU_matrix_array * PLU = gauss_elimination_ppivot(a, NULL, true);
+        float det = PLU->det;
+        destroy_PLU(&PLU);
+        return det;
+    } else {
+        fprintf(stderr, "Invalid matrix pointer given. Determinant not found\n");
+        return 0;
+    }
+}
 
 PLU_matrix_array * LU_decomposition(matrix * a) {
     #ifndef FLOAT
@@ -234,6 +245,17 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
                 s_col++;
             }
         }
+        #if !defined(FLOAT) && !defined(FIXED)
+            matrix * fixed_U = initialise_matrix(get_rows(U), get_columns(U));
+            for(int i = 0; i < get_rows(U); i++) {
+                for(int j = 0; j < get_columns(U); j++) {
+                    set_matrix_member(fixed_U, i+1, j+1,
+                            fix16_from_int(get_matrix_member(U, i+1, j+1)));
+                }
+            }
+            destroy_matrix(&U);
+            U = fixed_U;
+        #endif
         PLU->U = U;
 
         if(isFwd) {
@@ -283,15 +305,12 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
                 elem f1 = get_matrix_member(U, k+1, i+1) * -1;
                 #ifdef FLOAT
                     row_addition(U, i+1, k+1, f1/pivot, 1);
-                #elif defined(FIXED)
+                #else
                     float f = fix16_to_float(fix16_div(f1,pivot));
                     row_addition(U, i+1, k+1, f, 1);
-                #else
-                    row_addition(U, i+1, k+1, f1, pivot);
-                    detFactorChange *= pivot;
                 #endif
 
-                #ifdef FIXED
+                #ifndef FLOAT
                     set_matrix_member(L, k+1, i+1,
                             fix16_mul(fix16_div(f1, pivot),
                                       fix16_from_int(-1)));
@@ -305,18 +324,18 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
         }
 
         PLU->det = 1;
-        #ifdef FIXED
+        #ifndef FLOAT
             elem det_fixed_pt = fix16_one;
         #endif
         for(int k = 0; k < get_rows(U); k++) {
-            #ifdef FIXED
+            #ifndef FLOAT
                det_fixed_pt = fix16_mul(det_fixed_pt,
                        get_matrix_member(U, k+1, k+1));
             #else
                PLU->det *= get_matrix_member(U, k+1, k+1);
             #endif
         }
-        #ifdef FIXED
+        #ifndef FLOAT
             PLU->det = fix16_to_float(det_fixed_pt);
         #endif
         PLU->det /= detFactorChange;
