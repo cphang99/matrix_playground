@@ -370,7 +370,16 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
      
     return PLU;
 }
-/* Performs back substitution */
+
+
+/**
+ * Performs back substitution, assuming a is a upper-triangular matrix
+ * and x is a column vector
+ *
+ * \param a     An upper triangular matrix
+ * \param x     A column vector
+ * \returns     A column vector solving Ux = y
+ */
 static matrix * back_sub_solver(matrix * a, matrix * x) {
     matrix * b = NULL;
     print_matrix(a);
