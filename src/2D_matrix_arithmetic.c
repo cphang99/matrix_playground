@@ -216,6 +216,8 @@ matrix * solve_matrix_eq(matrix * a, matrix * x) {
         }
         destroy_PLU(&PLU);
     #else
+        //We don't use parameters a and x for integer values
+        #pragma GCC diagnostic ignored "-Wunused-parameter"
         fprintf(stderr, "Solving equations is not supported for matrices "
                 "of integer type, use FIXED or FLOAT types\n");
     #endif
@@ -408,6 +410,9 @@ static matrix * back_sub_solver(matrix * a, matrix * x) {
                    " to perform back substitution\n");
        }
   #else
+        //We don't use parameters a and x for integer values
+        #pragma GCC diagnostic ignored "-Wunused-parameter"
+        #pragma GCC diagnostic ignored "-Wunused-function"
        fprintf(stderr,
                 "Back substitution not supported for integer types\n");
   #endif

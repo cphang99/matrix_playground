@@ -5,7 +5,7 @@ AR=ar
 AR_FLAGS=-cr
 CFLAGS= $(INC_DIR) -std=c99 -Wall -Wextra -pedantic -Wstrict-prototypes \
 	   -Wmissing-prototypes -Wshadow -Wpointer-arith -Wcast-qual \
-	   $(patsubst %, -D%, $(TYPE))
+	   -Werror $(patsubst %, -D%, $(TYPE))
 LIBS = -L$(LIB_DIR) $(patsubst lib%,-l%, $(LIB_NAME)) -lm
 
 # Specification of library and test objects
