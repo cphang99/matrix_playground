@@ -210,7 +210,7 @@ matrix * solve_matrix_eq(matrix * a, matrix * x) {
             b = back_sub_solver(U_extracted, x_extracted);
         } else {
             fprintf(stderr,
-                    "An inverse cannot be determined for this matrix\n");
+                    "A unique solution cannot be determined for this matrix\n");
         }
         destroy_matrix(&U_extracted);
         destroy_matrix(&x_extracted);
