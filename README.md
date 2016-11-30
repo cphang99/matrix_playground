@@ -60,7 +60,7 @@ The results of tests are written to a file `log.out`
         - Row addition
     * LU decomposition (`lu(A)` in matlab).
         + Note that LU decomposition only works properly if floating
-          point elements are used.
+          or fixed point elements are used.
     * Determinant calculations (`det(A)` in matlab)
     * Solving linear equations (`x=A\b` in matlab)
     * Determining inverses (`inv(A)` in matlab)
