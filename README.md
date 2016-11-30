@@ -58,9 +58,12 @@ The results of tests are written to a file `log.out`
     * Elementary row operations:
         - Row (and column) interchange
         - Row addition
-    * LU decomposition (`lu(A)` in matlab)  and determinant calculation.
+    * LU decomposition (`lu(A)` in matlab).
         + Note that LU decomposition only works properly if floating
           point elements are used.
+    * Determinant calculations (`det(A)` in matlab)
+    * Solving linear equations (`x=A\b` in matlab)
+    * Determining inverses (`inv(A)` in matlab)
 
 - Element wise arithmetic: `2D_element_arithmetic.h`
     * Current element wise operators (A .(op) n)
@@ -90,5 +93,4 @@ The results of tests are written to a file `log.out`
 Therefore note that matrix multiplication is `O(n^3)`. We'll be looking to
 implement or incorporate BLAS routines in later releases.
 
-
-
+- QR and cholesky decompositions are not implemented here at this time.
