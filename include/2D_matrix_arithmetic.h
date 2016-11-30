@@ -83,6 +83,17 @@ matrix * row_addition(matrix * m, int r1, int r2, float f1, float f2);
 float get_determinant(matrix * a);
 
 /**
+ * Solves a set of linear equations Ab=x
+ *
+ * \param a     A square matrix a
+ * \param x     A column vector x
+ *
+ * \returns     A column vector b that satisfies the equation Ab=x
+ *              Returns NULL if this is not possible.
+ */
+matrix * solve_matrix_eq(matrix * a, matrix * x);
+
+/**
  * Performs LU decomposition on a given matrix a
  *
  * \param a     The matrix

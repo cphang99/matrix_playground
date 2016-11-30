@@ -62,9 +62,10 @@ bool matrix_interchange_test(void);
 bool matrix_row_addition_test(void);
 bool LU_decomposition_test(void);
 bool determinant_test(void);
+bool eq_solver_test(void);
 
 int main(void) {
-    test_suite * ts = initialise_test_suite(8,
+    test_suite * ts = initialise_test_suite(9,
             CREATE_TEST(matrix_add_test),
             CREATE_TEST(matrix_subtract_test),
             CREATE_TEST(matrix_arithmetic_fail_test),
@@ -72,7 +73,8 @@ int main(void) {
             CREATE_TEST(matrix_interchange_test),
             CREATE_TEST(matrix_row_addition_test),
             CREATE_TEST(LU_decomposition_test),
-            CREATE_TEST(determinant_test));
+            CREATE_TEST(determinant_test),
+            CREATE_TEST(eq_solver_test));
     int outcome = run_test_suite(ts);
     print_outcome(ts);
     destroy_test_suite(&ts);
@@ -311,4 +313,46 @@ bool determinant_test(void) {
 
     bool outcome3 = compare_integers(0, (int)get_determinant(NULL));
     return outcome1 && outcome2 && outcome3;
+}
+
+bool eq_solver_test(void) {
+    #if defined(FIXED) || defined(FLOAT)
+        elem a_arr[16] = {
+            1,2,1,-1,
+            3,2,4,4,
+            4,4,3,4,
+            2,0,1,5,
+        };
+        matrix * a = initialise_matrix(4,4);
+        set_matrix_array(a, a_arr, 4,4);
+
+        elem b_arr[4] = {
+            5,
+            16,
+            22,
+            15
+        };
+        matrix * b = initialise_matrix(4,1);
+        set_matrix_array(b, b_arr, 4, 1);
+        matrix * c = solve_matrix_eq(a, b);
+
+        elem res_arr[4] = {
+            16,
+            -6,
+            -2,
+            -3
+        };
+        matrix * res = initialise_matrix(4,1);
+        set_matrix_array(res, res_arr, 4, 1);
+        bool outcome = compare_matrices(c, res);
+        print_matrix(c);
+        destroy_matrix(&a);
+        destroy_matrix(&b);
+        destroy_matrix(&c);
+        destroy_matrix(&res);
+        return outcome;
+   #else
+        fprintf(stderr, "Equation test not run for integer types\n");
+        return true;
+   #endif
 }

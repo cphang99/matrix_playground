@@ -1,6 +1,7 @@
 #include <2D_matrix_arithmetic.h>
 
 static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v, bool isFwd);
+static matrix * back_sub_solver(matrix * a, matrix * x);
 
 matrix * matrix_add(matrix * a, matrix * b) {
     matrix * a_b = NULL;
@@ -197,6 +198,30 @@ void destroy_PLU(PLU_matrix_array ** PLU_ptr) {
 
 }
 
+matrix * solve_matrix_eq(matrix * a, matrix * x) {
+    matrix * b = NULL;
+    #if defined(FIXED) || defined(FLOAT)
+        PLU_matrix_array * PLU = gauss_elimination_ppivot(a, x, true);
+        matrix * U_extracted = get_vertical_slice(PLU->U, 1,
+                                                  get_columns(PLU->U)-1);
+        matrix * x_extracted = get_vertical_slice(PLU->U,
+                                  get_columns(PLU->U), get_columns(PLU->U));
+        if(PLU->det) {
+            b = back_sub_solver(U_extracted, x_extracted);
+            destroy_matrix(&U_extracted);
+            destroy_matrix(&x_extracted);
+        } else {
+            fprintf(stderr,
+                    "An inverse cannot be determined for this matrix\n");
+        }
+        destroy_PLU(&PLU);
+    #else
+        fprintf(stderr, "Solving equations is not supported for matrices "
+                "of integer type, use FIXED or FLOAT types\n");
+    #endif
+    return b;
+}
+
 /**
  * Perform a gauss elimination with partial pivoting on an augmented matrix
  * derived from matrices a and v
@@ -343,5 +368,48 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
      
     return PLU;
 }
-
-
+/* Performs back substitution */
+static matrix * back_sub_solver(matrix * a, matrix * x) {
+    matrix * b = NULL;
+    print_matrix(a);
+    print_matrix(x);
+    #if defined(FLOAT) || defined(FIXED)
+        if( (get_rows(a) == get_columns(a)) && (get_columns(x) == 1) ) {
+            b = initialise_matrix(get_rows(a), 1);
+            #ifdef FLOAT
+                elem b_initial = get_matrix_member(x, get_rows(a), 1) /
+                    get_matrix_member(a, get_rows(a), get_columns(a));
+            #else
+                elem b_initial = fix16_div(get_matrix_member(x, get_rows(a), 1),
+                    get_matrix_member(a, get_rows(a), get_columns(a)));
+            #endif
+            set_matrix_member(b, get_rows(a), 1, b_initial);
+            for(int i = get_rows(a)-1; i > 0; i--) {
+                elem y = get_matrix_member(x, i, 1);
+                for(int j = get_columns(a); j > i; j--) {
+                    #ifdef FLOAT
+                        y -= get_matrix_member(b, j, 1) * get_matrix_member(a, i, j);
+                    #else
+                        y -= fix16_mul(get_matrix_member(b, j, 1),
+                                get_matrix_member(a, i ,j));
+                    #endif
+                    //printf("%"ELEM_F" ", y);
+                }
+                //printf("\n");
+                #ifdef FLOAT
+                    elem b_mem = y / get_matrix_member(a, i, i);
+                #else
+                    elem b_mem = fix16_div(y, get_matrix_member(a, i, i));
+                #endif
+                set_matrix_member(b, i, 1, b_mem);
+            }
+       } else {
+           fprintf(stderr, "Dimensions of matrix a and/or x are not suitable"
+                   " to perform back substitution\n");
+       }
+  #else
+       fprintf(stderr,
+                "Back substitution not supported for integer types\n");
+  #endif
+  return b;
+}
