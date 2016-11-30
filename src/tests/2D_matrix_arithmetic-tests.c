@@ -63,9 +63,10 @@ bool matrix_row_addition_test(void);
 bool LU_decomposition_test(void);
 bool determinant_test(void);
 bool eq_solver_test(void);
+bool inv_det_test(void);
 
 int main(void) {
-    test_suite * ts = initialise_test_suite(9,
+    test_suite * ts = initialise_test_suite(10,
             CREATE_TEST(matrix_add_test),
             CREATE_TEST(matrix_subtract_test),
             CREATE_TEST(matrix_arithmetic_fail_test),
@@ -74,7 +75,8 @@ int main(void) {
             CREATE_TEST(matrix_row_addition_test),
             CREATE_TEST(LU_decomposition_test),
             CREATE_TEST(determinant_test),
-            CREATE_TEST(eq_solver_test));
+            CREATE_TEST(eq_solver_test),
+            CREATE_TEST(inv_det_test));
     int outcome = run_test_suite(ts);
     print_outcome(ts);
     destroy_test_suite(&ts);
@@ -405,4 +407,47 @@ bool eq_solver_test(void) {
         fprintf(stderr, "Equation test not run for integer types\n");
         return true;
    #endif
+}
+
+bool inv_det_test(void) {
+    #if defined(FLOAT) || defined (FIXED)
+        printf("Testing invertible matrix\n");
+        elem a_arr[16] = {
+            1,2,1,-1,
+            3,2,4,4,
+            4,4,3,4,
+            2,0,1,5,
+        };
+        matrix * a = initialise_matrix(4,4);
+        set_matrix_array(a, a_arr, 4,4);
+        print_matrix(a);
+        matrix * a_inv = get_inverse(a);
+        matrix * id = get_identity_matrix(4);
+        matrix * id_create = matrix_multiplication(a, a_inv);
+        bool outcome1 = compare_matrices(id, id_create);
+        destroy_matrix(&a);
+        destroy_matrix(&a_inv);
+        destroy_matrix(&id);
+        destroy_matrix(&id_create);
+
+        printf("Testing non-invertable matrices\n");
+        elem i_arr[9] = {
+            3,2,-5,
+            1,1,-2,
+            5,3,-8
+        };
+        matrix * i = initialise_matrix(3,3);
+        set_matrix_array(i, i_arr, 3,3);
+        print_matrix(i);
+        matrix * i_inv = get_inverse(i);
+        bool outcome2 = compare_null(i_inv);
+        destroy_matrix(&i_inv);
+        destroy_matrix(&i);
+
+        return outcome1 && outcome2;
+
+    #else
+        fprintf(stderr, "inv_det_test not run for integer types\n");
+        return true;
+    #endif
 }

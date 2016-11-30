@@ -95,6 +95,14 @@ float get_determinant(matrix * a);
 matrix * solve_matrix_eq(matrix * a, matrix * x);
 
 /**
+ * Yields the inverse of a given matrix
+ *
+ * \param a     The matrix a
+ * \returns     The inverse of the matrix if it can be found. NULL if not.
+ */
+matrix * get_inverse(matrix * a);
+
+/**
  * Performs LU decomposition on a given matrix a
  *
  * \param a     The matrix

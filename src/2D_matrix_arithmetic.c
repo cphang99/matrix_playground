@@ -224,6 +224,39 @@ matrix * solve_matrix_eq(matrix * a, matrix * x) {
     return b;
 }
 
+matrix * get_inverse(matrix * a) {
+    matrix * inv = NULL;
+    #if defined(FIXED) || defined(FLOAT)
+        PLU_matrix_array * PLU = LU_decomposition(a);
+        matrix * id = get_identity_matrix(get_rows(a));
+        if(!compare_float(0, PLU->det)) {
+           for(int i = 0; i < get_columns(a); i++) {
+               matrix * i_c = get_vertical_slice(id, i+1, i+1);
+               matrix * inv_c = solve_matrix_eq(a, i_c);
+               destroy_matrix(&i_c);
+               if(i) {
+                   matrix * inv_old = inv;
+                   inv = h_concatenate(inv, inv_c);
+                   destroy_matrix(&inv_old);
+                   destroy_matrix(&inv_c);
+               } else {
+                   inv = inv_c;
+               }
+           }
+        } else {
+           fprintf(stderr, "An inverse cannot be determined for this matrix\n");
+        }
+        destroy_PLU(&PLU);
+        destroy_matrix(&id);
+    #else
+        //We don't use parameter a for integer values
+        #pragma GCC diagnostic ignored "-Wunused-parameter"
+        fprintf(stderr, "Inverses are not supported for matrices of "
+                "integer type only, use FIXED or FLOAT types\n");
+    #endif
+    return inv;
+}
+
 /**
  * Perform a gauss elimination with partial pivoting on an augmented matrix
  * derived from matrices a and v
