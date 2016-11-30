@@ -1,4 +1,5 @@
 # Matrix Playground
+[![Build Status](https://travis-ci.org/cphang99/matrix_playground.svg?branch=master)](https://travis-ci.org/cphang99/matrix_playground)
 
 A experimental library for the manipulation of 2D matrices. The aim is to re-implement
 key matlab functions in C to ease matlab to C conversions.
