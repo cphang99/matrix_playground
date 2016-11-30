@@ -1,4 +1,5 @@
 #include <2D_matrix_ops.h>
+#include <assert_methods.h>
 
 typedef struct {
     matrix * P;

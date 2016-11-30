@@ -206,14 +206,14 @@ matrix * solve_matrix_eq(matrix * a, matrix * x) {
                                                   get_columns(PLU->U)-1);
         matrix * x_extracted = get_vertical_slice(PLU->U,
                                   get_columns(PLU->U), get_columns(PLU->U));
-        if(PLU->det) {
+        if(!compare_float(0, PLU->det)) {
             b = back_sub_solver(U_extracted, x_extracted);
-            destroy_matrix(&U_extracted);
-            destroy_matrix(&x_extracted);
         } else {
             fprintf(stderr,
                     "An inverse cannot be determined for this matrix\n");
         }
+        destroy_matrix(&U_extracted);
+        destroy_matrix(&x_extracted);
         destroy_PLU(&PLU);
     #else
         //We don't use parameters a and x for integer values

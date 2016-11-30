@@ -9,12 +9,12 @@
 #include <float.h>
 #include <libfixmath/fix16.h>
 
+#define FLT_EPS 0.001
 #ifdef FLOAT
     typedef float elem;
     #define ELEM_MAX FLT_MAX
     #define ELEM_MIN -FLT_MAX
     #define ELEM_F ".2f"
-    #define FLT_EPS 0.001
 #elif defined(FIXED)
     typedef fix16_t elem;
     #define ELEM_MAX fix16_maximum

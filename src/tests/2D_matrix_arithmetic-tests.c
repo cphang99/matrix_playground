@@ -317,6 +317,7 @@ bool determinant_test(void) {
 
 bool eq_solver_test(void) {
     #if defined(FIXED) || defined(FLOAT)
+        printf("Testing consistent matrix\n");
         elem a_arr[16] = {
             1,2,1,-1,
             3,2,4,4,
@@ -325,7 +326,8 @@ bool eq_solver_test(void) {
         };
         matrix * a = initialise_matrix(4,4);
         set_matrix_array(a, a_arr, 4,4);
-
+        print_matrix(a);
+        printf("*\n");
         elem b_arr[4] = {
             5,
             16,
@@ -334,6 +336,7 @@ bool eq_solver_test(void) {
         };
         matrix * b = initialise_matrix(4,1);
         set_matrix_array(b, b_arr, 4, 1);
+        print_matrix(b);
         matrix * c = solve_matrix_eq(a, b);
 
         elem res_arr[4] = {
@@ -345,12 +348,59 @@ bool eq_solver_test(void) {
         matrix * res = initialise_matrix(4,1);
         set_matrix_array(res, res_arr, 4, 1);
         bool outcome = compare_matrices(c, res);
+        printf("Solution =\n");
         print_matrix(c);
         destroy_matrix(&a);
         destroy_matrix(&b);
         destroy_matrix(&c);
         destroy_matrix(&res);
-        return outcome;
+
+        printf("Testing inconsistent matrix\n");
+        elem i_arr[9] = {
+            3,2,-5,
+            1,1,-2,
+            5,3,-8
+        };
+        matrix * i = initialise_matrix(3,3);
+        set_matrix_array(i, i_arr, 3,3);
+        print_matrix(i);
+        printf("*\n");
+        elem i_res_arr[3] = {
+            4,
+            1,
+            6
+        };
+        matrix * i_res = initialise_matrix(3,1);
+        set_matrix_array(i_res, i_res_arr, 3, 1);
+        print_matrix(i_res);
+        matrix * i_outcome = solve_matrix_eq(i, i_res);
+        bool outcome2 = compare_null(i_outcome);
+        destroy_matrix(&i);
+        destroy_matrix(&i_res);
+
+        printf("Testing dependent matrix\n");
+        elem d_arr[9] = {
+            8,5,11,
+            -1,-4,2,
+            2,-1,5
+        };
+        matrix * d = initialise_matrix(3,3);
+        set_matrix_array(d, d_arr, 3,3);
+        print_matrix(d);
+        printf("*\n");
+        elem d_res_arr[3] = {
+            30,
+            3,
+            12
+        };
+        matrix * d_res = initialise_matrix(3,1);
+        set_matrix_array(d_res, d_res_arr, 3, 1);
+        print_matrix(d_res);
+        matrix * d_outcome = solve_matrix_eq(d, d_res);
+        bool outcome3 = compare_null(d_outcome);
+        destroy_matrix(&d);
+        destroy_matrix(&d_res);
+        return outcome && outcome2 && outcome3;
    #else
         fprintf(stderr, "Equation test not run for integer types\n");
         return true;

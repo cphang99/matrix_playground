@@ -48,13 +48,10 @@ bool compare_matrices(matrix * a, matrix * b);
 /**
  * Compares two floating point numbers for equality within
  * a given epsilon (FLT_EPS).
- * Defined only if TYPE="FLOAT"
  *
  * \param a     Floating point number
  * \param b     Floating point number
  * \returns     If floating point numbers are equal within a certain
  *              epsilon (True) or not (False)
  */
-#ifdef FLOAT
 bool compare_float(float a, float b);
-#endif

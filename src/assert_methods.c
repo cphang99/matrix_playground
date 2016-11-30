@@ -40,8 +40,6 @@ bool compare_matrices(matrix * a, matrix * b) {
     return true;
 }
 
-#ifdef FLOAT
 bool compare_float(float a, float b) {
     return (fabsf(a-b) < FLT_EPS) ? 1 : 0;
 }
-#endif
