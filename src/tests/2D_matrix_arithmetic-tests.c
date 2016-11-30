@@ -269,7 +269,7 @@ bool LU_decomposition_test(void) {
     matrix * PLU_mat = matrix_multiplication(PL, PLU_a->U);
     printf("Determinant =%.2f\n", PLU_a->det);
     #if defined(FIXED) || defined(FLOAT)
-        bool outcome = compare_integers(146, (int)ceil(PLU_a->det));
+        bool outcome = compare_matrices(PLU_mat, a);
     #else
         fprintf(stderr, "LU decomposition cannot be performed on integer types "
                 "use float or fixed types\n");
@@ -282,7 +282,6 @@ bool LU_decomposition_test(void) {
     destroy_matrix(&PL);
     destroy_matrix(&PLU_mat);
     destroy_PLU(&PLU_a);
-    fprintf(stderr, "Note that only determinants were only checked here\n");
 
     return outcome;
 }
