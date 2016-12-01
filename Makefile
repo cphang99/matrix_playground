@@ -3,10 +3,11 @@
 CC=gcc
 AR=ar
 AR_FLAGS=-cr
-CFLAGS= $(INC_DIR) -std=c99 -Wall -Wextra -pedantic -Wstrict-prototypes \
+CFLAGS= $(patsubst %, -I%, $(INC_DIR)) \
+	   -std=c99 -Wall -Wextra -pedantic -Wstrict-prototypes \
 	   -Wmissing-prototypes -Wshadow -Wpointer-arith -Wcast-qual \
 	   -Werror $(patsubst %, -D%, $(TYPE))
-LIBS = -L$(LIB_DIR) $(patsubst lib%,-l%, $(LIB_NAME)) -lm
+LIBS = -L$(LIB_DIR) $(patsubst lib%,-l%, $(MAPLA_LIB)_$(TYPE) $(FIXED_LIB)) -lm
 
 # Specification of library and test objects
 # TEST_NAMES specifies the name of the generated test binaries
@@ -16,15 +17,19 @@ TEST_NAMES = $(notdir $(patsubst %.c, %, $(wildcard $(TEST_DIR)/*.c)))
 TEST_OBJ = $(patsubst %, $(TEST_DIR)/%.o, $(TEST_NAMES))
 
 MAPLA_LIB = libmapla
+MAPLA_NAME = matrix_playground
 FIXED_LIB = libfixmath
+TYPE ?= INT
 LIB_NAME = $(MAPLA_LIB) $(FIXED_LIB)
 
 # Location of various directories
 BIN_DIR = ./bin
 SRC_DIR = ./src
-INC_DIR = -I./include -I./libfixmath
+INC_DIR = ./include ./libfixmath
 LIB_DIR = ./lib
 TEST_DIR = ./$(SRC_DIR)/tests
+DEST_LIB_DIR = /usr/local/lib
+DEST_INC_DIR = /usr/local/include
 
 #Make declarative commands
 all: $(TEST_NAMES)
@@ -37,7 +42,7 @@ mk_$(FIXED_LIB):
 	cp ./$(FIXED_LIB)/$(FIXED_LIB)/$(FIXED_LIB).a $(LIB_DIR)
 
 $(MAPLA_LIB): mkDirs $(OBJ)
-	$(AR) $(AR_FLAGS) $(LIB_DIR)/$(MAPLA_LIB).a $(OBJ)
+	$(AR) $(AR_FLAGS) $(LIB_DIR)/$(MAPLA_LIB)_$(TYPE).a $(OBJ)
 
 $(TEST_NAMES): $(TEST_OBJ) $(MAPLA_LIB) mk_$(FIXED_LIB)
 	$(CC) -o $(BIN_DIR)/$@ $(TEST_DIR)/$@.o $(CFLAGS) $(LIBS)
@@ -48,5 +53,9 @@ clean:
 	rm -rf $(BIN_DIR) $(LIB_DIR) $(SRC_DIR)/*.o $(TEST_DIR)/*.o
 	$(MAKE) -C ./$(FIXED_LIB)/$(FIXED_LIB) clean
 
-
-
+install: $(LIB_DIR)/$(MAPLA_LIB)*.a $(LIB_DIR)/$(FIXED_LIB)*.a
+	mv $(LIB_DIR)/$(MAPLA_LIB)*.a $(DEST_LIB_DIR)
+	mv $(LIB_DIR)/$(FIXED_LIB).a $(DEST_LIB_DIR)
+	cp -ar $(INC_DIR) $(DEST_INC_DIR)
+	mv $(DEST_INC_DIR)/include $(DEST_INC_DIR)/$(MAPLA_NAME)
+	@echo "Libraries installed in $(DEST_LIB_DIR) and headers in $(DEST_INC_DIR)"
