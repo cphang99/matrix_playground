@@ -1,3 +1,6 @@
+#ifndef MATRIX_ARITHMETIC_OPS_H
+#define MATRIX_ARITHMETIC_OPS_H
+
 #include <2D_matrix_ops.h>
 #include <assert_methods.h>
 
@@ -116,4 +119,6 @@ PLU_matrix_array * LU_decomposition(matrix * a);
  *
  * \param PLU_ptr   A ptr to a PLU array
  */   
-void destroy_PLU(PLU_matrix_array ** PLU_ptr); 
+void destroy_PLU(PLU_matrix_array ** PLU_ptr);
+
+#endif

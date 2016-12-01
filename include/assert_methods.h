@@ -1,3 +1,6 @@
+#ifndef ASSERT_METHODS_H
+#define ASSERT_METHODS_H
+
 #include<2D_matrix_ops.h>
 #include<math.h>
 
@@ -55,3 +58,5 @@ bool compare_matrices(matrix * a, matrix * b);
  *              epsilon (True) or not (False)
  */
 bool compare_float(float a, float b);
+
+#endif

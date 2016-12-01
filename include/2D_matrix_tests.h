@@ -1,3 +1,6 @@
+#ifndef MATRIX_TESTS_H
+#define MATRIX_TESTS_H
+
 #include <2D_matrix_ops.h>
 #include <assert_methods.h>
 #include <stdarg.h>
@@ -74,3 +77,5 @@ bool print_outcome(test_suite * ts);
  *                  (if a NULL pointer is passed)
  */
 bool destroy_test_suite(test_suite ** ts);
+
+#endif
