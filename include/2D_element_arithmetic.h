@@ -1,3 +1,6 @@
+#ifndef ELEMENT_OPS_H
+#define ELEMENT_OPS_H
+
 #include<2D_matrix_ops.h>
 #include<math.h>
 
@@ -102,3 +105,5 @@ elem multiply_elem(elem x, float p);
  * \return      The transformed element
  */
 elem divide_elem(elem x, float p);
+
+#endif
