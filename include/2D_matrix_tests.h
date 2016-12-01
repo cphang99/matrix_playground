@@ -1,8 +1,8 @@
 #ifndef MATRIX_TESTS_H
 #define MATRIX_TESTS_H
 
-#include <2D_matrix_ops.h>
-#include <assert_methods.h>
+#include "2D_matrix_ops.h"
+#include "assert_methods.h"
 #include <stdarg.h>
 
 typedef bool (*test_func)(void);

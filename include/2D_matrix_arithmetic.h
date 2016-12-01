@@ -1,8 +1,8 @@
 #ifndef MATRIX_ARITHMETIC_OPS_H
 #define MATRIX_ARITHMETIC_OPS_H
 
-#include <2D_matrix_ops.h>
-#include <assert_methods.h>
+#include "2D_matrix_ops.h"
+#include "assert_methods.h"
 
 typedef struct {
     matrix * P;
