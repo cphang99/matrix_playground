@@ -47,5 +47,7 @@ do
         done
     fi
 done
+echo "Cleaning up all builds, removing binaries and library folders"
+make clean > /dev/null
 echo "Full results written to "$LOG_NAME""
 exit $OUTCOME
