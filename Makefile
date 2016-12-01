@@ -28,8 +28,9 @@ SRC_DIR = ./src
 INC_DIR = ./include ./libfixmath
 LIB_DIR = ./lib
 TEST_DIR = ./$(SRC_DIR)/tests
-DEST_LIB_DIR = /usr/local/lib
-DEST_INC_DIR = /usr/local/include
+PREFIX = /usr/local
+DEST_LIB_DIR = $(PREFIX)/lib/
+DEST_INC_DIR = $(PREFIX)/include/$(MAPLA_NAME)
 
 #Make declarative commands
 all: $(TEST_NAMES)
@@ -54,8 +55,10 @@ clean:
 	$(MAKE) -C ./$(FIXED_LIB)/$(FIXED_LIB) clean
 
 install: $(LIB_DIR)/$(MAPLA_LIB)*.a $(LIB_DIR)/$(FIXED_LIB)*.a
+	mkdir -p $(DEST_INC_DIR)
 	mv $(LIB_DIR)/$(MAPLA_LIB)*.a $(DEST_LIB_DIR)
 	mv $(LIB_DIR)/$(FIXED_LIB).a $(DEST_LIB_DIR)
-	cp -ar $(INC_DIR) $(DEST_INC_DIR)
-	mv $(DEST_INC_DIR)/include $(DEST_INC_DIR)/$(MAPLA_NAME)
+	cp include/*.h $(DEST_INC_DIR)
+	cp -ar $(FIXED_LIB) $(DEST_INC_DIR)
+	cp $(MAPLA_NAME).h $(PREFIX)/include
 	@echo "Libraries installed in $(DEST_LIB_DIR) and headers in $(DEST_INC_DIR)"
