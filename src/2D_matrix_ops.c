@@ -1,5 +1,4 @@
 #include <2D_matrix_ops.h>
-#include <2D_element_arithmetic.h>
 
 matrix * initialise_matrix(int rows, int columns) {
     matrix * a = malloc(sizeof(matrix) + (rows * columns * sizeof(elem)));

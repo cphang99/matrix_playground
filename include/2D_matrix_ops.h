@@ -39,6 +39,8 @@ typedef struct {
     elem value;
 } pos;
 
+#include <2D_element_arithmetic.h>
+
 /**
  * Initialises an empty matrix
  *
