@@ -61,13 +61,8 @@ matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns) {
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
                 #ifdef FIXED
-                    #ifdef FLOAT
-                        set_matrix_member(m, i+1, j+1,
-                                fix16_from_float(arr[i*columns + j]));
-                    #else
-                        set_matrix_member(m, i+1, j+1,
-                                fix16_from_int(arr[i*columns + j]));
-                    #endif
+                    set_matrix_member(m, i+1, j+1,
+                            fix16_from_int(arr[i*columns + j]));
                 #else
                     set_matrix_member(m, i+1, j+1, arr[i*columns + j]);
                 #endif
@@ -76,6 +71,27 @@ matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns) {
     }
     return m;
 }
+
+#ifdef FIXED
+matrix * set_fixed_array(matrix * m, float * arr, int rows, int columns) {
+    if(m == NULL || arr == NULL) {
+        fprintf(stderr, "Invalid pointer to matrix and/or array. Abort\n");
+        return NULL;
+    } else if( (get_rows(m) != rows) || (get_columns(m) != columns) ) {
+        fprintf(stderr, "array dimensions do not match that of matrix. "
+                "Abort\n");
+        return NULL;
+    } else {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                set_matrix_member(m, i+1, j+1,
+                        fix16_from_float(arr[i*columns + j]));
+            }
+        }
+    }
+    return m;
+}
+#endif
 
 int get_rows(matrix * m) {
     int rows = 0;

@@ -409,12 +409,28 @@ static bool set_matrix_array_test(void) {
     printf("Testing array copying that will fail due to "
         "incorrect matrix dims\n");
     bool outcome2 = compare_null(set_matrix_array(n, a, 2, 3));
-    
+    #ifdef FIXED
+        matrix * f = initialise_matrix(2,3);
+        matrix * f_empty = initialise_matrix(2,3);
+        float b[6] = {
+            0.1, 0.2, 0.3,
+            0.4, 0.5, 0.6
+        };
+        set_fixed_array(f, b, 2, 3);
+        bool outcome3 = !compare_matrices(f, f_empty);
+        bool outcome4 = compare_null(set_fixed_array(n, b, 2, 3));
+        destroy_matrix(&f);
+        destroy_matrix(&f_empty);
+    #else
+        bool outcome3 = true;
+        bool outcome4 = true;
+    #endif
+
     destroy_matrix(&m);
     destroy_matrix(&n);
     destroy_matrix(&o);
 
-    return outcome1 && outcome2;
+    return outcome1 && outcome2 && outcome3 && outcome4;
 }
 
 /* Tests the obtaining of  minimum, maximum values from a matrix */
