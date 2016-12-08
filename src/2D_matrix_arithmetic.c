@@ -415,8 +415,6 @@ static PLU_matrix_array * gauss_elimination_ppivot(matrix * a, matrix * v,
  */
 static matrix * back_sub_solver(matrix * a, matrix * x) {
     matrix * b = NULL;
-    print_matrix(a);
-    print_matrix(x);
     #if defined(FLOAT) || defined(FIXED)
         if( (get_rows(a) == get_columns(a)) && (get_columns(x) == 1) ) {
             b = initialise_matrix(get_rows(a), 1);
