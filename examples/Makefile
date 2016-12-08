@@ -13,8 +13,11 @@ mkDirs:
 %.o: %.c
 	$(CC) -c -o $@ $^ $(CFLAGS) -D$(TYPE)
 
-$(EX_NAMES): $(OBJ) mkDirs
-	$(CC) -o $(BIN_DIR)/$@ $@.o $(CFLAGS) $(LIBS) -D$(TYPE)
+define MK_EXE
+$(1): $(1).o mkDirs
+	$(CC) -o $(BIN_DIR)/$(1) $(1).o $(CFLAGS) $(LIBS) -D$(TYPE)
+endef
+$(foreach ex, $(EX_NAMES), $(eval $(call MK_EXE,$(ex))))
 
 .PHONY: clean
 
