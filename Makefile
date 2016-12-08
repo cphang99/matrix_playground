@@ -48,7 +48,7 @@ $(MAPLA_LIB): mkDirs $(OBJ)
 $(TEST_NAMES): $(TEST_OBJ) $(MAPLA_LIB) mk_$(FIXED_LIB)
 	$(CC) -o $(BIN_DIR)/$@ $(TEST_DIR)/$@.o $(CFLAGS) $(LIBS)
 
-.PHONY: all install clean
+.PHONY: all install uninstall clean
 
 clean:
 	rm -rf $(BIN_DIR) $(LIB_DIR) $(SRC_DIR)/*.o $(TEST_DIR)/*.o
@@ -62,3 +62,10 @@ install: $(LIB_DIR)/$(MAPLA_LIB)*.a $(LIB_DIR)/$(FIXED_LIB)*.a
 	cp -ar $(FIXED_LIB) $(DEST_INC_DIR)
 	cp $(MAPLA_NAME).h $(PREFIX)/include
 	@echo "Libraries installed in $(DEST_LIB_DIR) and headers in $(DEST_INC_DIR)"
+
+uninstall:
+	- rm -r $(DEST_INC_DIR)
+	- rm $(PREFIX)/include/$(MAPLA_NAME).h
+	- rm $(DEST_LIB_DIR)/$(MAPLA_LIB)*
+	- rm $(DEST_LIB_DIR)/$(FIXED_LIB).a
+	@echo "Libraries uninstalled from $(DEST_LIB_DIR) and headers in $(DEST_INC_DIR)"
