@@ -56,8 +56,8 @@ clean:
 
 install: $(LIB_DIR)/$(MAPLA_LIB)*.a $(LIB_DIR)/$(FIXED_LIB)*.a
 	mkdir -p $(DEST_INC_DIR)
-	mv $(LIB_DIR)/$(MAPLA_LIB)*.a $(DEST_LIB_DIR)
-	mv $(LIB_DIR)/$(FIXED_LIB).a $(DEST_LIB_DIR)
+	cp $(LIB_DIR)/$(MAPLA_LIB)*.a $(DEST_LIB_DIR)
+	cp $(LIB_DIR)/$(FIXED_LIB).a $(DEST_LIB_DIR)
 	cp include/*.h $(DEST_INC_DIR)
 	cp -ar $(FIXED_LIB) $(DEST_INC_DIR)
 	cp $(MAPLA_NAME).h $(PREFIX)/include
