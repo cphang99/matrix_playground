@@ -4,5 +4,6 @@
 *.a
 log.out
 bin/
+examples/bin/
 lib/
 libfixmath/
