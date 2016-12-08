@@ -118,6 +118,22 @@ float convert_fixed_member(matrix * m, int x, int y);
 matrix * set_matrix_array(matrix * m, elem * arr, int rows, int columns);
 
 /**
+ * Updates a matrix member on an array level
+ *
+ * Identical to set_matrix_array, except that this is used only with
+ * FIXED types where floating point values are used.
+ * \param m         The matrix
+ * \param arr       An array of type elem
+ * \param rows      The rows in the array
+ * \param columns   The columns in the array
+ * \return          A matrix with a updated array. Will
+ *                  return NULL if this is unsuccessful
+ */
+#ifdef FIXED
+matrix * set_fixed_array(matrix * m, float * arr, int rows, int columns);
+#endif
+
+/**
  * Gives the number of rows in the matrix
  * Returns 0 and warning if no valid matrix found
  *
