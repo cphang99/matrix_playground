@@ -11,7 +11,7 @@ for t in $TYPES
 do
     printf "Type = $t Build..."
     make clean >> "$LOG_NAME" 2>&1
-    make all TYPE="$t" >> "$LOG_NAME" 2>&1
+    make tests TYPE="$t" >> "$LOG_NAME" 2>&1
     if [ $? -eq 0 ]
     then
         printf "Successful\n"
